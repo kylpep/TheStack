@@ -6,9 +6,7 @@ export default function SearchScreen() {
             alignItems: "center", 
             flex: 1
         }}>
-            <Text>
-                Search Screen
-            </Text>
+            <Text>Search Screen</Text>
         </View>
     );
 }
