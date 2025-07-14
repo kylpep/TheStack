@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons/';
 import { Tabs, useRouter } from 'expo-router';
 import { Button } from 'react-native';
 
-export default function TabLayout() {
+export default function TabLayout(props: any) {
     const router = useRouter();
 
     return (
@@ -13,7 +13,18 @@ export default function TabLayout() {
             headerLeft: () => (
                 <Button title="Settings" onPress={() => router.navigate("/settings-screen")} />
             ),
-        }}>
+            tabBarStyle: {
+                backgroundColor: "#2a2a2a",
+                borderTopWidth: 0,
+            },
+            headerStyle: {
+                backgroundColor: "#2a2a2a"
+            },
+            headerTitleStyle: {
+                color: "#ffffff"
+            },
+        }}
+        >
             <Tabs.Screen
                 name="focus-screen"
                 options={{
@@ -42,7 +53,7 @@ export default function TabLayout() {
                     tabBarIcon: ({ color, size }) => (<Ionicons name="calendar" color={color} size={size} />),
                 }}
             />
-            
+
             <Tabs.Screen
                 name='calendar-screen'
                 options={{

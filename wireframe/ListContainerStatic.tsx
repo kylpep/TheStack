@@ -4,15 +4,18 @@ import ListItem from "./ListItem"
 const staticList = [
     {
         title: "Item 1",
-        notes: "These are the notes for the 1st item"
+        notes: "These are the notes for the 1st item",
+        key: "1",
     },
     {
         title: "Item 2",
-        notes: "These are the notes for the 2nd item"
+        notes: "These are the notes for the 2nd item",
+        key: "2",
     },
     {
         title: "Item 3",
-        notes: "These are the notes for the 3rd item"
+        notes: "These are the notes for the 3rd item",
+        key: "3",
     }
 ]
 
