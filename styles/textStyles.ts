@@ -24,6 +24,14 @@ const textStyles = StyleSheet.create({
         backgroundColor: "#a00000ff",
 
         borderRadius: 5,
+    },
+    fileHeaderText:{
+        color: "#eeeeee",
+        fontSize: config.textBaseSize + 5,
+    },
+    fileFolderText:{
+        color: "#eeeeee",
+        fontSize: config.textBaseSize + 5,
     }
 })
 

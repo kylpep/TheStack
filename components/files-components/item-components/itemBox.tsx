@@ -1,12 +1,9 @@
-
-//The thinnest item in the vertical direction
-
 import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import DateText from "./listItem_DateText";
-import NotesText from "./listItem_NotesText";
-import TagText from "./listItem_TagText";
-import TitleText from "./listItem_TitleText";
+import DateText from "./item-dateText";
+import NotesText from "./item-notesText";
+import TagText from "./item-tagText";
+import TitleText from "./item-titleText";
 
 const params = {
     paddingHorizontal: 10,
@@ -21,7 +18,7 @@ const params = {
 }
 
 //Flexes out horizontally
-export default function ThinItemView(props: any) {
+export default function ItemBox(props: any) {
     const [completionState, setCompletionState] = useState(false);
 
     function toggleCompletionState() {
