@@ -8,7 +8,7 @@ import { Text } from "react-native";
 export default function ListItemNotesText(props: any) {
     return (
         <Text style={textStyles.listItemNotesText}>
-            {"Example notes text as a sentence."}
+            {"Example notes"}
         </Text>
     )
 }

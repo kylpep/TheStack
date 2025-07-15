@@ -12,17 +12,18 @@ const textStyles = StyleSheet.create({
     },
     listItemDateText:{
         color: "#eeeeee",
-        fontSize: config.textBaseSize
+        fontSize: config.textBaseSize,
     },
     listItemNotesText:{
         color: "#eeeeee",
-        fontSize: config.textBaseSize
+        fontSize: config.textBaseSize,
     },
     listItemTagText:{
         color: "#eeeeee",
         fontSize: config.textBaseSize,
-        borderColor: "#eeeeee",
-        borderWidth: 1,
+        backgroundColor: "#a00000ff",
+
+        borderRadius: 5,
     }
 })
 

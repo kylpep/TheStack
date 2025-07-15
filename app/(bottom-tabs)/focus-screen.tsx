@@ -8,11 +8,10 @@ export default function FocusScreen() {
             alignItems: "stretch",
             flex: 1,
             flexDirection: 'column',
-            padding: 30,
+            padding: 10,
             backgroundColor: "#111111",
             rowGap: 10,
         }}>
-                <ThinItemView testType="Due by" endDate={true}/>
                 <ThinItemView />
         </View>
     );

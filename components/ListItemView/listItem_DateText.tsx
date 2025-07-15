@@ -8,7 +8,7 @@ import { Text } from "react-native";
 export default function ListItemDateText(props: any) {
     return (
         <Text style={textStyles.listItemDateText}>
-            {"by 9:00pm Fri 11/27/25"}
+            {"by 7/11/24"}
         </Text>
     )
 }

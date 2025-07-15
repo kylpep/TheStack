@@ -2,7 +2,7 @@
 //The thinnest item in the vertical direction
 
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import DateText from "./listItem_DateText";
 import NotesText from "./listItem_NotesText";
 import TagText from "./listItem_TagText";
@@ -34,33 +34,40 @@ export default function ThinItemView(props: any) {
 
     return (
         <View style={styles.container}>
-            <TitleText/>
-            <DateText/>
-            <NotesText/>
-            <TagText/>   
-            
+            <View style={styles.textContainer}>
+                <TitleText />
+                <DateText />
+                <NotesText />
+                <TagText />
+            </View>
+            <Pressable style={[styles.checkbox, handleCheckboxColor()]} onPress={toggleCompletionState} />
         </View>
     )
 }
 
-//<Pressable style={[styles.checkbox, handleCheckboxColor()]} onPress={toggleCompletionState}/>
-
 const styles = StyleSheet.create({
     container: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: params.paddingHorizontal,
+        paddingVertical: params.paddingVertical,
+        borderRadius: 9,
+        backgroundColor: "#333333",
+        columnGap: 10,
+    },
+    textContainer: {
         justifyContent: "space-between",
         flexDirection: "row",
         alignItems: "flex-start",
-        paddingHorizontal: params.paddingHorizontal,
-        borderRadius: 9,
-        backgroundColor: "#333333",
-        paddingVertical: params.paddingVertical,
         flexWrap: 'wrap',
+        flexShrink: 1,
+        columnGap: 5,
+        flex: 1,
     },
     checkbox: {
         aspectRatio: 1,
         height: params.checkboxSize,
         borderRadius: (params.checkboxSize) / 2,
-        marginLeft: 5,
-        alignSelf: "flex-end",
     }
 });
