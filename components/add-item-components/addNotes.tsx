@@ -6,19 +6,19 @@ function textInputBackgroundColor(isFocused: boolean) {
     return { backgroundColor: isFocused ? "#333333" : "#111111" }
 }
 
-export default function addTitleView() {
+export default function addNotesView() {
     const [isFocused, setIsFocused] = useState(false);
 
     return (
         <View style={styles.container}>
             <Text style={textStyles.addItemText}>
-                {"Title:"}
+                {"Notes:"}
             </Text>
             <TextInput
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 allowFontScaling={false}
-                placeholder="Enter here"
+                placeholder="None"
                 placeholderTextColor={textStyles.addItemPlaceholderText.color}
                 textAlign="right"
                 multiline={true}

@@ -1,34 +1,19 @@
 import textStyles from "@/styles/textStyles";
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 function textInputBackgroundColor(isFocused: boolean) {
     return { backgroundColor: isFocused ? "#333333" : "#111111" }
 }
 
-export default function addTitleView() {
+export default function addNotesView() {
     const [isFocused, setIsFocused] = useState(false);
 
     return (
         <View style={styles.container}>
             <Text style={textStyles.addItemText}>
-                {"Title:"}
+                {"Start date/time:"}
             </Text>
-            <TextInput
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                allowFontScaling={false}
-                placeholder="Enter here"
-                placeholderTextColor={textStyles.addItemPlaceholderText.color}
-                textAlign="right"
-                multiline={true}
-                submitBehavior="blurAndSubmit"
-                style={[
-                    styles.input,
-                    textStyles.addItemText,
-                    textInputBackgroundColor(isFocused)
-                ]}
-            />
         </View>
     )
 };

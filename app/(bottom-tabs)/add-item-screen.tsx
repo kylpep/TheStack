@@ -1,3 +1,4 @@
+import AddNotes from "@/components/add-item-components/addNotes";
 import AddTitle from "@/components/add-item-components/addTitle";
 import { View } from "react-native";
 
@@ -12,6 +13,7 @@ export default function AddItemScreen() {
             rowGap: 10,
         }}>
             <AddTitle/>
+            <AddNotes/>
         </View>
     );
 }
