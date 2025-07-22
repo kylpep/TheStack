@@ -32,6 +32,13 @@ const textStyles = StyleSheet.create({
     fileFolderText:{
         color: "#eeeeee",
         fontSize: config.textBaseSize + 5,
+    },
+    addItemText:{
+        color: "#eeeeee",
+        fontSize: config.textBaseSize + 5,
+    },
+    addItemPlaceholderText:{
+        color: "#a7a7a7ff",
     }
 })
 
