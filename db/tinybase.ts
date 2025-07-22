@@ -12,9 +12,9 @@ const store = createStore().setTablesSchema({
         title: { type: "string" },
         notes: { type: "string", default: "" },
 
-        startTimeStamp: { type: "string" },
-        endTimeStamp: { type: "string" },
-        completionTimeStamp: { type: "string" },
+        startTimeStamp: { type: "number" },
+        endTimeStamp: { type: "number" },
+        completionTimeStamp: { type: "number" },
     },
     activeItems: {
         itemID: { type: "number" },
@@ -25,8 +25,8 @@ const store = createStore().setTablesSchema({
         notes: { type: "string", default: "" },
         focused: { type: "boolean", default: false },
 
-        startTimeStamp: { type: "string" },
-        endTimeStamp: { type: "string" },
+        startTimeStamp: { type: "number" },
+        endTimeStamp: { type: "number" },
     },
     draftedItems: {
         itemID: { type: "number" },
@@ -35,8 +35,8 @@ const store = createStore().setTablesSchema({
         title: { type: "string" },
         notes: { type: "string", default: "" },
 
-        startTimeStamp: { type: "string" },
-        endTimeStamp: { type: "string" },
+        startTimeStamp: { type: "number" },
+        endTimeStamp: { type: "number" },
     },
     dayAssignment: {
         itemID: { type: "number" },

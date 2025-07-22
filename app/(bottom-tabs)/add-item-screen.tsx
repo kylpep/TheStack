@@ -1,4 +1,5 @@
 import AddNotes from "@/components/add-item-components/addNotes";
+import AddDate from "@/components/add-item-components/addStartDateTime";
 import AddTitle from "@/components/add-item-components/addTitle";
 import { View } from "react-native";
 
@@ -14,6 +15,7 @@ export default function AddItemScreen() {
         }}>
             <AddTitle/>
             <AddNotes/>
+            <AddDate/>
         </View>
     );
 }
