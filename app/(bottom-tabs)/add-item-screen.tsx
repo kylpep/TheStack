@@ -1,4 +1,4 @@
-import AddItemView from "@/components/add-item-components/AddItem";
+import AddItemView from "@/components/add-item-components/addItem";
 
 export default function AddItemScreen() {
     return (
