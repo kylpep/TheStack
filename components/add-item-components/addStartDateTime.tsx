@@ -1,5 +1,5 @@
 import textStyles from "@/styles/textStyles";
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { StyleSheet, Text, View } from "react-native";
 import DateTimePicker, { DateType, useDefaultStyles } from 'react-native-ui-datepicker';
 
@@ -9,21 +9,29 @@ export default function addStartDateTimeView() {
     const [isTimeFocused, setIsTimeFocused] = useState(false);
     const [includeTime, setIncludeTime] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date>(new Date);
-    const [quickNum, setQuickNum] = useState(0);
+    const debounced = useRef(false);
+    const debouncing = useRef(false);
+
+    function changeSelectedTime(date: DateType) {
+        if (debounced.current === false) {
+            if (debouncing.current === false) {
+                debouncing.current = true;
+                setTimeout(() => {
+                    debounced.current = true;
+                    debouncing.current = false;
+                }, 100);
+            }
+        }
+        else if (date && typeof date === 'object' && 'toDateString' in date) {
+            setSelectedDate(date);
+        }
+    }
 
     function changeSelectedDate(date: DateType) {
         if (date && typeof date === 'object' && 'toDateString' in date) {
-            setQuickNum(quickNum + 1);
             date.setHours(selectedDate.getHours());
             date.setMinutes(selectedDate.getMinutes());
             setSelectedDate(date);
-            
-        }
-    }
-    function changeSelectedTime(date: DateType) {
-        if (date && typeof date === 'object' && 'toDateString' in date) {
-            setSelectedDate(date);
-            setQuickNum(quickNum + 1);
         }
     }
 
@@ -32,17 +40,19 @@ export default function addStartDateTimeView() {
             setIsTimeFocused(false);
             setIsDateFocused(true);
         }
-        setIncludeTime(!includeTime)
+        setIncludeTime(!includeTime);
     }
 
     function focusDate() {
         setIsDateFocused(!isDateFocused);
-        setIsTimeFocused(false)
+        setIsTimeFocused(false);
     }
 
     function focusTime() {
+        debounced.current = false;
+        debouncing.current = false;
         setIsTimeFocused(!isTimeFocused);
-        setIsDateFocused(false)
+        setIsDateFocused(false);
     }
 
     function timeBackgroundColor() {
@@ -105,9 +115,6 @@ export default function addStartDateTimeView() {
                 <Text style={textStyles.addItemText} onPress={toggleIncludeTime}>
                     Include Start Time?
                 </Text>}
-            <Text style={textStyles.addItemText}>
-                {quickNum.toString()}
-            </Text>
         </View>
     )
 };
