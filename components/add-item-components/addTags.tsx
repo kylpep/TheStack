@@ -1,34 +1,59 @@
+import Tag from "@/components/add-item-components/tag";
+import { useAddItemStore } from "@/states";
+import { itemConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
-import { useState } from 'react';
+import { useRef } from 'react';
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
-function textInputBackgroundColor(isFocused: boolean) {
-    return { backgroundColor: isFocused ? "#333333" : "#111111" }
-}
 
 export default function addTagsView() {
-    const [isFocused, setIsFocused] = useState(false);
+    const inputRef = useRef<TextInput>(null);
+    const { currentTag, tags, setCurrentTag, startNewTag, removeTag, editTag, setFocus } = useAddItemStore((state) => state);
+    const isFocused = useAddItemStore((state) => state.focus) === "tags";
+    const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
+
+    if (!isFocused) inputRef.current?.blur()
+    else inputRef.current?.focus()
 
     return (
         <View style={styles.container}>
             <Text style={textStyles.addItemText}>
                 {"Tags:"}
             </Text>
-            <TextInput
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                allowFontScaling={false}
-                placeholder="None"
-                placeholderTextColor={textStyles.addItemPlaceholderText.color}
-                textAlign="right"
-                multiline={true}
-                submitBehavior="blurAndSubmit"
-                style={[
-                    styles.input,
-                    textStyles.addItemText,
-                    textInputBackgroundColor(isFocused)
-                ]}
-            />
+            {
+                tags.map((tagName, index) => (
+                    <Tag name={tagName}
+                        key={index}
+                        deletable={true}
+                        editable={true}
+                        onDelete={() => removeTag(index)}
+                        onEdit={() => {
+                            editTag(index);
+                            setFocus("tags");
+                            inputRef.current?.focus();
+                        }} />
+                ))
+            }
+            <View style={styles.inputContainer}>
+                <TextInput
+                    ref={inputRef}
+                    value={currentTag}
+                    onChangeText={text => setCurrentTag(text)}
+                    onSubmitEditing={startNewTag}
+                    onFocus={() => setFocus("tags")}
+                    onBlur={() => { setFocus("none") }}
+                    placeholder="New"
+                    placeholderTextColor={textStyles.addItemPlaceholderText.color}
+                    textAlign="left"
+                    multiline={true}
+                    submitBehavior="blurAndSubmit"
+                    style={[
+                        styles.input,
+                        textStyles.addItemText,
+                        textInputBackgroundColor
+                    ]}
+                />
+            </View>
         </View>
     )
 };
@@ -36,9 +61,17 @@ export default function addTagsView() {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         alignItems: "center",
-        columnGap: 10,
+        gap: 5,
+        flexWrap: "wrap"
+    },
+    inputContainer: {
+        flexDirection: "row",
+        flexGrow: 1,
+        flexWrap: "wrap",
+        justifyContent: "flex-end",
+        gap: 5,
     },
     input: {
         borderRadius: 5,
@@ -46,5 +79,6 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         paddingHorizontal: 5,
         paddingVertical: 2,
+        alignSelf: "flex-end"
     }
 });

@@ -1,32 +1,37 @@
+import { useAddItemStore } from "@/states";
+import { itemConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
-import { useState } from 'react';
+import { useRef } from 'react';
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
-function textInputBackgroundColor(isFocused: boolean) {
-    return { backgroundColor: isFocused ? "#333333" : "#111111" }
-}
-
 export default function addNotesView() {
-    const [isFocused, setIsFocused] = useState(false);
+    const inputRef = useRef<TextInput>(null);
+    const {notes, setNotes, setFocus} = useAddItemStore((state) => state);
+    const isFocused = useAddItemStore((state) => state.focus) === "notes";
+    const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
 
+    if(!isFocused) inputRef.current?.blur();
+    
     return (
         <View style={styles.container}>
             <Text style={textStyles.addItemText}>
                 {"Notes:"}
             </Text>
             <TextInput
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                allowFontScaling={false}
+                ref={inputRef}
+                value={notes}
+                onChangeText={text => setNotes(text)}
+                onFocus={() => setFocus("notes")}
+                onBlur={() => setFocus("none")}
                 placeholder="None"
                 placeholderTextColor={textStyles.addItemPlaceholderText.color}
-                textAlign="right"
+                textAlign="left"
                 multiline={true}
                 submitBehavior="blurAndSubmit"
                 style={[
                     styles.input,
                     textStyles.addItemText,
-                    textInputBackgroundColor(isFocused)
+                    textInputBackgroundColor
                 ]}
             />
         </View>
@@ -38,10 +43,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        columnGap: 10,
+        columnGap: itemConsts.gap,
     },
     input: {
-        borderRadius: 5,
+        borderRadius: itemConsts.borderRadius,
         flexShrink: 1,
         justifyContent: "flex-start",
         paddingHorizontal: 5,
