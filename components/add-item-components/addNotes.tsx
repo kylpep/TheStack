@@ -6,7 +6,9 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function addNotesView() {
     const inputRef = useRef<TextInput>(null);
-    const {notes, setNotes, setFocus} = useAddItemStore((state) => state);
+    const notes = useAddItemStore(state => state.notes);
+    const setNotes = useAddItemStore((state) => state.setNotes);
+    const setFocus = useAddItemStore(state => state.setFocus);
     const isFocused = useAddItemStore((state) => state.focus) === "notes";
     const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
 

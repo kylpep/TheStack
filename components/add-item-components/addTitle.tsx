@@ -6,7 +6,9 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function addTitleView() {
     const inputRef = useRef<TextInput>(null);
-    const {title, setTitle, setFocus} = useAddItemStore((state) => state)
+    const title = useAddItemStore(store => store.title);
+    const setTitle = useAddItemStore(store => store.setTitle);
+    const setFocus = useAddItemStore(store => store.setFocus);
     const isFocused = useAddItemStore((state) => state.focus) === "title";
     const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
 

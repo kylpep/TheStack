@@ -39,6 +39,7 @@ const textStyles = StyleSheet.create({
     },
     addItemPlaceholderText:{
         color: "#a7a7a7ff",
+        fontSize: config.textBaseSize + 5,
     }
 })
 

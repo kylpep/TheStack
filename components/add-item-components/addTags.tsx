@@ -8,7 +8,13 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function addTagsView() {
     const inputRef = useRef<TextInput>(null);
-    const { currentTag, tags, setCurrentTag, startNewTag, removeTag, editTag, setFocus } = useAddItemStore((state) => state);
+    const currentTag = useAddItemStore(state => state.currentTag);
+    const tags = useAddItemStore(state => state.tags);
+    const setCurrentTag = useAddItemStore(state => state.setCurrentTag);
+    const startNewTag = useAddItemStore(state => state.startNewTag);
+    const removeTag = useAddItemStore(state => state.removeTag);
+    const editTag = useAddItemStore(state => state.editTag);
+    const setFocus  = useAddItemStore(state => state.setFocus);
     const isFocused = useAddItemStore((state) => state.focus) === "tags";
     const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
 

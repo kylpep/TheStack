@@ -20,7 +20,7 @@ interface AddItemState {
 
     tags: string[]
 
-    itemType: ItemType | undefined;
+    itemType: ItemType;
     setItemType: (newType: ItemType | undefined) => void;
 
     parentId: number
@@ -80,7 +80,7 @@ export const useAddItemStore = create<AddItemState>()((set, get) => ({
 
     tags: [],
 
-    itemType: undefined,
+    itemType: ItemType.None,
     setItemType: (newItemType) => set({ itemType: newItemType }),
 
     parentId: 0,

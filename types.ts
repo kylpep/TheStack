@@ -1,5 +1,6 @@
 
 export enum ItemType {
+    None,
     Anytime,
     DueBy,
     DoAtOn,
@@ -12,7 +13,8 @@ export enum ItemType {
 
 export type AddItemFocus = "title" 
 | "notes"
-| "tags" 
+| "tags"
+| "itemType"
 | "startDate" 
 | "startTime" 
 | "endDate" 
