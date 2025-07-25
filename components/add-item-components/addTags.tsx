@@ -45,14 +45,14 @@ export default function addTagsView() {
                     ref={inputRef}
                     value={currentTag}
                     onChangeText={text => setCurrentTag(text)}
-                    onSubmitEditing={startNewTag}
+                    onSubmitEditing={() => {startNewTag(); if(currentTag==="") setFocus("none")}}
                     onFocus={() => setFocus("tags")}
-                    onBlur={() => { setFocus("none") }}
-                    placeholder="New"
+                    onBlur={startNewTag}
+                    placeholder="New tag"
                     placeholderTextColor={textStyles.addItemPlaceholderText.color}
                     textAlign="left"
                     multiline={true}
-                    submitBehavior="blurAndSubmit"
+                    submitBehavior="submit"
                     style={[
                         styles.input,
                         textStyles.addItemText,

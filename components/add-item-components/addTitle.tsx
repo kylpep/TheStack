@@ -24,7 +24,7 @@ export default function addTitleView() {
                 value={title}
                 onChangeText={text => setTitle(text)}
                 onFocus={() => setFocus("title")}
-                onBlur={() => setFocus("none")}
+                onSubmitEditing={() => setFocus("none")}
                 placeholder="Enter here"
                 placeholderTextColor={textStyles.addItemPlaceholderText.color}
                 textAlign="left"

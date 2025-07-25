@@ -18,7 +18,6 @@ export default function addTypeView() {
 
     const selectType = (newType: ItemType) => {
         setItemType(newType);
-        toggleFocus();
     };
 
 

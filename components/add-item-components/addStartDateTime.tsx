@@ -1,12 +1,15 @@
+import { useAddItemStore } from "@/states";
 import textStyles from "@/styles/textStyles";
 import { useRef, useState } from 'react';
 import { StyleSheet, Text, View } from "react-native";
 import DateTimePicker, { DateType, useDefaultStyles } from 'react-native-ui-datepicker';
 
 export default function addStartDateTimeView() {
+    const focus = useAddItemStore(state => state.focus);
+    const setFocus = useAddItemStore(state => state.setFocus);
+    const isDateFocused = focus === "startDate";
+    const isTimeFocused = focus === "startTime";
     const defaultStyles = useDefaultStyles();
-    const [isDateFocused, setIsDateFocused] = useState(false);
-    const [isTimeFocused, setIsTimeFocused] = useState(false);
     const [includeTime, setIncludeTime] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date>(new Date);
     const debounced = useRef(false);
@@ -36,23 +39,17 @@ export default function addStartDateTimeView() {
     }
 
     function toggleIncludeTime() {
-        if (includeTime) {
-            setIsTimeFocused(false);
-            setIsDateFocused(true);
-        }
         setIncludeTime(!includeTime);
     }
 
     function focusDate() {
-        setIsDateFocused(!isDateFocused);
-        setIsTimeFocused(false);
+        setFocus(isDateFocused?"none":"startDate");
     }
 
     function focusTime() {
         debounced.current = false;
         debouncing.current = false;
-        setIsTimeFocused(!isTimeFocused);
-        setIsDateFocused(false);
+        setFocus(isTimeFocused?"none":"startTime");
     }
 
     function timeBackgroundColor() {
