@@ -1,5 +1,6 @@
 import { useAddItemStore } from "@/states";
 import textStyles from "@/styles/textStyles";
+import { ItemType } from "@/types";
 import { useRef, useState } from 'react';
 import { StyleSheet, Text, View } from "react-native";
 import DateTimePicker, { DateType, useDefaultStyles } from 'react-native-ui-datepicker';
@@ -7,6 +8,7 @@ import DateTimePicker, { DateType, useDefaultStyles } from 'react-native-ui-date
 export default function addStartDateTimeView() {
     const focus = useAddItemStore(state => state.focus);
     const setFocus = useAddItemStore(state => state.setFocus);
+    const itemType = useAddItemStore(state => state.itemType);
     const isDateFocused = focus === "startDate";
     const isTimeFocused = focus === "startTime";
     const defaultStyles = useDefaultStyles();
@@ -43,13 +45,13 @@ export default function addStartDateTimeView() {
     }
 
     function focusDate() {
-        setFocus(isDateFocused?"none":"startDate");
+        setFocus(isDateFocused ? "none" : "startDate");
     }
 
     function focusTime() {
         debounced.current = false;
         debouncing.current = false;
-        setFocus(isTimeFocused?"none":"startTime");
+        setFocus(isTimeFocused ? "none" : "startTime");
     }
 
     function timeBackgroundColor() {
@@ -61,7 +63,7 @@ export default function addStartDateTimeView() {
     }
 
     return (
-        <View style={styles.container}>
+        (itemType !== ItemType.None && itemType !== ItemType.Anytime && itemType !== ItemType.DueBy) && <View style={styles.container}>
             <View style={styles.dateTimeContainer}>
                 <Text style={textStyles.addItemText}>
                     {"Starts:"}
