@@ -1,6 +1,6 @@
 import { itemConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
-import { AddItemFocus } from "@/types";
+import { AddItemFocus } from "@/types/types";
 import { useRef } from 'react';
 import { StyleSheet, Text, View } from "react-native";
 import DateTimePicker, { DateType, useDefaultStyles } from 'react-native-ui-datepicker';

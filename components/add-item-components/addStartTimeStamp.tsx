@@ -1,6 +1,6 @@
 import CalendarSelecter from "@/components/add-item-components/calendarSelecter";
 import { useAddItemStore } from "@/states-zustand/addItemStates";
-import { ITEMS_WITH_START } from "@/types";
+import { ITEMS_WITH_START } from "@/types/types";
 
 export default function addStartTimeStamp() {
     const focus = useAddItemStore(state => state.focus);

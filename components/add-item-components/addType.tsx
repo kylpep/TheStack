@@ -1,7 +1,7 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { itemConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
-import { ItemType } from "@/types";
+import { ItemType } from "@/types/types";
 import { StyleSheet, Text, View } from "react-native";
 import { RowButton } from "./button";
 

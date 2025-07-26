@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AddItemFocus, ItemType } from '../types';
+import { AddItemFocus, ItemType } from '../types/types';
 
 interface AddItemState {
     title: string
