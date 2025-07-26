@@ -15,7 +15,7 @@ export default function addTagsView() {
     const removeTag = useAddItemStore(state => state.removeTag);
     const editTag = useAddItemStore(state => state.editTag);
     const setFocus  = useAddItemStore(state => state.setFocus);
-    const isFocused = useAddItemStore((state) => state.focus) === "tags";
+    const isFocused = useAddItemStore(state => state.focus === "tags"); // updated selector
     const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
 
     if (!isFocused) inputRef.current?.blur()

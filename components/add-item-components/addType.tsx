@@ -9,10 +9,9 @@ const displayedTypeTextArray: string[] = ["Select", "anytime", "due by", "do at"
 
 export default function addTypeView() {
     const itemType = useAddItemStore(store => store.itemType);
-    const focus = useAddItemStore(store => store.focus);
     const setFocus = useAddItemStore(store => store.setFocus);
     const setItemType = useAddItemStore(store => store.setItemType);
-    const isFocused = focus === "itemType";
+    const isFocused = useAddItemStore(state => state.focus === "itemType"); // updated selector
     const selectedItemStyle = (itemType === ItemType.None) ? textStyles.addItemPlaceholderText : textStyles.addItemText;
     const toggleFocus = () => setFocus(isFocused ? "none" : "itemType");
 

@@ -9,7 +9,7 @@ export default function addTitleView() {
     const title = useAddItemStore(store => store.title);
     const setTitle = useAddItemStore(store => store.setTitle);
     const setFocus = useAddItemStore(store => store.setFocus);
-    const isFocused = useAddItemStore((state) => state.focus) === "title";
+    const isFocused = useAddItemStore(state => state.focus === "title"); // updated selector
     const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
 
     if (!isFocused) inputRef.current?.blur();

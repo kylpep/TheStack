@@ -9,7 +9,7 @@ export default function addNotesView() {
     const notes = useAddItemStore(state => state.notes);
     const setNotes = useAddItemStore((state) => state.setNotes);
     const setFocus = useAddItemStore(state => state.setFocus);
-    const isFocused = useAddItemStore((state) => state.focus) === "notes";
+    const isFocused = useAddItemStore(state => state.focus === "notes"); // updated selector
     const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
 
     if(!isFocused) inputRef.current?.blur();
