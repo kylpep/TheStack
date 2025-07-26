@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AddItemFocus, ItemType } from './types';
+import { AddItemFocus, ItemType } from '../types';
 
 interface AddItemState {
     title: string
@@ -40,7 +40,6 @@ interface AddItemState {
 
     focus: AddItemFocus
     setFocus: (newFocus: AddItemFocus) => void;
-
 }
 
 export const useAddItemStore = create<AddItemState>()((set, get) => ({

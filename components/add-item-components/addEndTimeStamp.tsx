@@ -1,5 +1,5 @@
 import CalendarSelecter from "@/components/add-item-components/calendarSelecter";
-import { useAddItemStore } from "@/states";
+import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { ITEMS_WITH_END } from "@/types";
 
 export default function addEndTimeStamp() {

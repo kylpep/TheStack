@@ -1,5 +1,5 @@
 import Tag from "@/components/add-item-components/tag";
-import { useAddItemStore } from "@/states";
+import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { itemConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
 import { useRef } from 'react';
