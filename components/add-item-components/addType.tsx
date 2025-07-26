@@ -3,7 +3,7 @@ import { itemConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
 import { ItemType } from "@/types";
 import { StyleSheet, Text, View } from "react-native";
-import Button from "./button";
+import { RowButton } from "./button";
 
 const displayedTypeTextArray: string[] = ["Select", "anytime", "due by", "do at", "event", "flexable event", "soft event", "focused event"];
 
@@ -38,17 +38,17 @@ export default function addTypeView() {
                 <>
                     <View style={styles.buttonShelf}>
                         {displayedTypeTextArray.slice(1, 4).map((text, index) =>
-                            <Button text={text} key={index} onPress={() => selectType(index + 1)}/>
+                            <RowButton text={text} key={index} onPress={() => selectType(index + 1)}/>
                         )}
                     </View>
                     <View style={styles.buttonShelf}>
                         {displayedTypeTextArray.slice(4, 6).map((text, index) =>
-                            <Button text={text} key={index} onPress={() => selectType(index + 4)}/>
+                            <RowButton text={text} key={index} onPress={() => selectType(index + 4)}/>
                         )}
                     </View>
                     <View style={styles.buttonShelf}>
                         {displayedTypeTextArray.slice(6).map((text, index) =>
-                            <Button text={text} key={index} onPress={() => selectType(index + 6)}/>
+                            <RowButton text={text} key={index} onPress={() => selectType(index + 6)}/>
                         )}
                     </View>
                 </>

@@ -1,43 +1,48 @@
 import { StyleSheet } from "react-native";
+import { itemConsts } from "./styleConsts";
 
 const config = {
     textBaseSize: 15
 }
 
 const textStyles = StyleSheet.create({
-    listItemTitleText:{
+    listItemTitleText: {
         color: "#eeeeee",
         fontSize: config.textBaseSize,
         fontWeight: 'bold',
     },
-    listItemDateText:{
+    listItemDateText: {
         color: "#eeeeee",
         fontSize: config.textBaseSize,
     },
-    listItemNotesText:{
+    listItemNotesText: {
         color: "#eeeeee",
         fontSize: config.textBaseSize,
     },
-    listItemTagText:{
+    listItemTagText: {
         color: "#eeeeee",
         fontSize: config.textBaseSize,
         backgroundColor: "#a00000ff",
 
         borderRadius: 5,
     },
-    fileHeaderText:{
+    fileHeaderText: {
         color: "#eeeeee",
         fontSize: config.textBaseSize + 5,
     },
-    fileFolderText:{
+    fileFolderText: {
         color: "#eeeeee",
         fontSize: config.textBaseSize + 5,
     },
-    addItemText:{
+    addItemText: {
         color: "#eeeeee",
         fontSize: config.textBaseSize + 5,
+        borderRadius: itemConsts.borderRadius,
+        justifyContent: "center",
+        paddingHorizontal: 5,
+        paddingVertical: 2,
     },
-    addItemPlaceholderText:{
+    addItemPlaceholderText: {
         color: "#a7a7a7ff",
         fontSize: config.textBaseSize + 5,
     }

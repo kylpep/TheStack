@@ -16,7 +16,7 @@ export default function Index() {
       <Text>The Stack</Text>
       <Text>Loading Screen</Text>
 
-      <Button title="Go to home screen" onPress={() => router.replace('./tagged-list-screen')}/>
+      <Button title="Go to home screen" onPress={() => router.replace('./add-item-screen')}/>
 
     </View>
   );

@@ -51,7 +51,5 @@ const styles = StyleSheet.create({
         borderRadius: itemConsts.borderRadius,
         flexShrink: 1,
         justifyContent: "flex-start",
-        paddingHorizontal: 5,
-        paddingVertical: 2,
     }
 });

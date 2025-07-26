@@ -16,7 +16,7 @@ export default function addTitleView() {
 
     return (
         <View style={styles.container}>
-            <Text style={textStyles.addItemText}>
+            <Text style={textStyles.addItemText} numberOfLines={1}>
                 {"Title:"}
             </Text>
             <TextInput
@@ -29,6 +29,7 @@ export default function addTitleView() {
                 placeholderTextColor={textStyles.addItemPlaceholderText.color}
                 textAlign="left"
                 multiline={true}
+                scrollEnabled={false}
                 submitBehavior="blurAndSubmit"
                 style={[
                     styles.input,

@@ -39,8 +39,6 @@ const styles = StyleSheet.create({
         flexShrink: 1,
         alignItems: "center",
         flexDirection: "row",
-        paddingHorizontal: 5,
-        paddingVertical: 2,
         backgroundColor: itemConsts.focusedColor,
     },
     closeIcon: {

@@ -11,6 +11,22 @@ export enum ItemType {
     Folder,
 }
 
+export const ITEMS_WITH_START = [
+    ItemType.DueBy,
+    ItemType.Event,
+    ItemType.FlexableEvent,
+    ItemType.SoftEvent,
+    ItemType.FocusedEvent,
+]
+
+export const ITEMS_WITH_END = [
+    ItemType.DoAtOn,
+    ItemType.Event,
+    ItemType.FlexableEvent,
+    ItemType.SoftEvent,
+    ItemType.FocusedEvent
+]
+
 export type AddItemFocus = "title" 
 | "notes"
 | "tags"

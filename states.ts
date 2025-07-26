@@ -26,8 +26,14 @@ interface AddItemState {
     parentId: number
     setParentId: (newId: number) => void;
 
+    includeStartTime: boolean
+    setIncludeStartTime: (includeTime: boolean) => void;
+
     start: Date
     setStart: (newTimeStamp: Date) => void;
+
+    includeEndTime: boolean
+    setIncludeEndTime: (includeTime: boolean) => void;
 
     end: Date
     setEnd: (newTimeStamp: Date) => void;
@@ -86,8 +92,14 @@ export const useAddItemStore = create<AddItemState>()((set, get) => ({
     parentId: 0,
     setParentId: (newId) => set({ parentId: newId }),
 
+    includeStartTime: true,
+    setIncludeStartTime: (includeTime) => set({includeStartTime: includeTime}),
+
     start: new Date(),
     setStart: (newTimeStamp) => set({ start: newTimeStamp }),
+
+    includeEndTime: true,
+    setIncludeEndTime: (includeTime) => set({includeEndTime: includeTime}),
 
     end: new Date(),
     setEnd: (newTimeStamp) => set({ end: newTimeStamp }),

@@ -83,8 +83,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         flexShrink: 1,
         justifyContent: "flex-start",
-        paddingHorizontal: 5,
-        paddingVertical: 2,
         alignSelf: "flex-end"
     }
 });
