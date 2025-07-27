@@ -24,6 +24,7 @@ export default function addNotesView() {
                 value={notes}
                 onChangeText={text => setNotes(text)}
                 onFocus={() => setFocus("notes")}
+                onBlur={() => setNotes(notes.trim())}
                 onSubmitEditing={() => setFocus("none")}
                 placeholder="None"
                 placeholderTextColor={textStyles.addItemPlaceholderText.color}

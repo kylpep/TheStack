@@ -1,36 +1,33 @@
 import { openDatabaseSync } from 'expo-sqlite';
-import { createStore } from 'tinybase';
 import { createExpoSqlitePersister } from 'tinybase/persisters/persister-expo-sqlite';
+import { Store } from 'tinybase/store';
+import { createStore } from 'tinybase/with-schemas';
 
-
-const store = createStore().setTablesSchema({
+const tbStore = createStore().setTablesSchema({
     recentlyCompletedItems: {
-        itemID: { type: "number" },
-        parentID: { type: "number", default: -1 },
-        itemType: { type: "number", default: -1 },
+        parentId: { type: "number"},
+        itemType: { type: "number"},
 
         title: { type: "string" },
-        notes: { type: "string", default: "" },
+        
+        notes: { type: "string"},
 
         startTimeStamp: { type: "number" },
         endTimeStamp: { type: "number" },
         completionTimeStamp: { type: "number" },
     },
     activeItems: {
-        itemID: { type: "number" },
-        parentID: { type: "number", default: -1 },
-        itemType: { type: "number", default: -1 },
+        parentId: { type: "string"},
+        itemType: { type: "number"},
 
         title: { type: "string" },
-        notes: { type: "string", default: "" },
-        focused: { type: "boolean", default: false },
+        notes: { type: "string" },
 
         startTimeStamp: { type: "number" },
         endTimeStamp: { type: "number" },
     },
     draftedItems: {
-        itemID: { type: "number" },
-        parentID: { type: "number", default: -1 },
+        parentId: { type: "number", default: -1 },
 
         title: { type: "string" },
         notes: { type: "string", default: "" },
@@ -39,46 +36,28 @@ const store = createStore().setTablesSchema({
         endTimeStamp: { type: "number" },
     },
     dayAssignment: {
-        itemID: { type: "number" },
+        itemId: { type: "number" },
         assignedDate: { type: "number" },
         focused: { type: "boolean" },
     },
     tagAssignment: {
-        itemID: { type: "number" },
-        parentID: { type: "number" },
+        itemId: { type: "number" },
+        tag: { type: "string" },
     },
     tagStyle: {
-        tagName: { type: "string" },
+        tag: { type: "string" },
         tagColor: { type: "string" },
     }
+}).setValuesSchema({
+    nextId: { type: "number", default: 1 },
 });
+
+const untypedStore = tbStore as unknown as Store;
 
 const db = openDatabaseSync('active.db');
 
-const persister = createExpoSqlitePersister(store, db,
-    {
-        mode: 'tabular',
-        tables: {
-            load: {
-                recentlyCompletedItemsInDb: "recentlyCompletedItems",
-                activeItemsInDb: "activeItems",
-                draftedItemsInDb: "draftedItems",
-                dayAssignmentInDb: "dayAssignment",
-                tagAssignmentInDb: "tagAssignment",
-                tagStyleInDb: "tagStyle",
-            },
-            save: {
-                recentlyCompletedItems: "recentlyCompletedItemsInDb",
-                activeItems: "activeItemsInDb",
-                draftedItems: "draftedItemsInDb",
-                dayAssignment: "dayAssignmentInDb",
-                tagAssignment: "tagAssignmentInDb",
-                tagStyle: "tagStyleInDb",
-            }
-        }
-    }
-);
+const persister = createExpoSqlitePersister(untypedStore, db, "tinybase_persister");
 
 await persister.startAutoPersisting();
 
-export default store;
+export default tbStore;

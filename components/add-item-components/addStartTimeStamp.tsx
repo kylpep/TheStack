@@ -12,10 +12,10 @@ export default function addStartTimeStamp() {
     const timeStamp = useAddItemStore(state => state.start);
     const setTimeStamp = useAddItemStore(state => state.setStart);
 
-    const itemType = useAddItemStore(state => state.itemType);
-    const disabled = !ITEMS_WITH_START.includes(itemType);
+    const disabled = useAddItemStore(state => state.itemType != undefined && !ITEMS_WITH_START.includes(state.itemType));
 
     return (
+        timeStamp != undefined &&
         <CalendarSelecter
         contextText="Start"
         focus={focus}

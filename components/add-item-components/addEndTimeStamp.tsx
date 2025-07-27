@@ -12,10 +12,10 @@ export default function addEndTimeStamp() {
     const timeStamp = useAddItemStore(state => state.end);
     const setTimeStamp = useAddItemStore(state => state.setEnd);
 
-    const itemType = useAddItemStore(state => state.itemType);
-    const disabled = !ITEMS_WITH_END.includes(itemType);
+    const disabled = useAddItemStore(state => state.itemType != undefined && !ITEMS_WITH_END.includes(state.itemType));
 
     return (
+        timeStamp != undefined &&
         <CalendarSelecter
         contextText="End"
         focus={focus}

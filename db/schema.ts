@@ -18,4 +18,5 @@ const tagAssignmentArchive = sqliteTable("tagAssignmentArchive",{
 const dayAssignmentArchive = sqliteTable("dayAssignmentArchive",{
     itemID: integer(),
     assignedDate: integer({mode: 'timestamp'}),
+    focused: integer({mode: "boolean"}),
 });

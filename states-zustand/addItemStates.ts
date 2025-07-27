@@ -20,26 +20,28 @@ interface AddItemState {
 
     tags: string[]
 
-    itemType: ItemType;
-    setItemType: (newType: ItemType | undefined) => void;
+    itemType: ItemType | undefined;
+    setItemType: (newType: ItemType) => void;
 
-    parentId: number
-    setParentId: (newId: number) => void;
+    parentId: string | undefined;
+    setParentId: (newId: string | undefined) => void;
 
     includeStartTime: boolean
     setIncludeStartTime: (includeTime: boolean) => void;
 
-    start: Date
-    setStart: (newTimeStamp: Date) => void;
+    start: Date | undefined
+    setStart: (newTimeStamp: Date | undefined) => void;
 
     includeEndTime: boolean
     setIncludeEndTime: (includeTime: boolean) => void;
 
-    end: Date
-    setEnd: (newTimeStamp: Date) => void;
+    end: Date | undefined
+    setEnd: (newTimeStamp: Date | undefined) => void;
 
     focus: AddItemFocus
     setFocus: (newFocus: AddItemFocus) => void;
+
+    reset: () => void;
 }
 
 export const useAddItemStore = create<AddItemState>()((set, get) => ({
@@ -85,24 +87,42 @@ export const useAddItemStore = create<AddItemState>()((set, get) => ({
 
     tags: [],
 
-    itemType: ItemType.None,
+    itemType: undefined,
     setItemType: (newItemType) => set({ itemType: newItemType }),
 
-    parentId: 0,
+    parentId: undefined,
     setParentId: (newId) => set({ parentId: newId }),
 
     includeStartTime: true,
     setIncludeStartTime: (includeTime) => set({includeStartTime: includeTime}),
 
-    start: new Date(),
-    setStart: (newTimeStamp) => set({ start: newTimeStamp }),
+    start: undefined,
+    setStart: (newTimeStamp) => {
+        set({ start: newTimeStamp })
+    },
 
     includeEndTime: true,
     setIncludeEndTime: (includeTime) => set({includeEndTime: includeTime}),
 
-    end: new Date(),
+    end: undefined,
     setEnd: (newTimeStamp) => set({ end: newTimeStamp }),
 
     focus: "none",
     setFocus: (newFocus) => set({ focus: newFocus }),
+
+    reset: () => {
+        set({
+            title: "",
+            notes: "",
+            currentTag: "",
+            tags: [],
+            itemType: undefined,
+            parentId: undefined,
+            includeStartTime: true,
+            start: undefined,
+            includeEndTime: true,
+            end: undefined,
+            focus: "none",
+        });
+    }
 }));

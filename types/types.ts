@@ -1,6 +1,5 @@
 
 export enum ItemType {
-    None,
     Anytime,
     DueBy,
     DoAtOn,
@@ -36,3 +35,12 @@ export type AddItemFocus = "title"
 | "endDate" 
 | "endTime" 
 | "none";
+
+export type activeItemData = {
+    parentId: number | undefined;
+    itemType: ItemType | undefined;
+    title: string | undefined;
+    notes: string | undefined;
+    startTimeStamp: number | undefined;
+    endTimeStamp: number | undefined;
+}

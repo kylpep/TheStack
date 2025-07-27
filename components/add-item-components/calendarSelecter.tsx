@@ -107,7 +107,16 @@ export default function CalendarSelecter({
                     </Text>
                 </View>
             </View>
-
+            {(isDateFocused || isTimeFocused) &&
+                <View style={styles.includeTimeContainer}>
+                    <Text style={textStyles.addItemText} onPress={toggleIncludeTime}>
+                        {"Has " + contextText + " Time:"}
+                    </Text>
+                    <Text style={textStyles.addItemText} onPress={toggleIncludeTime}>
+                        {includeTime ? "Yes" : "No"}
+                    </Text>
+                </View>
+            }
             {(isDateFocused &&
                 <DateTimePicker
                     containerHeight={textStyles.addItemText.fontSize * 10}
@@ -124,35 +133,26 @@ export default function CalendarSelecter({
                         backgroundColor: itemConsts.focusedColor,
                     }}
                 />)}
-           
-                <DateTimePicker
-                    mode="single"
 
-                    date={currentTimeStamp}
-                    onChange={({ date }) => { changeSelectedTime(date) }}
-                    styles={defaultStyles}
+            <DateTimePicker
+                mode="single"
 
-                    timePicker={true}
-                    initialView="time"
-                    hideHeader={true}
-                    use12Hours={true}
-                    style={{
-                        justifyContent: "center",
-                        height: 200,
-                        overflow: 'hidden',
-                        display: isTimeFocused? "flex":"none",
-                    }}
-                />
-            {(isDateFocused || isTimeFocused) &&
-                <View style={styles.includeTimeContainer}>
-                    <Text style={textStyles.addItemText} onPress={toggleIncludeTime}>
-                        {"Has " + contextText + " Time:"}
-                    </Text>
-                    <Text style={textStyles.addItemText} onPress={toggleIncludeTime}>
-                        {includeTime ? "Yes" : "No"}
-                    </Text>
-                </View>
-            }
+                date={currentTimeStamp}
+                onChange={({ date }) => { changeSelectedTime(date) }}
+                styles={defaultStyles}
+
+                timePicker={true}
+                initialView="time"
+                hideHeader={true}
+                use12Hours={true}
+                style={{
+                    justifyContent: "center",
+                    height: 190,
+                    overflow: 'hidden',
+                    display: isTimeFocused ? "flex" : "none",
+                }}
+            />
+
         </View>
     )
 };

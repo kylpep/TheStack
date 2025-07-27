@@ -1,21 +1,27 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { itemConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
-import { ItemType } from "@/types/types";
+import { ITEMS_WITH_START, ItemType } from "@/types/types";
 import { StyleSheet, Text, View } from "react-native";
 import { RowButton } from "./button";
 
-const displayedTypeTextArray: string[] = ["Select", "anytime", "due by", "do at", "event", "flexable event", "soft event", "focused event"];
+const displayedTypeTextArray: string[] = ["anytime", "due by", "do at", "event", "flexable event", "soft event", "focused event"];
 
 export default function addTypeView() {
     const itemType = useAddItemStore(store => store.itemType);
     const setFocus = useAddItemStore(store => store.setFocus);
     const setItemType = useAddItemStore(store => store.setItemType);
+    const setStart = useAddItemStore(store => store.setStart);
+    const startIsDefined = useAddItemStore(store => store.start !== undefined);
+    const endIsDefined = useAddItemStore(store => store.end !== undefined);
+    const setEnd = useAddItemStore(store => store.setEnd);
     const isFocused = useAddItemStore(state => state.focus === "itemType"); // updated selector
-    const selectedItemStyle = (itemType === ItemType.None) ? textStyles.addItemPlaceholderText : textStyles.addItemText;
+    const selectedItemStyle = (itemType !== undefined) ? textStyles.addItemPlaceholderText : textStyles.addItemText;
     const toggleFocus = () => setFocus(isFocused ? "none" : "itemType");
 
     const selectType = (newType: ItemType) => {
+        if(ITEMS_WITH_START.includes(newType) && !startIsDefined) setStart(new Date());
+        if(ITEMS_WITH_START.includes(newType) && !endIsDefined) setEnd(new Date());
         setItemType(newType);
     };
 
@@ -28,7 +34,7 @@ export default function addTypeView() {
                 </Text>
                 {
                     <Text style={selectedItemStyle} onPress={toggleFocus}>
-                        {displayedTypeTextArray[itemType]}
+                        {itemType !== undefined? displayedTypeTextArray[itemType]: "Select"}
                     </Text>
                 }
 
@@ -36,18 +42,18 @@ export default function addTypeView() {
             {isFocused &&
                 <>
                     <View style={styles.buttonShelf}>
-                        {displayedTypeTextArray.slice(1, 4).map((text, index) =>
-                            <RowButton text={text} key={index} onPress={() => selectType(index + 1)}/>
+                        {displayedTypeTextArray.slice(0, 3).map((text, index) =>
+                            <RowButton text={text} key={index} onPress={() => selectType(index)}/>
                         )}
                     </View>
                     <View style={styles.buttonShelf}>
-                        {displayedTypeTextArray.slice(4, 6).map((text, index) =>
+                        {displayedTypeTextArray.slice(3, 5).map((text, index) =>
+                            <RowButton text={text} key={index} onPress={() => selectType(index + 3)}/>
+                        )}
+                    </View>
+                    <View style={styles.buttonShelf}>
+                        {displayedTypeTextArray.slice(5).map((text, index) =>
                             <RowButton text={text} key={index} onPress={() => selectType(index + 4)}/>
-                        )}
-                    </View>
-                    <View style={styles.buttonShelf}>
-                        {displayedTypeTextArray.slice(6).map((text, index) =>
-                            <RowButton text={text} key={index} onPress={() => selectType(index + 6)}/>
                         )}
                     </View>
                 </>
