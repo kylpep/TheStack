@@ -21,7 +21,7 @@ const tablesSchema = {
         includesEndTime: { type: "boolean", default: false },
     },
     draftedItems: {
-        parentId: { type: "number", default: -1 },
+        parentId: { type: "string"},
 
         title: { type: "string" },
         notes: { type: "string", default: "" },
@@ -30,12 +30,12 @@ const tablesSchema = {
         endTimeStamp: { type: "number" },
     },
     dayAssignment: {
-        itemId: { type: "number" },
+        itemId: { type: "string" },
         assignedDate: { type: "number" },
         focused: { type: "boolean" },
     },
     tagAssignment: {
-        itemId: { type: "number" },
+        itemId: { type: "string" },
         tag: { type: "string" },
     },
     tagStyle: {
@@ -68,7 +68,7 @@ export const boot = async () => {
   persister.startAutoSave();
 };
 export { itemTagRelationship, tbStore };
-export const { useLocalRowIds, useRow, useHasRow, useRowIds, Provider } = TinybaseWithSchemas;
+export const { useLocalRowIds, useRow, useHasRow, useRowIds, useValue, useCell, Provider } = TinybaseWithSchemas;
 
 
 

@@ -41,7 +41,7 @@ export function addItemToActive() {
     tags.forEach((tag) => {
         tbStore.addRow("tagAssignment", {
             tag: tag,
-            itemId: rowId,
+            itemId: String(rowId),
         });
     });
 }

@@ -1,4 +1,4 @@
-import { itemTagRelationship, tbStore, useLocalRowIds, useRow } from "@/db/tinybase";
+import { itemTagRelationship, tbStore, useCell, useLocalRowIds, useRow } from "@/db/tinybase";
 import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import DateText from "./item-dateText";
@@ -32,9 +32,12 @@ export default function ItemBox({ itemId }: itemBoxProps) {
 
     const itemStore = useRow("activeItems", itemId);
 
-    const tags = useLocalRowIds("itemTags", itemId, itemTagRelationship);
+    const tagRowIds = useLocalRowIds("itemTags", itemId, itemTagRelationship);
+    const tags = tagRowIds.map((rowId) => (useCell("tagAssignment",rowId,"tag")))
+
 
     function toggleCompletionState() {
+        tbStore.delRow("activeItems",itemId);
         setCompletionState(!completionState);
     }
 
