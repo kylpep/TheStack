@@ -5,10 +5,14 @@ import { Text } from "react-native";
 //since last launch, update a custom date string for the item
 //if needed.
 
-export default function ListItemTitleText(props: any) {
+type titleProps = {
+    title?: string;
+}
+
+export default function ListItemTitleText({ title }: titleProps) {
     return (
         <Text style={textStyles.listItemTitleText}>
-            {"Working Title"}
+            {title ?? "Untitled"}
         </Text>
     )
 }

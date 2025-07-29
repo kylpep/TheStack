@@ -1,6 +1,6 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
-import { ITEMS_WITH_END, ITEMS_WITH_START, ItemType } from "@/types/types";
-import tbStore from "./tinybase";
+import { ItemType } from "@/types/types";
+import { tbStore } from "./tinybase";
 
 export function addItemToActive() {
     const rowId = tbStore.getValue("nextId");
@@ -20,17 +20,9 @@ export function addItemToActive() {
     const notes = (rawNotes === "") ? undefined : rawNotes;
 
     let rawStart = addItemStore.start;
-    if (rawStart !== undefined && ITEMS_WITH_START.includes(itemType))
-        if (!includeStartTime)
-            rawStart = new Date(rawStart.getFullYear(), rawStart.getMonth(), rawStart.getDate());
-        else rawStart = undefined;
     const start = rawStart?.getTime();
 
     let rawEnd = addItemStore.end;
-    if (rawEnd !== undefined && ITEMS_WITH_END.includes(itemType))
-        if (!includeEndTime)
-            rawEnd = new Date(rawEnd.getFullYear(), rawEnd.getMonth(), rawEnd.getDate());
-        else rawStart = undefined;
     const end = rawEnd?.getTime();
 
 
@@ -42,6 +34,8 @@ export function addItemToActive() {
         endTimeStamp: end,
 
         parentId: parentId,
+        includesStartTime: includeStartTime,
+        includesEndTime: includeEndTime,
     })
 
     tags.forEach((tag) => {

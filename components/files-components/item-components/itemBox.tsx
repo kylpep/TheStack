@@ -1,3 +1,4 @@
+import { itemTagRelationship, tbStore, useLocalRowIds, useRow } from "@/db/tinybase";
 import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import DateText from "./item-dateText";
@@ -17,9 +18,21 @@ const params = {
     elementBorder: 0,
 }
 
+type itemBoxProps = {
+    itemId: string;
+}
+
 //Flexes out horizontally
-export default function ItemBox(props: any) {
+export default function ItemBox({ itemId }: itemBoxProps) {
     const [completionState, setCompletionState] = useState(false);
+
+    if(!tbStore.hasRow("activeItems", itemId)){
+        return null;
+    }
+
+    const itemStore = useRow("activeItems", itemId);
+
+    const tags = useLocalRowIds("itemTags", itemId, itemTagRelationship);
 
     function toggleCompletionState() {
         setCompletionState(!completionState);
@@ -32,10 +45,13 @@ export default function ItemBox(props: any) {
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
-                <TitleText />
-                <DateText />
-                <NotesText />
-                <TagText />
+                <TitleText title={itemStore.title} />
+                <DateText startDate={itemStore.startTimeStamp}
+                    includesStartTime={itemStore.includesStartTime}
+                    endDate={itemStore.endTimeStamp}
+                    includesEndTime={itemStore.includesEndTime} />
+                <NotesText notes={itemStore.notes}/>
+                <TagText tags={tags}/>
             </View>
             <Pressable style={[styles.checkbox, handleCheckboxColor()]} onPress={toggleCompletionState} />
         </View>

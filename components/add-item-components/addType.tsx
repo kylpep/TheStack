@@ -5,7 +5,7 @@ import { ITEMS_WITH_START, ItemType } from "@/types/types";
 import { StyleSheet, Text, View } from "react-native";
 import { RowButton } from "./button";
 
-const displayedTypeTextArray: string[] = ["anytime", "due by", "do at", "event", "flexable event", "soft event", "focused event"];
+const displayedTypeTextArray: string[] = ["Anytime", "Due by", "Do at", "Event", "Flexable Event", "Soft Event", "Focused Event"];
 
 export default function addTypeView() {
     const itemType = useAddItemStore(store => store.itemType);
@@ -16,7 +16,7 @@ export default function addTypeView() {
     const endIsDefined = useAddItemStore(store => store.end !== undefined);
     const setEnd = useAddItemStore(store => store.setEnd);
     const isFocused = useAddItemStore(state => state.focus === "itemType"); // updated selector
-    const selectedItemStyle = (itemType !== undefined) ? textStyles.addItemPlaceholderText : textStyles.addItemText;
+    const selectedItemStyle = (itemType === undefined) ? textStyles.addItemPlaceholderText : textStyles.addItemText;
     const toggleFocus = () => setFocus(isFocused ? "none" : "itemType");
 
     const selectType = (newType: ItemType) => {

@@ -1,3 +1,4 @@
+import { addItemToActive } from "@/db/tinybaseActions";
 import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { itemConsts } from "@/styles/styleConsts";
 import { StyleSheet, View } from "react-native";
@@ -13,7 +14,7 @@ export default function SubmissionButtons() {
                 <ButtonTwoLine text1="Save as Draft &" text2="Start New Item" onPress={() => { }} />
             </View>
             <View style={styles.buttonShelf}>
-                <ColButton text="Add to Stack" onPress={reset} />
+                <ColButton text="Add to Stack" onPress={() => {addItemToActive(); reset()}} />
                 <ButtonTwoLine text1="Add to Stack &" text2="Start New Item" onPress={() => { }} />
             </View>
         </View>

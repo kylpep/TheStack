@@ -1,30 +1,24 @@
 import { openDatabaseSync } from 'expo-sqlite';
 import { createExpoSqlitePersister } from 'tinybase/persisters/persister-expo-sqlite';
 import { Store } from 'tinybase/store';
-import { createStore } from 'tinybase/with-schemas';
+import type { WithSchemas } from 'tinybase/ui-react/with-schemas';
+import * as UiReact from 'tinybase/ui-react/with-schemas';
+import { createRelationships, createStore } from 'tinybase/with-schemas';
 
-const tbStore = createStore().setTablesSchema({
-    recentlyCompletedItems: {
-        parentId: { type: "number"},
-        itemType: { type: "number"},
-
-        title: { type: "string" },
-        
-        notes: { type: "string"},
-
-        startTimeStamp: { type: "number" },
-        endTimeStamp: { type: "number" },
-        completionTimeStamp: { type: "number" },
-    },
+//Define Schemas
+const tablesSchema = {
     activeItems: {
         parentId: { type: "string"},
         itemType: { type: "number"},
 
         title: { type: "string" },
         notes: { type: "string" },
-
         startTimeStamp: { type: "number" },
         endTimeStamp: { type: "number" },
+
+        completionTimeStamp: { type: "number" },
+        includesStartTime: { type: "boolean", default: false },
+        includesEndTime: { type: "boolean", default: false },
     },
     draftedItems: {
         parentId: { type: "number", default: -1 },
@@ -48,16 +42,33 @@ const tbStore = createStore().setTablesSchema({
         tag: { type: "string" },
         tagColor: { type: "string" },
     }
-}).setValuesSchema({
+} as const;
+
+const valuesSchema = {
     nextId: { type: "number", default: 1 },
-});
+} as const;
 
-const untypedStore = tbStore as unknown as Store;
+//Apply Typing
+const TinybaseWithSchemas = UiReact as unknown as WithSchemas<[typeof tablesSchema, typeof valuesSchema]>;
 
-const db = openDatabaseSync('active.db');
+//Create Store
+const tbStore = createStore().setTablesSchema(tablesSchema).setValuesSchema(valuesSchema);
+const itemTagRelationship = createRelationships(tbStore).setRelationshipDefinition(
+    "itemTags",
+    "tagAssignment",
+    "activeItems",
+    "itemId"
+);
 
-const persister = createExpoSqlitePersister(untypedStore, db, "tinybase_persister");
+export const boot = async () => {
+  const db = openDatabaseSync('active.db');
+  const persister = createExpoSqlitePersister(tbStore as unknown as Store, db, "tinybase_persister");
 
-await persister.startAutoPersisting();
+  await persister.load();
+  persister.startAutoSave();
+};
+export { itemTagRelationship, tbStore };
+export const { useLocalRowIds, useRow, useHasRow, useRowIds, Provider } = TinybaseWithSchemas;
 
-export default tbStore;
+
+

@@ -5,10 +5,15 @@ import { Text } from "react-native";
 //since last launch, update a custom date string for the item
 //if needed.
 
-export default function ListItemNotesText(props: any) {
+type notesProps = {
+    notes?: string;
+}
+
+export default function ListItemNotesText({ notes }: notesProps) {
     return (
+        notes &&
         <Text style={textStyles.listItemNotesText}>
-            {"Example notes"}
+            {notes}
         </Text>
     )
 }
