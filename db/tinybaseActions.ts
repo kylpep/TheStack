@@ -39,6 +39,10 @@ export function addItemToActive() {
     })
 
     tags.forEach((tag) => {
+        if(!tbStore.hasRow("tagStyle", tag)){
+            tbStore.setRow("tagStyle", tag, {tagColor: "normal"});
+        }
+
         tbStore.addRow("tagAssignment", {
             tag: tag,
             itemId: String(rowId),

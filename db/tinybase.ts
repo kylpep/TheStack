@@ -31,15 +31,15 @@ const tablesSchema = {
     },
     dayAssignment: {
         itemId: { type: "string" },
-        assignedDate: { type: "number" },
+        assignedTimeStamp: { type: "number" },
         focused: { type: "boolean" },
     },
     tagAssignment: {
         itemId: { type: "string" },
         tag: { type: "string" },
     },
+    //tag name is row id
     tagStyle: {
-        tag: { type: "string" },
         tagColor: { type: "string" },
     }
 } as const;
@@ -58,6 +58,13 @@ const itemTagRelationship = createRelationships(tbStore).setRelationshipDefiniti
     "tagAssignment",
     "activeItems",
     "itemId"
+);
+
+const tagStyleRelationship = createRelationships(tbStore).setRelationshipDefinition(
+    "tags",
+    "tagAssignment",
+    "tagStyle",
+    "tag",
 );
 
 export const boot = async () => {

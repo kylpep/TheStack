@@ -2,12 +2,15 @@ import textStyles from "@/styles/textStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 
+type folderProps = {
+    text?: string
+}
 
-export default function fileFolder(){
+export default function FileFolder({text}: folderProps){
     return(
     <View style={styles.container}>
         <Text style={textStyles.fileFolderText}>
-            {"Test Header!"}
+            {text??"noTag"}
         </Text>
         <Ionicons name="chevron-forward" color="#eeeeee" size={15}/> 
     </View>

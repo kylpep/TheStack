@@ -1,15 +1,7 @@
-import { Text, View } from "react-native";
+import TagsView from "@/components/tag-components/tags-view";
 
 export default function TaggedListScreen() {
     return (
-        <View style={{
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1
-        }}>
-            <Text>
-                Tagged List Screen
-            </Text>
-        </View>
+        <TagsView/>
     );
 }

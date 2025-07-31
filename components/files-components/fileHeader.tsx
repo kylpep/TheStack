@@ -1,12 +1,15 @@
 import textStyles from "@/styles/textStyles";
 import { StyleSheet, Text, View } from "react-native";
 
+type folderProps = {
+    text?: string
+}
 
-export default function folderHeader(){
+export default function folderHeader({text}: folderProps){
     return(
     <View style={styles.container}>
         <Text style={textStyles.fileHeaderText}>
-            {"Test!"}
+            {text??"Test!"}
         </Text>
     </View>
     )

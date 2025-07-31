@@ -1,3 +1,4 @@
+import { tbStore } from "@/db/tinybase";
 import { useRouter } from "expo-router";
 import { Button, Text, View } from "react-native";
 
@@ -13,7 +14,7 @@ export default function SettingsScreen() {
             <Text>
                 Settings Screen
             </Text>
-            <Button title="To loading screen" onPress={() => router.replace("/")}/>
+            <Button title="Reset Database" onPress={() => tbStore.delTables()}/>
         </View>
     )
 }
