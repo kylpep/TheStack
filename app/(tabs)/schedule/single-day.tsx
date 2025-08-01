@@ -1,7 +1,7 @@
 import { theme } from "@/styles/themes";
 import { Text, View } from "react-native";
 
-export default function TScheduleDayScreen() {
+export default function ScheduleDayScreen() {
     return (
         <View style={{
             backgroundColor: theme.backgroundColor,

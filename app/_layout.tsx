@@ -22,6 +22,7 @@ export default function RootLayout() {
     <TinybaseProvider store={tbStore} relationships={itemTagRelationship}>
       <SafeAreaView  style={{flex: 1, backgroundColor: theme.backgroundColor}}>
         <Stack screenOptions={{
+          
           headerShown: false,
           contentStyle: {
             backgroundColor: theme.backgroundColor
