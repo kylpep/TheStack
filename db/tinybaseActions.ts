@@ -2,9 +2,19 @@ import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { ItemType } from "@/types/types";
 import { tbStore } from "./tinybase";
 
-export function addItemToActive() {
+function getNextIdAndIncrement(){
     const rowId = tbStore.getValue("nextId");
     tbStore.setValue("nextId", rowId + 1);
+    return String(rowId);
+}
+
+export function deleteDBData(){
+    tbStore.delTables();
+    tbStore.delValues();
+}
+
+export function addItemToActive() {
+    const rowId = getNextIdAndIncrement();
 
     const addItemStore = useAddItemStore.getState();
     const { tags, parentId, includeStartTime, includeEndTime } = addItemStore;
@@ -26,7 +36,7 @@ export function addItemToActive() {
     const end = rawEnd?.getTime();
 
 
-    tbStore.setRow("activeItems", String(rowId), {
+    tbStore.setRow("activeItems",rowId, {
         title: title,
         notes: notes,
 
@@ -45,7 +55,22 @@ export function addItemToActive() {
 
         tbStore.addRow("tagAssignment", {
             tag: tag,
-            itemId: String(rowId),
+            itemId: rowId,
         });
     });
+}
+
+export function setTitle(rowId: string, newTitle: string){
+    if(tbStore.hasRow("activeItems", rowId))
+        tbStore.setCell("activeItems",rowId,"title", newTitle);
+}
+
+export function setNotes(rowId: string, newNotes: string){
+    if(tbStore.hasRow("activeItems", rowId))
+        tbStore.setCell("activeItems",rowId,"notes", newNotes);
+}
+
+export function addFolderToActive(folderName: string, parentId?: string){
+    const rowId = getNextIdAndIncrement();
+    tbStore.setRow("activeItems", rowId,{title: folderName, parentId: parentId, itemType: ItemType.Folder});
 }

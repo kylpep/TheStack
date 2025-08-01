@@ -1,9 +1,5 @@
 import { itemTagRelationship, tbStore, useCell, useLocalRowIds, useRow } from "@/db/tinybase";
 import { Pressable, StyleSheet, View } from "react-native";
-import DateText from "./item-dateText";
-import NotesText from "./item-notesText";
-import TagText from "./item-tagText";
-import TitleText from "./item-titleText";
 
 const params = {
     paddingHorizontal: 10,
@@ -40,13 +36,7 @@ export default function ItemBox({ itemId }: itemBoxProps) {
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
-                <TitleText title={itemStore.title} />
-                <DateText startDate={itemStore.startTimeStamp}
-                    includesStartTime={itemStore.includesStartTime}
-                    endDate={itemStore.endTimeStamp}
-                    includesEndTime={itemStore.includesEndTime} />
-                <NotesText notes={itemStore.notes}/>
-                <TagText tags={tags}/>
+
             </View>
             <Pressable style={[styles.checkbox, handleCheckboxColor()]}/>
         </View>

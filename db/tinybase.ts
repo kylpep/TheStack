@@ -3,7 +3,7 @@ import { createExpoSqlitePersister } from 'tinybase/persisters/persister-expo-sq
 import { Store } from 'tinybase/store';
 import type { WithSchemas } from 'tinybase/ui-react/with-schemas';
 import * as UiReact from 'tinybase/ui-react/with-schemas';
-import { createRelationships, createStore } from 'tinybase/with-schemas';
+import { createIndexes, createRelationships, createStore } from 'tinybase/with-schemas';
 
 //Define Schemas
 const tablesSchema = {
@@ -67,6 +67,15 @@ const tagStyleRelationship = createRelationships(tbStore).setRelationshipDefinit
     "tag",
 );
 
+const tbIndexes = createIndexes(tbStore).setIndexDefinition(
+    "parentIdIndex",
+    "activeItems",
+    (getCell) => {
+        const value = getCell("parentId");
+        return value??"undefined";
+    }
+);
+
 export const boot = async () => {
   const db = openDatabaseSync('active.db');
   const persister = createExpoSqlitePersister(tbStore as unknown as Store, db, "tinybase_persister");
@@ -74,8 +83,8 @@ export const boot = async () => {
   await persister.load();
   persister.startAutoSave();
 };
-export { itemTagRelationship, tbStore };
-export const { useLocalRowIds, useRow, useHasRow, useRowIds, useValue, useCell, Provider } = TinybaseWithSchemas;
+export { itemTagRelationship, tbIndexes, tbStore };
+export const { useLocalRowIds, useRow, useHasRow, useRowIds, useValue, useCell, Provider, useSliceRowIds} = TinybaseWithSchemas;
 
 
 

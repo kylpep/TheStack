@@ -36,7 +36,7 @@ export type AddItemFocus = "title"
 | "endTime" 
 | "none";
 
-export type activeItemData = {
+export type activeItemDisplayData = {
     parentId: number | undefined;
     itemType: ItemType | undefined;
     title: string | undefined;

@@ -1,10 +1,11 @@
 
-import { boot, itemTagRelationship, tbStore, Provider as TinybaseProvider } from "@/db/tinybase";
+import { boot, itemTagRelationship, tbIndexes, tbStore, Provider as TinybaseProvider } from "@/db/tinybase";
 import { theme } from "@/styles/themes";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function RootLayout() {
   const [ready, setReady] = useState(false);
@@ -19,32 +20,42 @@ export default function RootLayout() {
   if (!ready) return null;
 
   return (
-    <TinybaseProvider store={tbStore} relationships={itemTagRelationship}>
-      <SafeAreaView  style={{flex: 1, backgroundColor: theme.backgroundColor}}>
-        <Stack screenOptions={{
-          
-          headerShown: false,
-          contentStyle: {
-            backgroundColor: theme.backgroundColor
-          }
-        }}>
-          <Stack.Screen name="(tabs)" options={{
-            
-          }} />
-          <Stack.Screen name="search-screen"
-            options={{
-              title: 'Search',
-              headerBackTitle: 'Back',
-            }} />
-          <Stack.Screen name="settings-screen"
-            options={{
-              title: 'Settings',
-              headerBackTitle: 'Back',
-            }} />
-        </Stack>
+    <TinybaseProvider store={tbStore}
+      relationships={itemTagRelationship}
+      indexes={tbIndexes}
+      >
+      <GestureHandlerRootView>
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
+          <Stack screenOptions={{
+            contentStyle: {
+              backgroundColor: theme.backgroundColor
+            },
+            headerStyle: {
+              backgroundColor: theme.backgroundColor
 
-        <StatusBar style="light" />
-      </SafeAreaView>
+            },
+            headerTitleStyle: {
+              color: theme.primaryTextColor
+            }
+          }}>
+            <Stack.Screen name="(tabs)" options={{
+              headerShown: false,
+            }} />
+            <Stack.Screen name="search-screen"
+              options={{
+
+                title: 'Search',
+                headerBackTitle: 'Back',
+              }} />
+            <Stack.Screen name="settings-screen"
+              options={{
+                title: 'Settings',
+                headerBackTitle: 'Back',
+              }} />
+          </Stack>
+          <StatusBar style="light" />
+        </SafeAreaView>
+      </GestureHandlerRootView>
     </TinybaseProvider>
 
   )

@@ -1,13 +1,16 @@
 import ItemBox from "@/components/files-components/item-components/itemBox";
-import { useRow, useRowIds } from "@/db/tinybase";
+import { useCell, useSliceRowIds } from "@/db/tinybase";
+import { useStorageScreenState } from "@/states-zustand/storageScreenStates";
 import textStyles from "@/styles/textStyles";
-import { Text, View } from "react-native";
-import FileFolder from "./fileFolder";
-import FolderHeader from "./fileHeader";
+import { theme } from "@/styles/themes";
+import { Ionicons } from "@expo/vector-icons";
+import { Pressable, Text, View } from "react-native";
 
 export default function FilesView() {
-    const itemIds = useRowIds("activeItems");
-    const row = useRow("activeItems", "4");
+    const folderIdPath = useStorageScreenState(state => state.folderPath);
+    const parentId = folderIdPath[-1];
+    const itemIds = useSliceRowIds("parentIdIndex", parentId ?? "undefined");
+    const folderNamePath = folderIdPath.map((folderId) => useCell("activeItems", folderId, "title"));
 
     return (
         <View style={{
@@ -19,16 +22,33 @@ export default function FilesView() {
             backgroundColor: "#111111",
             rowGap: 10,
         }}>
-            <FileFolder />
-            <FolderHeader />
+            {parentId &&
+                <View style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                    {folderNamePath.slice(0, -1).map((folderName, index) =>
+                    (<>
+                        <Pressable key={index}>
+                            <Text style={textStyles.fileHeaderText}>
+                                {folderName}
+                            </Text>
+                        </Pressable>
+                        <Ionicons name="chevron-forward" color={theme.primaryTextColor} size={textStyles.fileHeaderText.fontSize} />
+                    </>)
+                    )}
+                    <Text style={textStyles.fileHeaderText}>
+                        {folderNamePath[-1]}
+                    </Text>
+                </View>
+            }
+
             <>
                 {itemIds.map((itemId, index) => (
                     <ItemBox itemId={itemId} key={index} />
                 ))}
             </>
-            <Text style={textStyles.fileHeaderText}>
-                {itemIds}
-            </Text>
         </View>
     )
 }
