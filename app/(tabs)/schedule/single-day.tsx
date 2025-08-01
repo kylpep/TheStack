@@ -1,17 +1,7 @@
-import { theme } from "@/styles/themes";
-import { Text, View } from "react-native";
+import SingleDaySchedule from "@/components/schedule-components/single-day-calendar";
 
 export default function ScheduleDayScreen() {
     return (
-        <View style={{
-            backgroundColor: theme.backgroundColor,
-            justifyContent: "center",
-            alignItems: "center",
-            flex:1,
-        }}>
-            <Text style={{color: theme.primaryTextColor}}>
-                Schedule Screen
-            </Text>
-        </View>
+        <SingleDaySchedule/>
     )
 }
