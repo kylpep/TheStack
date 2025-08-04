@@ -1,19 +1,22 @@
-import { useRowIds } from "@/db/tinybase";
+import { useStorageScreenState } from "@/states-zustand/storageScreenStates";
 import { theme } from "@/styles/themes";
 import { StyleSheet, View } from "react-native";
-import TagFolder from "./tag-folder";
+import NoTagSelectedList from "./no-tag-selected";
+import TagSelectedList from "./tag-selected";
 
 
 export default function TagsView() {
-    const tags = useRowIds("tagStyle")
+    const currentTag = useStorageScreenState(state => state.currentTag);
 
     return (
         <View style={styles.container}>
-            {tags.map((tag) => (
-                <TagFolder tagName={tag} key={tag}/>
-            ))}
+            {currentTag ?
+                <TagSelectedList currentTag={currentTag}/> :
+                <NoTagSelectedList />
+            }
         </View>
     )
+
 }
 
 const styles = StyleSheet.create({

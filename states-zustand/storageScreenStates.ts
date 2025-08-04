@@ -5,6 +5,10 @@ interface StorageScreenState {
     traverseIntoFolder: (folderId: string) => void
     escapeTo: (folderLevel: number) => void
     escapeToRoot: () => void
+
+    currentTag: string
+    setCurrentTag: (tag: string) => void
+    resetCurrentTag: () => void
 }
 
 export const useStorageScreenState = create<StorageScreenState>()((set, get) => ({
@@ -19,4 +23,7 @@ export const useStorageScreenState = create<StorageScreenState>()((set, get) => 
         set(state => ({
             folderPath: state.folderPath.slice(0, folderLevel + 1)
         })),
+    currentTag: "",
+    setCurrentTag: (tag) => set({currentTag: tag}),
+    resetCurrentTag: () => set({currentTag: ""})
 }))

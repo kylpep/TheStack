@@ -53,15 +53,13 @@ const TinybaseWithSchemas = UiReact as unknown as WithSchemas<[typeof tablesSche
 
 //Create Store
 const tbStore = createStore().setTablesSchema(tablesSchema).setValuesSchema(valuesSchema);
-const itemTagRelationship = createRelationships(tbStore).setRelationshipDefinition(
+const relationships = createRelationships(tbStore).setRelationshipDefinition(
     "itemTags",
     "tagAssignment",
     "activeItems",
     "itemId"
-);
-
-const tagStyleRelationship = createRelationships(tbStore).setRelationshipDefinition(
-    "tags",
+).setRelationshipDefinition(
+    "tagItems",
     "tagAssignment",
     "tagStyle",
     "tag",
@@ -74,6 +72,13 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
         const value = getCell("parentId");
         return value??"undefined";
     }
+).setIndexDefinition(
+   "tagItemIndex",
+   "tagAssignment",
+    (getCell) => {
+        const value = getCell("tag");
+        return value??"undefined";
+    }
 );
 
 export const boot = async () => {
@@ -83,7 +88,7 @@ export const boot = async () => {
   await persister.load();
   persister.startAutoSave();
 };
-export { itemTagRelationship, tbIndexes, tbStore };
+export { relationships, tbIndexes, tbStore };
 export const { useLocalRowIds, useTable, useRow, useHasRow, useRowIds, useValue, useCell, Provider, useSliceRowIds} = TinybaseWithSchemas;
 
 

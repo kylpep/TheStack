@@ -6,14 +6,15 @@ import { StyleSheet, Text } from "react-native";
 import { Pressable } from "react-native-gesture-handler";
 
 type folderProps = {
-    tagName: string
+    tagName: string,
+    selectTag: () => void,
 }
 
-export default function TagFolder({tagName}: folderProps){
+export default function TagFolder({tagName, selectTag}: folderProps){
     const tagColor = useCell("tagStyle",tagName,"tagColor")??theme.defaultTagColor;
 
     return(
-    <Pressable style={styles.container} onPress={() => {}}>
+    <Pressable style={styles.container} onPress={selectTag}>
         <Text style={textStyles.fileFolderText}>
             {tagName??"TagNotFound"}
         </Text>

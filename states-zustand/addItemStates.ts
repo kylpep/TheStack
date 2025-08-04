@@ -93,7 +93,7 @@ export const useAddItemStore = create<AddItemState>()((set, get) => ({
     parentId: undefined,
     setParentId: (newId) => set({ parentId: newId }),
 
-    includeStartTime: true,
+    includeStartTime: false,
     setIncludeStartTime: (includeTime) => set({includeStartTime: includeTime}),
 
     start: undefined,
@@ -101,7 +101,7 @@ export const useAddItemStore = create<AddItemState>()((set, get) => ({
         set({ start: newTimeStamp })
     },
 
-    includeEndTime: true,
+    includeEndTime: false,
     setIncludeEndTime: (includeTime) => set({includeEndTime: includeTime}),
 
     end: undefined,

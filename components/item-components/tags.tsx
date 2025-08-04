@@ -1,4 +1,4 @@
-import { itemTagRelationship, useLocalRowIds } from "@/db/tinybase";
+import { useLocalRowIds } from "@/db/tinybase";
 import { getTagColor, getTagName } from "@/db/tinybaseActions";
 import { styleConsts } from "@/styles/styleConsts";
 import { basicTextStyles } from "@/styles/textStyles";
@@ -13,7 +13,7 @@ type tagsProps = {
 }
 
 export default function ListItemTagText({ itemId }: tagsProps) {
-    const tagIds = useLocalRowIds("itemTags", itemId, itemTagRelationship);
+    const tagIds = useLocalRowIds("itemTags", itemId);
     const tags = tagIds.map((tagId) => getTagName(tagId));
     const tagColors = tags.map((tagName) => getTagColor(tagName));
 

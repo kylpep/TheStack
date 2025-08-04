@@ -1,7 +1,7 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { styleConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
-import { ITEMS_WITH_START, ItemType } from "@/types/types";
+import { ITEMS_WITH_END, ITEMS_WITH_START, ItemType } from "@/types/types";
 import { StyleSheet, Text, View } from "react-native";
 import { RowButton } from "./button";
 
@@ -21,7 +21,7 @@ export default function addTypeView() {
 
     const selectType = (newType: ItemType) => {
         if(ITEMS_WITH_START.includes(newType) && !startIsDefined) setStart(new Date());
-        if(ITEMS_WITH_START.includes(newType) && !endIsDefined) setEnd(new Date());
+        if(ITEMS_WITH_END.includes(newType) && !endIsDefined) setEnd(new Date());
         setItemType(newType);
     };
 

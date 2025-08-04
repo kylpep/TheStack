@@ -1,5 +1,5 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
-import { ItemType } from "@/types/types";
+import { ITEMS_WITH_END, ITEMS_WITH_START, ItemType } from "@/types/types";
 import { tbStore } from "./tinybase";
 
 function getNextIdAndIncrement() {
@@ -30,13 +30,10 @@ export function addItemToActive() {
     const notes = (rawNotes === "") ? undefined : rawNotes;
 
     let rawStart = addItemStore.start;
-    const start = rawStart?.getTime();
+    const start = ITEMS_WITH_START.includes(itemType) ? rawStart?.getTime() : undefined;
 
     let rawEnd = addItemStore.end;
-    const end = rawEnd?.getTime();
-
-
-
+    const end = ITEMS_WITH_END.includes(itemType) ? rawEnd?.getTime() : undefined;
 
     tbStore.setRow("activeItems", rowId, {
         title: title,
@@ -77,14 +74,16 @@ export function setActiveItemNotes(itemId: string, newNotes: string) {
 }
 
 export function getTagName(tagId: string) {
+    return tbStore.getCell("tagAssignment", tagId, "tag");
+}
 
-    return tbStore.getCell("tagAssignment", tagId, "tag")
-
+export function getActiveItemFromTagId(tagId: string) {
+    return tbStore.getCell("tagAssignment", tagId, "itemId");
 }
 
 export function getTagColor(tagName: string | undefined) {
     if (tagName)
-    return tbStore.getCell("tagStyle", tagName, "tagColor");
+        return tbStore.getCell("tagStyle", tagName, "tagColor");
 }
 
 export function addFolderToActive(folderName: string, parentId?: string) {

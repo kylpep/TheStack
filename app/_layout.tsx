@@ -1,5 +1,5 @@
 
-import { boot, itemTagRelationship, tbIndexes, tbStore, Provider as TinybaseProvider } from "@/db/tinybase";
+import { boot, relationships, tbIndexes, tbStore, Provider as TinybaseProvider } from "@/db/tinybase";
 import { theme } from "@/styles/themes";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -21,7 +21,7 @@ export default function RootLayout() {
 
   return (
     <TinybaseProvider store={tbStore}
-      relationships={itemTagRelationship}
+      relationships={relationships}
       indexes={tbIndexes}
     >
       <GestureHandlerRootView>

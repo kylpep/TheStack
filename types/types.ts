@@ -11,7 +11,7 @@ export enum ItemType {
 }
 
 export const ITEMS_WITH_START = [
-    ItemType.DueBy,
+    ItemType.DoAtOn,
     ItemType.Event,
     ItemType.FlexableEvent,
     ItemType.SoftEvent,
@@ -19,7 +19,7 @@ export const ITEMS_WITH_START = [
 ]
 
 export const ITEMS_WITH_END = [
-    ItemType.DoAtOn,
+    ItemType.DueBy,
     ItemType.Event,
     ItemType.FlexableEvent,
     ItemType.SoftEvent,

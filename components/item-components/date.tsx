@@ -38,9 +38,9 @@ export default function ListItemDateText({ itemId }: dateTextProps) {
 
     // Intro section
     if (startTimeStamp && !endTimeStamp) {
-        intro = "Due by ";
+        intro = hasStartTime ? "Do at ": "Do";
     } else if (endTimeStamp && !startTimeStamp) {
-        intro = hasEndTime ? "Do at " : "Do ";
+        intro = "Due by ";
     } else if (startTimeStamp && endTimeStamp && !hasStartTime && hasEndTime && sameDay) {
         intro = "SoD";
     }
@@ -93,7 +93,7 @@ export default function ListItemDateText({ itemId }: dateTextProps) {
     } else if (endTimeStamp && !startTimeStamp) {
         endTimeStr = hasEndTime
             ? (isTodayEnd ? "Today" : endStr)
-            : (isTodayEnd ? "Today" : ("on " + endStr));
+            : (isTodayEnd ? "EoD Today" : ("on " + endStr));
     }
 
     const dateString = `${intro}${startTimeStr}${middle}${endTimeStr}`.trim();
