@@ -14,8 +14,8 @@ export default function WeekSchedule() {
 const customTheme: DeepPartial<ThemeConfigs> = {
     colors: {
         background: theme.backgroundColor,
-        onBackground: theme.primaryTextColor,
-        border: theme.foregroundColor,
-        text: theme.primaryTextColor,
+        onBackground: theme.primaryColor,
+        border: theme.gridColor,
+        text: theme.primaryColor,
     }
 }

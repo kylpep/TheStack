@@ -35,7 +35,7 @@ export default function RootLayout() {
 
             },
             headerTitleStyle: {
-              color: theme.primaryTextColor
+              color: theme.primaryColor
             }
           }}>
             <Stack.Screen name="(tabs)" options={{

@@ -1,9 +1,26 @@
 import { StyleSheet } from "react-native";
-import { itemConsts } from "./styleConsts";
+import { styleConsts } from "./styleConsts";
+import { theme } from "./themes";
 
 const config = {
     textBaseSize: 15
 }
+
+export const basicTextStyles = StyleSheet.create({
+    header: {
+        color: theme.primaryColor,
+        fontSize: styleConsts.textBaseSize * 2,
+    },
+    placeholder: {
+        color: theme.secondaryColor,
+        fontSize: styleConsts.textBaseSize
+    },
+    body: { 
+        color:theme.primaryColor,
+        fontSize: styleConsts.textBaseSize
+    }
+})
+
 
 const textStyles = StyleSheet.create({
     listItemTitleText: {
@@ -37,7 +54,7 @@ const textStyles = StyleSheet.create({
     addItemText: {
         color: "#eeeeee",
         fontSize: config.textBaseSize + 5,
-        borderRadius: itemConsts.borderRadius,
+        borderRadius: styleConsts.borderRadius,
         justifyContent: "center",
         paddingHorizontal: 5,
         paddingVertical: 2,
@@ -46,6 +63,7 @@ const textStyles = StyleSheet.create({
         color: "#a7a7a7ff",
         fontSize: config.textBaseSize + 5,
     }
+
 })
 
 export default textStyles;

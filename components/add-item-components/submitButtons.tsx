@@ -1,6 +1,6 @@
 import { addItemToActive } from "@/db/tinybaseActions";
 import { useAddItemStore } from "@/states-zustand/addItemStates";
-import { itemConsts } from "@/styles/styleConsts";
+import { styleConsts } from "@/styles/styleConsts";
 import { StyleSheet, View } from "react-native";
 import { ButtonTwoLine, ColButton } from "./button";
 
@@ -25,16 +25,16 @@ export default function SubmissionButtons() {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        gap: itemConsts.gap,
+        gap: styleConsts.gap,
         alignSelf: "flex-end",
         borderTopWidth: 2,
         borderColor: "white",
-        padding: itemConsts.gap,
+        padding: styleConsts.gap,
     },
     buttonShelf: {
         flexDirection: "column",
         justifyContent: "space-evenly",
-        gap: itemConsts.gap,
+        gap: styleConsts.gap,
         flex: 1,
     },
 })

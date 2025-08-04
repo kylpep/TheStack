@@ -1,4 +1,4 @@
-import { itemConsts } from "@/styles/styleConsts";
+import { styleConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
 import { Pressable, StyleSheet, Text } from "react-native";
 
@@ -48,19 +48,19 @@ export function ButtonTwoLine({onPress, text1, text2}: ButtonTwoLineProps) {
 
 const styles = StyleSheet.create({
     rowContainer: {
-        borderRadius: itemConsts.borderRadius,
+        borderRadius: styleConsts.borderRadius,
         flex: 1,
         alignItems:"center",
         justifyContent:"center",
-        backgroundColor: itemConsts.focusedColor,
+        backgroundColor: styleConsts.focusedColor,
         paddingHorizontal: 5,
         paddingVertical: 2,
     },
     colContainer: {
-        borderRadius: itemConsts.borderRadius,
+        borderRadius: styleConsts.borderRadius,
         alignItems:"center",
         justifyContent:"center",
-        backgroundColor: itemConsts.focusedColor,
+        backgroundColor: styleConsts.focusedColor,
         paddingHorizontal: 5,
         paddingVertical: 2,
     },

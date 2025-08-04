@@ -1,6 +1,6 @@
 import Tag from "@/components/add-item-components/tag";
 import { useAddItemStore } from "@/states-zustand/addItemStates";
-import { itemConsts } from "@/styles/styleConsts";
+import { styleConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
 import { useRef } from 'react';
 import { StyleSheet, Text, TextInput, View } from "react-native";
@@ -16,7 +16,7 @@ export default function addTagsView() {
     const editTag = useAddItemStore(state => state.editTag);
     const setFocus  = useAddItemStore(state => state.setFocus);
     const isFocused = useAddItemStore(state => state.focus === "tags"); // updated selector
-    const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
+    const textInputBackgroundColor = { backgroundColor: isFocused ? styleConsts.focusedColor : styleConsts.backgroundColor };
 
     if (!isFocused) inputRef.current?.blur()
     else inputRef.current?.focus()

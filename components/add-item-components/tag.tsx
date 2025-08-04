@@ -1,4 +1,4 @@
-import { itemConsts } from "@/styles/styleConsts";
+import { styleConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
 import { Ionicons } from '@expo/vector-icons/';
 import { StyleSheet, Text, View } from "react-native";
@@ -34,12 +34,12 @@ export default function Tag({deletable = false, onDelete, editable = false, onEd
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: itemConsts.borderRadius,
+        borderRadius: styleConsts.borderRadius,
         justifyContent: "flex-start",
         flexShrink: 1,
         alignItems: "center",
         flexDirection: "row",
-        backgroundColor: itemConsts.focusedColor,
+        backgroundColor: styleConsts.focusedColor,
     },
     closeIcon: {
         

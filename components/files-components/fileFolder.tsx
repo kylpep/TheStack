@@ -1,19 +1,25 @@
+import { useCell } from "@/db/tinybase";
+import { useStorageScreenState } from "@/states-zustand/storageScreenStates";
 import textStyles from "@/styles/textStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import { Pressable } from "react-native-gesture-handler";
 
 type folderProps = {
-    text?: string
+    itemId: string
 }
 
-export default function FileFolder({text}: folderProps){
+export default function FileFolder({itemId}: folderProps){
+    const folderName = useCell("activeItems",itemId,"title");
+    const enterFolder = useStorageScreenState(state => state.traverseIntoFolder);
+
     return(
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={() => enterFolder(itemId)}>
         <Text style={textStyles.fileFolderText}>
-            {text??"noTag"}
+            {folderName??"Invalid Folder"}
         </Text>
         <Ionicons name="chevron-forward" color="#eeeeee" size={15}/> 
-    </View>
+    </Pressable>
     )
 }
 

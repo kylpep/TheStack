@@ -1,4 +1,4 @@
-import { itemConsts } from "@/styles/styleConsts";
+import { styleConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
 import { AddItemFocus } from "@/types/types";
 import { useRef } from 'react';
@@ -94,13 +94,13 @@ export default function CalendarSelecter({
                 </Text>
                 <View style={styles.inputContainer}>
                     {includeTime &&
-                        <Text style={[textStyles.addItemText, timeBackgroundColor(), { borderRadius: itemConsts.borderRadius }]} onPress={focusTime}>
+                        <Text style={[textStyles.addItemText, timeBackgroundColor(), { borderRadius: styleConsts.borderRadius }]} onPress={focusTime}>
                             {
                                 currentTimeStamp.toLocaleTimeString([], { timeStyle: "short" })
                             }
                         </Text>
                     }
-                    <Text style={[textStyles.addItemText, dateBackgroundColor(), { borderRadius: itemConsts.borderRadius }]} onPress={focusDate}>
+                    <Text style={[textStyles.addItemText, dateBackgroundColor(), { borderRadius: styleConsts.borderRadius }]} onPress={focusDate}>
                         {
                             currentTimeStamp.toDateString()
                         }
@@ -128,9 +128,9 @@ export default function CalendarSelecter({
                     use12Hours={true}
                     showOutsideDays={true}
                     style={{
-                        borderRadius: itemConsts.borderRadius * 2,
+                        borderRadius: styleConsts.borderRadius * 2,
                         paddingHorizontal: 5,
-                        backgroundColor: itemConsts.focusedColor,
+                        backgroundColor: styleConsts.focusedColor,
                     }}
                 />)}
 
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "stretch",
-        gap: itemConsts.gap,
+        gap: styleConsts.gap,
     },
     dateTimeContainer: {
         flexDirection: "row",
@@ -179,9 +179,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     calendar: {
-        borderRadius: itemConsts.borderRadius * 2,
+        borderRadius: styleConsts.borderRadius * 2,
         paddingHorizontal: 5,
-        backgroundColor: itemConsts.focusedColor,
+        backgroundColor: styleConsts.focusedColor,
     },
     timeSelect: {
         justifyContent: "center",

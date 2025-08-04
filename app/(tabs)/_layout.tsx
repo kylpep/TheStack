@@ -10,12 +10,12 @@ export default function TabLayout(props: any) {
             screenOptions={{
                 tabBarStyle: {
                     backgroundColor: theme.backgroundColor,
-                    borderColor: theme.unfocusedTabIconColor,
+                    borderColor: theme.secondaryColor,
                 },
                 animation: 'shift',
-                tabBarActiveTintColor: theme.primaryTextColor,
+                tabBarActiveTintColor: theme.primaryColor,
                 
-                tabBarInactiveTintColor: theme.unfocusedTabIconColor,
+                tabBarInactiveTintColor: theme.secondaryColor,
 
                 headerShown: false,
             }}

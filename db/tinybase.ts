@@ -84,7 +84,7 @@ export const boot = async () => {
   persister.startAutoSave();
 };
 export { itemTagRelationship, tbIndexes, tbStore };
-export const { useLocalRowIds, useRow, useHasRow, useRowIds, useValue, useCell, Provider, useSliceRowIds} = TinybaseWithSchemas;
+export const { useLocalRowIds, useTable, useRow, useHasRow, useRowIds, useValue, useCell, Provider, useSliceRowIds} = TinybaseWithSchemas;
 
 
 

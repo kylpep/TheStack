@@ -9,7 +9,7 @@ export default function ToDoDayScreen() {
             alignItems: "center",
             flex:1,
         }}>
-            <Text style={{color: theme.primaryTextColor}}>
+            <Text style={{color: theme.primaryColor}}>
                 Home To Do Screen
             </Text>
         </View>

@@ -1,5 +1,5 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
-import { itemConsts } from "@/styles/styleConsts";
+import { styleConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
 import { useRef } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
@@ -10,7 +10,7 @@ export default function addTitleView() {
     const setTitle = useAddItemStore(store => store.setTitle);
     const setFocus = useAddItemStore(store => store.setFocus);
     const isFocused = useAddItemStore(state => state.focus === "title"); // updated selector
-    const textInputBackgroundColor = { backgroundColor: isFocused ? itemConsts.focusedColor : itemConsts.backgroundColor };
+    const textInputBackgroundColor = { backgroundColor: isFocused ? styleConsts.focusedColor : styleConsts.backgroundColor };
 
     if (!isFocused) inputRef.current?.blur();
 
@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        columnGap: itemConsts.gap,
+        columnGap: styleConsts.gap,
     },
     input: {
-        borderRadius: itemConsts.borderRadius,
+        borderRadius: styleConsts.borderRadius,
         justifyContent: "center",
         flexShrink: 1,
         paddingHorizontal: 5,

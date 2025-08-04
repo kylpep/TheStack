@@ -1,0 +1,109 @@
+import { useCell } from "@/db/tinybase";
+import { basicTextStyles } from "@/styles/textStyles";
+import { Text } from "react-native";
+
+type dateTextProps = {
+    itemId: string
+}
+function formatTime(date: Date) {
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function formatDate(date: Date) {
+    return date.toDateString();
+}
+
+export default function ListItemDateText({ itemId }: dateTextProps) {
+    let intro = "";
+    let startTimeStr = "";
+    let middle = "";
+    let endTimeStr = "";
+
+    const startTimeStamp = useCell("activeItems", itemId, "startTimeStamp");
+    const hasStartTime = useCell("activeItems", itemId, "includesStartTime");
+
+    const endTimeStamp = useCell("activeItems", itemId, "endTimeStamp");
+    const hasEndTime = useCell("activeItems", itemId, "includesEndTime");
+
+
+    // Prepare date objects and strings
+    const startTimeStampObj = startTimeStamp ? new Date(startTimeStamp) : undefined;
+    const endTimeStampObj = endTimeStamp ? new Date(endTimeStamp) : undefined;
+    const todayStr = formatDate(new Date());
+    const startStr = startTimeStampObj ? formatDate(startTimeStampObj) : "";
+    const endStr = endTimeStampObj ? formatDate(endTimeStampObj) : "";
+    const sameDay = startTimeStampObj && endTimeStampObj && startStr === endStr;
+    const isTodayStart = startTimeStampObj && startStr === todayStr;
+    const isTodayEnd = endTimeStampObj && endStr === todayStr;
+
+    // Intro section
+    if (startTimeStamp && !endTimeStamp) {
+        intro = "Due by ";
+    } else if (endTimeStamp && !startTimeStamp) {
+        intro = hasEndTime ? "Do at " : "Do ";
+    } else if (startTimeStamp && endTimeStamp && !hasStartTime && hasEndTime && sameDay) {
+        intro = "SoD";
+    }
+
+    // Start time section
+    if (startTimeStamp) {
+        if (endTimeStamp) {
+            startTimeStr = hasStartTime ? formatTime(startTimeStampObj!) : "";
+        } else {
+            startTimeStr = hasStartTime ? formatTime(startTimeStampObj!) : "";
+        }
+    } else if (endTimeStamp && hasEndTime) {
+        startTimeStr = formatTime(endTimeStampObj!);
+    }
+
+    // Middle section
+    if (startTimeStamp && endTimeStamp) {
+        if (hasStartTime && hasEndTime) {
+            middle = sameDay ? " to " : ` ${isTodayStart ? "Today" : startStr} to `;
+        } else if (hasStartTime && !hasEndTime) {
+            middle = sameDay ? " to EoD " : ` ${isTodayStart ? "Today" : startStr} to `;
+        } else if (!hasStartTime && hasEndTime) {
+            middle = " to ";
+        } else {
+            middle = sameDay ? "" : " to ";
+        }
+    } else if ((startTimeStamp && !endTimeStamp && hasStartTime) || (endTimeStamp && !startTimeStamp && hasEndTime)) {
+        middle = " ";
+    }
+
+    // End time section
+    if (startTimeStamp && endTimeStamp) {
+        if (hasStartTime && hasEndTime) {
+            endTimeStr = sameDay
+                ? `${isTodayStart ? "Today" : startStr}`
+                : `${formatTime(endTimeStampObj!)} ${endStr}`;
+        } else if (hasStartTime && !hasEndTime) {
+            endTimeStr = sameDay
+                ? (isTodayStart ? "Today" : startStr)
+                : endStr;
+        } else if (!hasStartTime && hasEndTime) {
+            endTimeStr = `${formatTime(endTimeStampObj!)} ${isTodayEnd ? "Today" : endStr}`;
+        } else {
+            endTimeStr = sameDay ? "" : endStr;
+        }
+    } else if (startTimeStamp && !endTimeStamp) {
+        endTimeStr = hasStartTime
+            ? (isTodayStart ? "Today" : startStr)
+            : (isTodayStart ? "EoD Today" : startStr);
+    } else if (endTimeStamp && !startTimeStamp) {
+        endTimeStr = hasEndTime
+            ? (isTodayEnd ? "Today" : endStr)
+            : (isTodayEnd ? "Today" : ("on " + endStr));
+    }
+
+    const dateString = `${intro}${startTimeStr}${middle}${endTimeStr}`.trim();
+
+    return (
+        (startTimeStamp || endTimeStamp) &&
+        <Text style={basicTextStyles.body}>
+            {dateString}
+        </Text>
+    );
+}
+
+

@@ -1,5 +1,5 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
-import { itemConsts } from "@/styles/styleConsts";
+import { styleConsts } from "@/styles/styleConsts";
 import textStyles from "@/styles/textStyles";
 import { ITEMS_WITH_START, ItemType } from "@/types/types";
 import { StyleSheet, Text, View } from "react-native";
@@ -64,25 +64,25 @@ export default function addTypeView() {
 
 const styles = StyleSheet.create({
     container: {
-        gap: itemConsts.gap,
+        gap: styleConsts.gap,
     },
     topContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        gap: itemConsts.gap,
+        gap: styleConsts.gap,
     },
     buttonShelf: {
         flexDirection: "row",
         justifyContent: "space-evenly",
-        gap: itemConsts.gap,
+        gap: styleConsts.gap,
     },
     button: {
-        borderRadius: itemConsts.borderRadius,
+        borderRadius: styleConsts.borderRadius,
         flex: 1,
         alignItems:"center",
         justifyContent:"center",
-        backgroundColor: itemConsts.focusedColor,
+        backgroundColor: styleConsts.focusedColor,
         paddingHorizontal: 5,
         paddingVertical: 2,
     }

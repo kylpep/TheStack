@@ -10,7 +10,7 @@ function getNextIdAndIncrement(){
 
 export function deleteDBData(){
     tbStore.delTables();
-    tbStore.delValues();
+    tbStore.setValue("nextId", 1);
 }
 
 export function addItemToActive() {
@@ -60,12 +60,16 @@ export function addItemToActive() {
     });
 }
 
-export function setTitle(rowId: string, newTitle: string){
-    if(tbStore.hasRow("activeItems", rowId))
-        tbStore.setCell("activeItems",rowId,"title", newTitle);
+export function getFolderTitle(itemId: string){
+    return tbStore.getCell("activeItems",itemId,"title");
 }
 
-export function setNotes(rowId: string, newNotes: string){
+export function setActiveItemTitle(itemId: string, newTitle: string){
+    if(tbStore.hasRow("activeItems", itemId))
+        tbStore.setCell("activeItems",itemId, "title", newTitle);
+}
+
+export function setActiveItemNotes(rowId: string, newNotes: string){
     if(tbStore.hasRow("activeItems", rowId))
         tbStore.setCell("activeItems",rowId,"notes", newNotes);
 }

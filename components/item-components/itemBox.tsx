@@ -1,16 +1,15 @@
-import { itemTagRelationship, tbStore, useCell, useLocalRowIds, useRow } from "@/db/tinybase";
-import { Pressable, StyleSheet, View } from "react-native";
+import { tbStore, useCell } from "@/db/tinybase";
+import { ItemType } from "@/types/types";
+import { StyleSheet, View } from "react-native";
+import FileFolder from "../files-components/fileFolder";
+import DateText from "./date";
+import NotesText from "./notes";
+import TagText from "./tags";
+import TitleText from "./title";
 
 const params = {
     paddingHorizontal: 10,
     paddingVertical: 6,
-    textSize: 16,
-    checkboxSize: 22,
-    uncheckedColor: "#dcdcdcff",
-    checkedColor: "#98f49bff",
-    textColor: "#ffffff",
-    itemTitleText: "This is a sentence",
-    elementBorder: 0,
 }
 
 type itemBoxProps = {
@@ -19,26 +18,26 @@ type itemBoxProps = {
 
 //Flexes out horizontally
 export default function ItemBox({ itemId }: itemBoxProps) {
-    const itemStore = useRow("activeItems", itemId);
-    const tagRowIds = useLocalRowIds("itemTags", itemId, itemTagRelationship);
-    const tags = tagRowIds.map((rowId) => (useCell("tagAssignment",rowId,"tag")))
+    const isFolder = useCell("activeItems",itemId,"itemType") === ItemType.Folder;
 
     if(!tbStore.hasRow("activeItems", itemId)){
         return null;
     }
 
-    
-
-    function handleCheckboxColor() {
-        return { backgroundColor: params.checkedColor};
+    if(isFolder){
+        return(
+          <FileFolder itemId={itemId}/>  
+        )
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
-
+                <TitleText itemId={itemId}/>
+                <DateText itemId={itemId}/>
+                <NotesText itemId={itemId}/>
+                <TagText itemId={itemId}/>
             </View>
-            <Pressable style={[styles.checkbox, handleCheckboxColor()]}/>
         </View>
     )
 }
@@ -63,9 +62,4 @@ const styles = StyleSheet.create({
         columnGap: 5,
         flex: 1,
     },
-    checkbox: {
-        aspectRatio: 1,
-        height: params.checkboxSize,
-        borderRadius: (params.checkboxSize) / 2,
-    }
 });

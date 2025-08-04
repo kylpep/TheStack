@@ -15,9 +15,9 @@ export default function StorageBar(){
             padding: 15
         }}>
             <Pressable onPress={() => router.push("/settings-screen")}>
-                <Ionicons name="settings" color={theme.primaryTextColor} size={textStyles.fileHeaderText.fontSize}/>
+                <Ionicons name="settings" color={theme.primaryColor} size={textStyles.fileHeaderText.fontSize}/>
             </Pressable>
-            <Pressable onPress={() => router.navigate("/(tabs)/storage/files")}>
+            <Pressable onPress={() => router.navigate("/(tabs)/storage")}>
                 <Text style={textStyles.fileHeaderText}>
                     Files
                 </Text>
@@ -28,7 +28,7 @@ export default function StorageBar(){
                 </Text>
             </Pressable>
             <Pressable onPress={() => router.push("/settings-screen")}>
-                <Ionicons name="search" color={theme.primaryTextColor} size={textStyles.fileHeaderText.fontSize}/>
+                <Ionicons name="search" color={theme.primaryColor} size={textStyles.fileHeaderText.fontSize}/>
             </Pressable>
         </View>
     )
