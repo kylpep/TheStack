@@ -1,4 +1,5 @@
 import { tbStore, useCell } from "@/db/tinybase";
+import { theme } from "@/styles/themes";
 import { ItemType } from "@/types/types";
 import { StyleSheet, View } from "react-native";
 import FileFolder from "../files-components/fileFolder";
@@ -50,16 +51,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: params.paddingHorizontal,
         paddingVertical: params.paddingVertical,
         borderRadius: 9,
-        backgroundColor: "#333333",
+        backgroundColor: theme.gridColor,
         columnGap: 10,
     },
     textContainer: {
         justifyContent: "space-between",
         flexDirection: "row",
-        alignItems: "flex-start",
+        alignItems: "center",
         flexWrap: 'wrap',
         flexShrink: 1,
-        columnGap: 5,
+        gap: 5,
         flex: 1,
     },
 });

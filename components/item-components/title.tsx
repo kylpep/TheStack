@@ -30,15 +30,17 @@ export default function ListItemTitleText({ itemId }: titleProps) {
             value={text}
             onChangeText={setText}
             onSubmitEditing={() => setTitle(text.trim())}
+            submitBehavior="blurAndSubmit"
 
             multiline={true}
             scrollEnabled={false}
 
             placeholder={"Untitled"}
+            placeholderTextColor={basicTextStyles.title.color}
 
             style={[
                 styles.input,
-                basicTextStyles.body,
+                basicTextStyles.title,
             ]}
         />
     )
@@ -47,9 +49,7 @@ export default function ListItemTitleText({ itemId }: titleProps) {
 const styles = StyleSheet.create({
     input: {
         borderRadius: styleConsts.borderRadius,
-        justifyContent: "center",
         flexShrink: 1,
-        paddingHorizontal: 5,
-        paddingVertical: 2,
+        padding: 0,
     }
 });

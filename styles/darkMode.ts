@@ -3,5 +3,6 @@ export const darkMode ={
     gridColor: "#2a2a2a",
     secondaryColor: "#6e6e6eff",
     primaryColor: "#ffffff",
+    defaultTagColor: "#6e6e6e"
 }
 

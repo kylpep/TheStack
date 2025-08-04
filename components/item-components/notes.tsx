@@ -31,6 +31,7 @@ export default function ListItemNotesText({ itemId }: notesProps) {
             value={text}
             onChangeText={setText}
             onSubmitEditing={() => setNotes(text.trim())}
+            submitBehavior="blurAndSubmit"
 
             multiline={true}
             scrollEnabled={false}
@@ -46,9 +47,7 @@ export default function ListItemNotesText({ itemId }: notesProps) {
 const styles = StyleSheet.create({
     input: {
         borderRadius: styleConsts.borderRadius,
-        justifyContent: "center",
         flexShrink: 1,
-        paddingHorizontal: 5,
-        paddingVertical: 2,
+        padding: 0,
     }
 });

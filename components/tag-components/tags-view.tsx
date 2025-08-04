@@ -1,6 +1,7 @@
 import { useRowIds } from "@/db/tinybase";
+import { theme } from "@/styles/themes";
 import { StyleSheet, View } from "react-native";
-import FileFolder from "../files-components/fileFolder";
+import TagFolder from "./tag-folder";
 
 
 export default function TagsView() {
@@ -9,7 +10,7 @@ export default function TagsView() {
     return (
         <View style={styles.container}>
             {tags.map((tag) => (
-                <FileFolder text={tag} key={tag}/>
+                <TagFolder tagName={tag} key={tag}/>
             ))}
         </View>
     )
@@ -17,12 +18,12 @@ export default function TagsView() {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "stretch",
         flex: 1,
         flexDirection: 'column',
         padding: 10,
-        backgroundColor: "#111111",
+        backgroundColor: theme.backgroundColor,
         rowGap: 10,
     }
 })

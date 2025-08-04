@@ -23,7 +23,7 @@ export default function RootLayout() {
     <TinybaseProvider store={tbStore}
       relationships={itemTagRelationship}
       indexes={tbIndexes}
-      >
+    >
       <GestureHandlerRootView>
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
           <Stack screenOptions={{
@@ -38,12 +38,12 @@ export default function RootLayout() {
               color: theme.primaryColor
             }
           }}>
-            <Stack.Screen name="(tabs)" options={{
-              headerShown: false,
-            }} />
+            <Stack.Screen name="(tabs)"
+              options={{
+                headerShown: false,
+              }} />
             <Stack.Screen name="search-screen"
               options={{
-
                 title: 'Search',
                 headerBackTitle: 'Back',
               }} />
@@ -52,6 +52,12 @@ export default function RootLayout() {
                 title: 'Settings',
                 headerBackTitle: 'Back',
               }} />
+            <Stack.Screen name="add-item-screen"
+              options={{
+                headerShown: false,
+                presentation: "modal",
+              }}
+            />
           </Stack>
           <StatusBar style="light" />
         </SafeAreaView>

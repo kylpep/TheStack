@@ -11,9 +11,9 @@ export default function AddItemView() {
     return (
         <View style={{
             backgroundColor: "#111111",
-            flex: 1,
             justifyContent: "space-between",
-            
+            flex: 1,
+            flexShrink: 1,
         }}>
             <ScrollView
                 bounces={false}

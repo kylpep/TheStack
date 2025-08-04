@@ -1,7 +1,9 @@
-import { itemTagRelationship, useCell, useLocalRowIds } from "@/db/tinybase";
+import { itemTagRelationship, useLocalRowIds } from "@/db/tinybase";
+import { getTagColor, getTagName } from "@/db/tinybaseActions";
+import { styleConsts } from "@/styles/styleConsts";
 import { basicTextStyles } from "@/styles/textStyles";
 import { theme } from "@/styles/themes";
-import { Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 //Calculate instead at app startup, if the day has changed
 //since last launch, update a custom date string for the item
@@ -12,14 +14,15 @@ type tagsProps = {
 
 export default function ListItemTagText({ itemId }: tagsProps) {
     const tagIds = useLocalRowIds("itemTags", itemId, itemTagRelationship);
-    const tags = tagIds.map((tagId) => (useCell("tagAssignment", tagId, "tag")));
-    const tagColors = tagIds.map((tagId) => (useCell("tagStyle", tagId, "tagColor")));
+    const tags = tagIds.map((tagId) => getTagName(tagId));
+    const tagColors = tags.map((tagName) => getTagColor(tagName));
 
     return (
         <>{
             tags?.map((tag, index) => (
                 <Text style={[
                     basicTextStyles.body,
+                    styles.container,
                     { backgroundColor: tagColors[index]??theme.gridColor}
                 ]}
                     key={index}>
@@ -29,5 +32,15 @@ export default function ListItemTagText({ itemId }: tagsProps) {
         </>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        borderRadius: styleConsts.borderRadius,
+        flexShrink: 1,
+        padding: 2,
+        borderWidth: 1,
+        borderColor: theme.primaryColor,
+    }
+});
 
 

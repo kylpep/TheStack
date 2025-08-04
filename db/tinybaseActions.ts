@@ -2,13 +2,13 @@ import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { ItemType } from "@/types/types";
 import { tbStore } from "./tinybase";
 
-function getNextIdAndIncrement(){
+function getNextIdAndIncrement() {
     const rowId = tbStore.getValue("nextId");
     tbStore.setValue("nextId", rowId + 1);
     return String(rowId);
 }
 
-export function deleteDBData(){
+export function deleteDBData() {
     tbStore.delTables();
     tbStore.setValue("nextId", 1);
 }
@@ -36,7 +36,9 @@ export function addItemToActive() {
     const end = rawEnd?.getTime();
 
 
-    tbStore.setRow("activeItems",rowId, {
+
+
+    tbStore.setRow("activeItems", rowId, {
         title: title,
         notes: notes,
 
@@ -49,8 +51,8 @@ export function addItemToActive() {
     })
 
     tags.forEach((tag) => {
-        if(!tbStore.hasRow("tagStyle", tag)){
-            tbStore.setRow("tagStyle", tag, {tagColor: "normal"});
+        if (!tbStore.hasRow("tagStyle", tag)) {
+            tbStore.setRow("tagStyle", tag, { tagColor: "normal" });
         }
 
         tbStore.addRow("tagAssignment", {
@@ -60,21 +62,32 @@ export function addItemToActive() {
     });
 }
 
-export function getFolderTitle(itemId: string){
-    return tbStore.getCell("activeItems",itemId,"title");
+export function getFolderTitle(itemId: string) {
+    return tbStore.getCell("activeItems", itemId, "title");
 }
 
-export function setActiveItemTitle(itemId: string, newTitle: string){
-    if(tbStore.hasRow("activeItems", itemId))
-        tbStore.setCell("activeItems",itemId, "title", newTitle);
+export function setActiveItemTitle(itemId: string, newTitle: string) {
+    if (tbStore.hasRow("activeItems", itemId))
+        tbStore.setCell("activeItems", itemId, "title", newTitle);
 }
 
-export function setActiveItemNotes(rowId: string, newNotes: string){
-    if(tbStore.hasRow("activeItems", rowId))
-        tbStore.setCell("activeItems",rowId,"notes", newNotes);
+export function setActiveItemNotes(itemId: string, newNotes: string) {
+    if (tbStore.hasRow("activeItems", itemId))
+        tbStore.setCell("activeItems", itemId, "notes", newNotes);
 }
 
-export function addFolderToActive(folderName: string, parentId?: string){
+export function getTagName(tagId: string) {
+
+    return tbStore.getCell("tagAssignment", tagId, "tag")
+
+}
+
+export function getTagColor(tagName: string | undefined) {
+    if (tagName)
+    return tbStore.getCell("tagStyle", tagName, "tagColor");
+}
+
+export function addFolderToActive(folderName: string, parentId?: string) {
     const rowId = getNextIdAndIncrement();
-    tbStore.setRow("activeItems", rowId,{title: folderName, parentId: parentId, itemType: ItemType.Folder});
+    tbStore.setRow("activeItems", rowId, { title: folderName, parentId: parentId, itemType: ItemType.Folder });
 }
