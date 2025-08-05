@@ -5,9 +5,9 @@ import { basicTextStyles } from "@/styles/textStyles";
 import { theme } from "@/styles/themes";
 import { StyleSheet, Text } from "react-native";
 
-//Calculate instead at app startup, if the day has changed
-//since last launch, update a custom date string for the item
-//if needed.
+//TODO: make editable???
+//Make some way to remove tags?
+
 type tagsProps = {
     itemId: string;
 }

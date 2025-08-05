@@ -86,6 +86,12 @@ export function getTagColor(tagName: string | undefined) {
         return tbStore.getCell("tagStyle", tagName, "tagColor");
 }
 
+export function setCompletionForActiveItem(itemId: string, completionStatus: boolean){
+    completionStatus ?
+    tbStore.setCell("activeItems", itemId, "completionTimeStamp", Date.now()) :
+    tbStore.delCell("activeItems", itemId, "completionTimeStamp")
+}
+
 export function addFolderToActive(folderName: string, parentId?: string) {
     const rowId = getNextIdAndIncrement();
     tbStore.setRow("activeItems", rowId, { title: folderName, parentId: parentId, itemType: ItemType.Folder });

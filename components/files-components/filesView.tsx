@@ -1,24 +1,20 @@
 import ItemBox from "@/components/item-components/itemBox";
 import { useSliceRowIds } from "@/db/tinybase";
 import { getFolderTitle } from "@/db/tinybaseActions";
-import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { useStorageScreenState } from "@/states-zustand/storageScreenStates";
 import { basicTextStyles } from "@/styles/textStyles";
 import { theme } from "@/styles/themes";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import AddFolderButton from "./addFolder";
 
 export default function FilesView() {
     const folderIdPath = useStorageScreenState(state => state.folderPath);
-    const setAddItemParentId = useAddItemStore(state => state.setParentId);
     const escapeTo = useStorageScreenState(state => state.escapeTo);
     const escapeToRoot = useStorageScreenState(state => state.escapeToRoot);
     const parentId = folderIdPath[folderIdPath.length - 1];
     const itemIds = useSliceRowIds("parentIdIndex", parentId ?? "undefined");
     const folderNamePath = folderIdPath.map((folderId) => getFolderTitle(folderId));
-    const router = useRouter();
 
     return (
         <View style={{
@@ -72,13 +68,7 @@ export default function FilesView() {
                     <ItemBox itemId={itemId} key={index + "item"} />
                 ))}
             </>
-
             <AddFolderButton />
-            <Pressable onPress={() => {setAddItemParentId(parentId);router.push("/add-item-screen") }}>
-                <Text style={basicTextStyles.body}>
-                    Add Item
-                </Text>
-            </Pressable>
         </View>
 
     )

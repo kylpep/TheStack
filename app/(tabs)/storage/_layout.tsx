@@ -1,3 +1,4 @@
+import BottomButtons from "@/components/bottom-buttons";
 import StorageBar from "@/components/storageBar";
 import { theme } from "@/styles/themes";
 import { Slot } from "expo-router";
@@ -11,6 +12,7 @@ export default function Storage(){
         }}>
             <StorageBar/>
             <Slot/>
+            <BottomButtons/>
         </View>
     )
 }

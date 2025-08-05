@@ -6,9 +6,8 @@ import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
-//Calculate instead at app startup, if the day has changed
-//since last launch, update a custom date string for the item
-//if needed.
+//TODO: Rename component
+//Make so tapping outside of the keyboard does something, either dismiss or access other item or both
 
 type notesProps = {
     itemId: string;

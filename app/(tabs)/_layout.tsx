@@ -15,6 +15,7 @@ export default function TabLayout(props: any) {
                     tabBarStyle: {
                         backgroundColor: theme.backgroundColor,
                         borderColor: theme.secondaryColor,
+                        borderTopWidth: 2,
                     },
                     animation: 'shift',
                     tabBarActiveTintColor: theme.primaryColor,
@@ -30,7 +31,7 @@ export default function TabLayout(props: any) {
                     options={{
                         title: 'Files',
                         tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="add-circle" color={color} size={size} />
+                            <Ionicons name="file-tray-full" color={color} size={size} />
                         ),
                     }}
                 />
@@ -38,14 +39,14 @@ export default function TabLayout(props: any) {
                     name="(to-do)"
                     options={{
                         title: 'To-Do',
-                        tabBarIcon: ({ color, size }) => (<Ionicons name="timer" color={color} size={size} />),
+                        tabBarIcon: ({ color, size }) => (<Ionicons name="list" color={color} size={size} />),
                     }}
                 />
                 <Tabs.Screen
                     name="schedule"
                     options={{
                         title: 'Schedule',
-                        tabBarIcon: ({ color, size }) => (<Ionicons name="pricetags" color={color} size={size} />),
+                        tabBarIcon: ({ color, size }) => (<Ionicons name="calendar" color={color} size={size} />),
                     }}
                 />
             </Tabs>

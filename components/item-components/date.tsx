@@ -2,6 +2,14 @@ import { useCell } from "@/db/tinybase";
 import { basicTextStyles } from "@/styles/textStyles";
 import { Text } from "react-native";
 
+//TODO Rewrite date string construction by item type/ clean up current logic
+// Add Tommorrow & Yesterday
+// Add "This Fri"
+// Add "Next Fri"
+// Add year if year is not current year
+// Make into button that lets you edit the time stuff
+// Rename Component
+
 type dateTextProps = {
     itemId: string
 }
@@ -10,7 +18,15 @@ function formatTime(date: Date) {
 }
 
 function formatDate(date: Date) {
-    return date.toDateString();
+    return (
+        date.toLocaleDateString([], {
+            weekday: "short"
+        }) + " " +
+        date.toLocaleDateString([], {
+            month: "numeric",
+            day: "numeric",
+        })
+    );
 }
 
 export default function ListItemDateText({ itemId }: dateTextProps) {
@@ -33,12 +49,14 @@ export default function ListItemDateText({ itemId }: dateTextProps) {
     const startStr = startTimeStampObj ? formatDate(startTimeStampObj) : "";
     const endStr = endTimeStampObj ? formatDate(endTimeStampObj) : "";
     const sameDay = startTimeStampObj && endTimeStampObj && startStr === endStr;
+    const isStartThisYear = startTimeStampObj?.getFullYear() === new Date().getFullYear();
+    const isEndThisYear = endTimeStampObj?.getFullYear() === new Date().getFullYear();
     const isTodayStart = startTimeStampObj && startStr === todayStr;
     const isTodayEnd = endTimeStampObj && endStr === todayStr;
 
     // Intro section
     if (startTimeStamp && !endTimeStamp) {
-        intro = hasStartTime ? "Do at ": "Do";
+        intro = hasStartTime ? "Do at " : "Do ";
     } else if (endTimeStamp && !startTimeStamp) {
         intro = "Due by ";
     } else if (startTimeStamp && endTimeStamp && !hasStartTime && hasEndTime && sameDay) {
@@ -46,11 +64,11 @@ export default function ListItemDateText({ itemId }: dateTextProps) {
     }
 
     // Start time section
-    if (startTimeStamp) {
-        if (endTimeStamp) {
-            startTimeStr = hasStartTime ? formatTime(startTimeStampObj!) : "";
+    if (startTimeStampObj) {
+        if (endTimeStamp && sameDay) {
+            startTimeStr = hasStartTime ? formatTime(startTimeStampObj) : "";
         } else {
-            startTimeStr = hasStartTime ? formatTime(startTimeStampObj!) : "";
+            startTimeStr = hasStartTime ? formatTime(startTimeStampObj) : "";
         }
     } else if (endTimeStamp && hasEndTime) {
         startTimeStr = formatTime(endTimeStampObj!);
@@ -72,10 +90,11 @@ export default function ListItemDateText({ itemId }: dateTextProps) {
     }
 
     // End time section
-    if (startTimeStamp && endTimeStamp) {
+    if (startTimeStamp &&
+        endTimeStamp) {
         if (hasStartTime && hasEndTime) {
             endTimeStr = sameDay
-                ? `${isTodayStart ? "Today" : startStr}`
+                ? `${isTodayStart ? "Today" : endStr}`
                 : `${formatTime(endTimeStampObj!)} ${endStr}`;
         } else if (hasStartTime && !hasEndTime) {
             endTimeStr = sameDay
@@ -89,11 +108,11 @@ export default function ListItemDateText({ itemId }: dateTextProps) {
     } else if (startTimeStamp && !endTimeStamp) {
         endTimeStr = hasStartTime
             ? (isTodayStart ? "Today" : startStr)
-            : (isTodayStart ? "EoD Today" : startStr);
+            : (isTodayStart ? "Today" : ("on " + startStr));
     } else if (endTimeStamp && !startTimeStamp) {
         endTimeStr = hasEndTime
             ? (isTodayEnd ? "Today" : endStr)
-            : (isTodayEnd ? "EoD Today" : ("on " + endStr));
+            : (isTodayEnd ? "EoD Today" : endStr);
     }
 
     const dateString = `${intro}${startTimeStr}${middle}${endTimeStr}`.trim();

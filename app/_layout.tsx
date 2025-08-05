@@ -63,7 +63,5 @@ export default function RootLayout() {
         </SafeAreaView>
       </GestureHandlerRootView>
     </TinybaseProvider>
-
   )
-    ;
 }

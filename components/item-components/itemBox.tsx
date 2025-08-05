@@ -3,10 +3,22 @@ import { theme } from "@/styles/themes";
 import { ItemType } from "@/types/types";
 import { StyleSheet, View } from "react-native";
 import FileFolder from "../files-components/fileFolder";
+import CheckBox from "./check-box";
 import DateText from "./date";
 import NotesText from "./notes";
 import TagText from "./tags";
 import TitleText from "./title";
+
+//TODO: Change params to be from external theme/style
+//Add long press gesture
+//Add Context menu for long press gesture
+//Convert into a draggable component
+//Hide when complete - timer? end of day? on app reload?
+//Add repeatable event icon
+//Add lock for template events
+//Rename Component?
+
+
 
 const params = {
     paddingHorizontal: 10,
@@ -39,6 +51,7 @@ export default function ItemBox({ itemId }: itemBoxProps) {
                 <NotesText itemId={itemId}/>
                 <TagText itemId={itemId}/>
             </View>
+            <CheckBox itemId={itemId}/>
         </View>
     )
 }

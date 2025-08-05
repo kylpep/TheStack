@@ -4,6 +4,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 
+//TODO: Add background to current screen button
+//Add animation to screen selection button background
+//Make the text style based on the theme(basicTextStyles)
+//Change settings icon
+//Adjust text size and icon size
+
 export default function StorageBar(){
     const router = useRouter();
 
