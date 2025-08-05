@@ -58,6 +58,9 @@ export default function ItemBox({ itemId }: itemBoxProps) {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        alignSelf: "stretch",
+        width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
