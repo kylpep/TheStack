@@ -3,7 +3,7 @@ import { setActiveItemTitle } from "@/db/tinybaseActions";
 import { useStorageScreenState } from "@/states-zustand/storageScreenStates";
 import { basicTextStyles } from "@/styles/textStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { Pressable, Text, View } from "react-native";
 import CustomTextInput, { CustomTextInputHandle } from "../textInput";
 
@@ -29,14 +29,14 @@ export default function FileRouteHeader({ folderNamePath: folderNameRoute, paren
             alignItems: "center",
         }}>
             {/* File Route */}
-            <View key={"0"}style={{
+            <View style={{
                 flexDirection: "row",
                 justifyContent: "flex-start",
                 alignItems: "center",
                 flexWrap: "wrap"
             }}>
                 {/* Go back the root directory*/}
-                <Pressable onPress={escapeToRoot} key="root">
+                <Pressable onPress={escapeToRoot}>
                     <Text style={textStyle}>
                         {"Files"}
                     </Text>
@@ -44,22 +44,22 @@ export default function FileRouteHeader({ folderNamePath: folderNameRoute, paren
 
                 {/* Folders layers between current path and root directory
                     On press goes to pressed folder */}
-                {parentId && (folderNameRoute.map((folderName, index) => (<>
-                    <Ionicons name="chevron-forward" key={"c" + index}
+                {parentId && (folderNameRoute.map((folderName, index) => (<React.Fragment key="path">
+                    <Ionicons name="chevron-forward"
                         color={textStyle.color}
                         size={textStyle.fontSize}
                     />
-                    <Pressable onPress={() => escapeTo(index)} key={index}>
+                    <Pressable onPress={() => escapeTo(index)}>
                         <Text style={textStyle}>
                             {folderName}
                         </Text>
                     </Pressable>
-                </>))
+                </React.Fragment>))
                 )}
 
                 {/* Current folder, can be changed when edit button is pressed */}
                 {parentId && <>
-                    <Ionicons key={"c"} name="chevron-forward"
+                    <Ionicons name="chevron-forward"
                         color={textStyle.color}
                         size={textStyle.fontSize}
                     />
@@ -69,23 +69,22 @@ export default function FileRouteHeader({ folderNamePath: folderNameRoute, paren
                         setStorageValue={(text) => setActiveItemTitle(parentId, text)}
                         hasEditLock={true}
                         style={textStyle}
-                        key={"input"}
                     />
                 </>}
 
 
             </View>
-            <View key={"1"} style={{
+            <View style={{
                 flexDirection: "row",
                 gap: 10,
 
             }}>
                 {parentId &&
-                    <Pressable onPress={inputRef.current?.focus} key={"2"}>
+                    <Pressable onPress={() => inputRef.current?.focus()}>
                         <Ionicons name="pencil" color={textStyle.color} size={textStyle.fontSize} />
                     </Pressable>
                 }
-                <Pressable onPress={() => setAddFolder(true)} key={"3"}>
+                <Pressable onPress={() => setAddFolder(true)}>
                     <Ionicons name="add" color={textStyle.color} size={textStyle.fontSize} />
                 </Pressable>
             </View>

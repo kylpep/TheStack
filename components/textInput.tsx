@@ -4,8 +4,8 @@ import type { ColorValue, StyleProp, TextStyle } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
 export type CustomTextInputHandle = {
-    focus: (() => void) | undefined;
-    blur: (() => void) | undefined;
+    focus: (() => void);
+    blur: (() => void);
 }
 
 type textInputProps = {
@@ -79,9 +79,11 @@ const CustomTextInput = forwardRef<CustomTextInputHandle, textInputProps>(({
     textWrap = true,
     hasEditLock = false,
 }, ref) => {
+
+
     const referenceText = (storageHook?.() ?? "Error fetching stored data") as string;
     const [text, setText] = useState(referenceText);
-    const [isEditable, setIsEditable] = useState(hasEditLock);
+    const [isEditable, setIsEditable] = useState(false);
     const baseRef = useRef<TextInput>(null);
 
     const compoundEditable = hasEditLock ? isEditable : editable;
@@ -89,32 +91,39 @@ const CustomTextInput = forwardRef<CustomTextInputHandle, textInputProps>(({
     function submitText() {
         const submissionText = text.trim();
         if (submissionText) {
-            setStorageValue(submissionText),
-                setIsEditable(false);
+            setStorageValue(submissionText);
         }
         else setText(referenceText);
+        setIsEditable(false);
     }
 
     function compoundFocus() {
         if (hasEditLock)
             setIsEditable(true);
-        onFocus?.();
+        else baseRef.current?.focus();
     }
 
     function compoundBlur() {
+        baseRef.current?.blur();
         if (hasEditLock)
             setIsEditable(false);
         onBlur?.();
     }
 
     useImperativeHandle(ref, () => ({
-        focus: baseRef.current?.focus,
-        blur: baseRef.current?.blur,
+        focus: compoundFocus,
+        blur: compoundBlur,
     }));
 
     useEffect(() => {
         setText(referenceText);
-    },[referenceText]);
+    }, [referenceText]);
+
+    useEffect(() => {
+        if (hasEditLock && isEditable)
+            baseRef.current?.focus();
+    }, [isEditable]
+    )
 
     return (
         <TextInput
@@ -123,14 +132,14 @@ const CustomTextInput = forwardRef<CustomTextInputHandle, textInputProps>(({
             editable={compoundEditable}
             onChangeText={setText}
             onSubmitEditing={submitText}
-            onFocus={compoundFocus}
-            onBlur={compoundBlur}
-            style={[{padding: 0},style]}
+            onFocus={onFocus}
+            style={[{ padding: 0 }, style]}
             placeholder={placeholderText}
             placeholderTextColor={placeholderColor}
             multiline={textWrap}
             scrollEnabled={false}
             submitBehavior="blurAndSubmit"
+            pointerEvents={hasEditLock ? (compoundEditable ? "auto" : "none") : "auto"}
         />
     )
 });

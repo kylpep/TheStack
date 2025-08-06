@@ -21,7 +21,7 @@ export const useStorageScreenState = create<StorageScreenState>()((set, get) => 
 
     traverseIntoFolder: (folderId) => {
         set(state => ({
-            folderPath: [...state.folderPath, state.currentFolder],
+            folderPath: state.currentFolder?[...state.folderPath, state.currentFolder]:[],
             currentFolder: folderId
         }));
     },
