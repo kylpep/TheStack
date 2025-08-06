@@ -1,16 +1,13 @@
-import AddFolderButton from "@/components/files-components/addFolder";
+import AddFolderInput from "@/components/files-components/addFolder";
 import FileRouteHeader from "@/components/files-components/fileHeader";
 import FilesView from "@/components/files-components/filesView";
-import { useSliceRowIds } from "@/db/tinybase";
 import { getFolderTitle } from "@/db/tinybaseActions";
 import { useStorageScreenState } from "@/states-zustand/storageScreenStates";
 import { View } from "react-native";
 
 export default function filesScreen(){
     const folderIdPath = useStorageScreenState(state => state.folderPath);
-
-    const parentId = folderIdPath[folderIdPath.length - 1];
-    const itemIds = useSliceRowIds("parentIdIndex", parentId ?? "undefined");
+    const parentId = useStorageScreenState(state => state.currentFolder);
     const folderNamePath = folderIdPath.map((folderId) => getFolderTitle(folderId));
 
     return (
@@ -24,9 +21,10 @@ export default function filesScreen(){
             rowGap: 10,
 
         }}>
-            <FileRouteHeader folderNameRoute={folderNamePath} parentId={parentId}/>
-            <FilesView parentId={parentId}/>
-            <AddFolderButton />
+            <FileRouteHeader folderNamePath={folderNamePath} parentId={parentId} key={"header"}/>
+            <FilesView parentId={parentId} key={"body"}/>
+            <AddFolderInput key={"input"}/>
+            
         </View>
 
     )

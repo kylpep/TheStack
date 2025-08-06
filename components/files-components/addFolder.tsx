@@ -6,10 +6,11 @@ import { useState } from "react";
 import { StyleSheet } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
-export default function AddFolderButton() {
+export default function AddFolderInput() {
     const [text, setText] = useState("");
-
-    const parentId = useStorageScreenState(state => state.folderPath[state.folderPath.length - 1]);
+    const addFolder = useStorageScreenState(state => state.addFolder);
+    const setAddFolder = useStorageScreenState(state => state.setAddFolder);
+    const parentId = useStorageScreenState(state => state.currentFolder);
 
     function submitFolder(){
         const folderName = text.trim()
@@ -17,14 +18,16 @@ export default function AddFolderButton() {
             addFolderToActive(folderName, parentId);
             setText("");
         }
+        setAddFolder(false);
     }
 
     return (
+        addFolder &&
         <TextInput
             value={text}
             onChangeText={setText}
             onSubmitEditing={submitFolder}
-
+            autoFocus={true}
             placeholder="Add new folder"
             style={[
                 styles.input,

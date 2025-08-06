@@ -64,8 +64,8 @@ export function getFolderTitle(itemId: string) {
 }
 
 export function setActiveItemTitle(itemId: string, newTitle: string) {
-    if (tbStore.hasRow("activeItems", itemId))
-        tbStore.setCell("activeItems", itemId, "title", newTitle);
+    if (tbStore.hasRow("activeItems", itemId) && newTitle.trim())
+        tbStore.setCell("activeItems", itemId, "title", newTitle.trim());
 }
 
 export function setActiveItemNotes(itemId: string, newNotes: string) {
