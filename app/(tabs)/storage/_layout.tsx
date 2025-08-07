@@ -1,5 +1,3 @@
-import BottomButtons from "@/components/bottom-buttons";
-import StorageBar from "@/components/storageBar";
 import { theme } from "@/styles/themes";
 import { Slot } from "expo-router";
 import { View } from "react-native";
@@ -9,10 +7,9 @@ export default function Storage(){
         <View style={{
             flex: 1,
             backgroundColor: theme.backgroundColor,
+            paddingHorizontal: 5,
         }}>
-            <StorageBar/>
             <Slot/>
-            <BottomButtons/>
         </View>
     )
 }

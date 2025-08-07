@@ -5,7 +5,7 @@ import { basicTextStyles } from "@/styles/textStyles";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import { Pressable, Text, View } from "react-native";
-import CustomTextInput, { CustomTextInputHandle } from "../textInput";
+import CustomTextInput, { CustomTextInputHandle } from "../customTextInput";
 
 type FileRouteHeaderProps = {
     folderNamePath: (string | undefined)[],
@@ -21,12 +21,12 @@ export default function FileRouteHeader({ folderNamePath: folderNameRoute, paren
 
     const textStyle = basicTextStyles.title;
 
-
     return (
         <View style={{
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            paddingHorizontal: 10,
         }}>
             {/* File Route */}
             <View style={{
@@ -79,11 +79,13 @@ export default function FileRouteHeader({ folderNamePath: folderNameRoute, paren
                 gap: 10,
 
             }}>
+                {/* Button to edit the name of the current folder */}
                 {parentId &&
                     <Pressable onPress={() => inputRef.current?.focus()}>
                         <Ionicons name="pencil" color={textStyle.color} size={textStyle.fontSize} />
                     </Pressable>
                 }
+                {/* Button to add a folder under the current folder */}
                 <Pressable onPress={() => setAddFolder(true)}>
                     <Ionicons name="add" color={textStyle.color} size={textStyle.fontSize} />
                 </Pressable>

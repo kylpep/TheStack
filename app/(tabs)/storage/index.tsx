@@ -1,5 +1,5 @@
 import AddFolderInput from "@/components/files-components/addFolder";
-import FileRouteHeader from "@/components/files-components/fileHeader";
+import FileRouteHeader from "@/components/files-components/fileRouteHeader";
 import FilesView from "@/components/files-components/filesView";
 import { getFolderTitle } from "@/db/tinybaseActions";
 import { useStorageScreenState } from "@/states-zustand/storageScreenStates";
@@ -16,8 +16,6 @@ export default function filesScreen(){
             alignItems: "stretch",
             flex: 1,
             flexDirection: 'column',
-            padding: 10,
-            backgroundColor: "#111111",
             rowGap: 10,
 
         }}>

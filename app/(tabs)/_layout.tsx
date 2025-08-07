@@ -1,22 +1,36 @@
+import BottomButtons from '@/components/bottom-buttons';
+import TopBar from '@/components/top-bar';
 import { theme } from '@/styles/themes';
 import { Ionicons } from '@expo/vector-icons/';
+import { BottomTabBar } from '@react-navigation/bottom-tabs';
 import { Tabs, useRouter } from 'expo-router';
+import { useState } from 'react';
 import { View } from 'react-native';
 
 export default function TabLayout(props: any) {
     const router = useRouter();
+    const [tabBarHeight, setTabBarHeight] = useState(0);
+
 
     return (
         <View style={{
             flex: 1
         }}>
+            <TopBar />
             <Tabs
+                tabBar={(props) => (
+                    <View onLayout={(e) => setTabBarHeight(e.nativeEvent.layout.height)}>
+                        <BottomTabBar {...props} />
+                    </View>
+                )}
                 screenOptions={{
+
                     tabBarStyle: {
                         backgroundColor: theme.backgroundColor,
                         borderColor: theme.secondaryColor,
                         borderTopWidth: 2,
                     },
+
                     animation: 'shift',
                     tabBarActiveTintColor: theme.primaryColor,
 
@@ -50,6 +64,7 @@ export default function TabLayout(props: any) {
                     }}
                 />
             </Tabs>
+            <BottomButtons tabBarHeight={tabBarHeight} />
         </View>
     );
 }

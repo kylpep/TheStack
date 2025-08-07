@@ -11,6 +11,10 @@ export const basicTextStyles = StyleSheet.create({
         color: theme.primaryColor,
         fontSize: styleConsts.textBaseSize * 2,
     },
+    subHeader: {
+        color: theme.primaryColor,
+        fontSize: styleConsts.textBaseSize + 5,
+    },
     title: {
         color: theme.primaryColor,
         fontSize: styleConsts.textBaseSize + 5,

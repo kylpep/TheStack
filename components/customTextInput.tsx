@@ -1,8 +1,14 @@
+/**
+ * Custom text input that simplifies text input implementation in the app
+ */
 
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import type { ColorValue, StyleProp, TextStyle } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
+/**
+ * Reference type for CustomTextInput methods
+ */
 export type CustomTextInputHandle = {
     focus: (() => void);
     blur: (() => void);
@@ -56,7 +62,9 @@ type textInputProps = {
      * React hook that uses a value from storage
      * @returns A string or undefined value
      */
-    storageHook: () => any
+    storageHook?: () => any
+
+    defaultText?: string
 
     /** Styles */
     style?: StyleProp<TextStyle>
@@ -65,13 +73,23 @@ type textInputProps = {
      * The default value is false
      */
     textWrap?: boolean
+
+    autofocus?: boolean
+
+    onSubmit?: () => void
 }
 
+/**
+ * Custom text input that simplifies text input implementation in the app
+ */
 const CustomTextInput = forwardRef<CustomTextInputHandle, textInputProps>(({
     storageHook,
     setStorageValue,
     onFocus,
     onBlur,
+    onSubmit,
+    defaultText,
+    autofocus = false,
     editable = true,
     style,
     placeholderText,
@@ -80,12 +98,12 @@ const CustomTextInput = forwardRef<CustomTextInputHandle, textInputProps>(({
     hasEditLock = false,
 }, ref) => {
 
-
-    const referenceText = (storageHook?.() ?? "Error fetching stored data") as string;
+    const referenceText = (storageHook?.() ?? defaultText ?? "Error fetching stored data") as string;
     const [text, setText] = useState(referenceText);
     const [isEditable, setIsEditable] = useState(false);
     const baseRef = useRef<TextInput>(null);
 
+    //Use internal editable var if edit lock is on
     const compoundEditable = hasEditLock ? isEditable : editable;
 
     function submitText() {
@@ -94,6 +112,7 @@ const CustomTextInput = forwardRef<CustomTextInputHandle, textInputProps>(({
             setStorageValue(submissionText);
         }
         else setText(referenceText);
+        onSubmit?.();
         setIsEditable(false);
     }
 
@@ -104,10 +123,11 @@ const CustomTextInput = forwardRef<CustomTextInputHandle, textInputProps>(({
     }
 
     function compoundBlur() {
+        onBlur?.();
         baseRef.current?.blur();
         if (hasEditLock)
             setIsEditable(false);
-        onBlur?.();
+        
     }
 
     useImperativeHandle(ref, () => ({
@@ -115,10 +135,12 @@ const CustomTextInput = forwardRef<CustomTextInputHandle, textInputProps>(({
         blur: compoundBlur,
     }));
 
+    //Updates when reference text changes from outside source
     useEffect(() => {
         setText(referenceText);
     }, [referenceText]);
 
+    //Ensures the text box is editable before claiming focus
     useEffect(() => {
         if (hasEditLock && isEditable)
             baseRef.current?.focus();
@@ -133,6 +155,7 @@ const CustomTextInput = forwardRef<CustomTextInputHandle, textInputProps>(({
             onChangeText={setText}
             onSubmitEditing={submitText}
             onFocus={onFocus}
+            autoFocus={autofocus}
             style={[{ padding: 0 }, style]}
             placeholder={placeholderText}
             placeholderTextColor={placeholderColor}
