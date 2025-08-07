@@ -1,5 +1,6 @@
 import { addItemToActive } from "@/db/tinybaseActions";
 import { useAddItemStore } from "@/states-zustand/addItemStates";
+import { useStorageScreenState } from "@/states-zustand/storageScreenStates";
 import { styleConsts } from "@/styles/styleConsts";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
@@ -7,6 +8,7 @@ import { ButtonTwoLine, ColButton } from "./button";
 
 export default function SubmissionButtons() {
     const reset = useAddItemStore(store => store.reset);
+    const currentFolder = useStorageScreenState(store => store.currentFolder)??"undefined";
     const router = useRouter();
 
     return (
@@ -16,7 +18,11 @@ export default function SubmissionButtons() {
                 <ButtonTwoLine text1="Save as Draft &" text2="Start New Item" onPress={() => { }} />
             </View>
             <View style={styles.buttonShelf}>
-                <ColButton text="Add to Stack" onPress={() => {addItemToActive(); reset(); router.navigate}} />
+                <ColButton text="Add to Stack" onPress={() => {
+                    addItemToActive(); // pass the correct parentId here
+                    reset();
+                    router.dismiss();
+                }} />
                 <ButtonTwoLine text1="Add to Stack &" text2="Start New Item" onPress={() => { addItemToActive(); reset(); }} />
             </View>
         </View>

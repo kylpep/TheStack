@@ -19,8 +19,9 @@ export default function filesScreen(){
             rowGap: 10,
         }}>
             <FileRouteHeader folderNamePath={folderNamePath} parentId={parentId} key={"header"}/>
-            <FilesView parentId={parentId} key={"body"}/>
             <AddFolderInput key={"input"}/>
+            <FilesView parentId={parentId} key={"body"}/>
+            
             
         </View>
 

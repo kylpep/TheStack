@@ -24,6 +24,7 @@ export const useStorageScreenState = create<StorageScreenState>()((set, get) => 
             folderPath: state.currentFolder?[...state.folderPath, state.currentFolder]:[],
             currentFolder: folderId
         }));
+        
     },
 
     escapeToRoot: () => set(({ folderPath: [], currentFolder: undefined})),

@@ -12,7 +12,7 @@ type bottomButtonsProps = {
 
 export default function BottomButtons({ tabBarHeight }: bottomButtonsProps) {
     const setAddItemParentId = useAddItemStore(state => state.setParentId);
-    const parentId = useStorageScreenState(state => state.folderPath[state.folderPath.length - 1]);
+    const parentId = useStorageScreenState(state => state.currentFolder);
     const router = useRouter();
 
     return (

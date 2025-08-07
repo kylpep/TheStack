@@ -1,6 +1,6 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { ITEMS_WITH_END, ITEMS_WITH_START, ItemType } from "@/types/types";
-import { tbStore } from "./tinybase";
+import { tbIndexes, tbStore } from "./tinybase";
 
 function getNextIdAndIncrement() {
     const rowId = tbStore.getValue("nextId");
@@ -14,10 +14,13 @@ export function deleteDBData() {
 }
 
 export function addItemToActive() {
+    const addItemStore = useAddItemStore.getState();
+
     const rowId = getNextIdAndIncrement();
 
-    const addItemStore = useAddItemStore.getState();
-    const { tags, parentId, includeStartTime, includeEndTime } = addItemStore;
+    const { tags, includeStartTime, includeEndTime, parentId } = addItemStore;
+
+    const orderId = tbIndexes.getSliceRowIds("parentIdIndex", parentId ?? "undefined").length;
 
     let itemType = addItemStore.itemType;
     if (itemType === undefined)
@@ -41,6 +44,8 @@ export function addItemToActive() {
 
         startTimeStamp: start,
         endTimeStamp: end,
+
+        orderId: orderId,
 
         parentId: parentId,
         includesStartTime: includeStartTime,
@@ -86,13 +91,14 @@ export function getTagColor(tagName: string | undefined) {
         return tbStore.getCell("tagStyle", tagName, "tagColor");
 }
 
-export function setCompletionForActiveItem(itemId: string, completionStatus: boolean){
+export function setCompletionForActiveItem(itemId: string, completionStatus: boolean) {
     completionStatus ?
-    tbStore.setCell("activeItems", itemId, "completionTimeStamp", Date.now()) :
-    tbStore.delCell("activeItems", itemId, "completionTimeStamp")
+        tbStore.setCell("activeItems", itemId, "completionTimeStamp", Date.now()) :
+        tbStore.delCell("activeItems", itemId, "completionTimeStamp")
 }
 
 export function addFolderToActive(folderName: string, parentId?: string) {
     const rowId = getNextIdAndIncrement();
-    tbStore.setRow("activeItems", rowId, { title: folderName, parentId: parentId, itemType: ItemType.Folder });
+    const orderId = tbIndexes.getSliceRowIds("parentIdIndex", parentId ?? "undefined").length;
+    tbStore.setRow("activeItems", rowId, { title: folderName, parentId: parentId, orderId: orderId, itemType: ItemType.Folder });
 }

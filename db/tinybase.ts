@@ -19,6 +19,7 @@ const tablesSchema = {
         completionTimeStamp: { type: "number" },
         includesStartTime: { type: "boolean", default: false },
         includesEndTime: { type: "boolean", default: false },
+        orderId: {type: "number"}
     },
     draftedItems: {
         parentId: { type: "string" },
