@@ -5,6 +5,7 @@ import textStyles from "@/styles/textStyles";
 import { useRef } from 'react';
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
+//TODO: Make a way to pick from current tags
 
 export default function addTagsView() {
     const inputRef = useRef<TextInput>(null);

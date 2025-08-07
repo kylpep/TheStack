@@ -9,13 +9,13 @@ import CustomTextInput, { CustomTextInputHandle } from "../customTextInput";
 
 type FileRouteHeaderProps = {
     folderNamePath: (string | undefined)[],
-    parentId: string,
+    parentId: string | undefined,
 }
 
 export default function FileRouteHeader({ folderNamePath: folderNameRoute, parentId }: FileRouteHeaderProps) {
     const escapeTo = useStorageScreenState(state => state.escapeTo);
     const escapeToRoot = useStorageScreenState(state => state.escapeToRoot);
-    const useFolderName = () => (useCell("activeItems", parentId, "title"));
+    const useFolderName = () => (useCell("activeItems", parentId??"", "title")??"");
     const setAddFolder = useStorageScreenState(state => state.setAddFolder);
     const inputRef = useRef<CustomTextInputHandle>(null);
 

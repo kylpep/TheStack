@@ -28,7 +28,7 @@ export default function StorageBar() {
     const router = useRouter();
 
     //Use screen width to size the picker, because gap cannot be created with flexbox
-    const dynamicMargin = screenWidth * 0.1;
+    const dynamicMargin = screenWidth * 0.15;
 
     // Shared-values for highlight pos and width
     const x = useSharedValue(0);
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "center",
         borderRadius: borderRadius,
+        padding: 10,
         borderWidth: 0,
         borderColor: theme.itemBackgroundColor,
         paddingHorizontal: textHorizontalPadding,

@@ -1,11 +1,13 @@
 import { addItemToActive } from "@/db/tinybaseActions";
 import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { styleConsts } from "@/styles/styleConsts";
+import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { ButtonTwoLine, ColButton } from "./button";
 
 export default function SubmissionButtons() {
     const reset = useAddItemStore(store => store.reset);
+    const router = useRouter();
 
     return (
         <View style={styles.container}>
@@ -14,8 +16,8 @@ export default function SubmissionButtons() {
                 <ButtonTwoLine text1="Save as Draft &" text2="Start New Item" onPress={() => { }} />
             </View>
             <View style={styles.buttonShelf}>
-                <ColButton text="Add to Stack" onPress={() => {addItemToActive(); reset()}} />
-                <ButtonTwoLine text1="Add to Stack &" text2="Start New Item" onPress={() => { }} />
+                <ColButton text="Add to Stack" onPress={() => {addItemToActive(); reset(); router.navigate}} />
+                <ButtonTwoLine text1="Add to Stack &" text2="Start New Item" onPress={() => { addItemToActive(); reset(); }} />
             </View>
         </View>
     )

@@ -3,6 +3,7 @@ import AddStartTimeStamp from "@/components/add-item-components/addStartTimeStam
 import AddTags from "@/components/add-item-components/addTags";
 import AddTitle from "@/components/add-item-components/addTitle";
 import AddType from "@/components/add-item-components/addType";
+import { theme } from "@/styles/themes";
 import { ScrollView, View } from "react-native";
 import AddEndTimeStamp from "./addEndTimeStamp";
 import SubmissionButtons from "./submitButtons";
@@ -10,7 +11,7 @@ import SubmissionButtons from "./submitButtons";
 export default function AddItemView() {
     return (
         <View style={{
-            backgroundColor: "#111111",
+            backgroundColor: theme.backgroundColor,
             justifyContent: "space-between",
             flex: 1,
             flexShrink: 1,

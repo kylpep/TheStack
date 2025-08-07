@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface StorageScreenState {
     folderPath: string[]
-    currentFolder: string
+    currentFolder: string | undefined
     traverseIntoFolder: (folderId: string) => void
     escapeTo: (folderLevel: number) => void
     escapeToRoot: () => void
@@ -17,7 +17,7 @@ interface StorageScreenState {
 
 export const useStorageScreenState = create<StorageScreenState>()((set, get) => ({
     folderPath: [],
-    currentFolder: "",
+    currentFolder: undefined,
 
     traverseIntoFolder: (folderId) => {
         set(state => ({
@@ -26,7 +26,7 @@ export const useStorageScreenState = create<StorageScreenState>()((set, get) => 
         }));
     },
 
-    escapeToRoot: () => set(({ folderPath: [], currentFolder: "" })),
+    escapeToRoot: () => set(({ folderPath: [], currentFolder: undefined})),
 
     escapeTo: (folderLevel) =>
         set(state => ({

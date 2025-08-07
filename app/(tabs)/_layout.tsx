@@ -14,7 +14,8 @@ export default function TabLayout(props: any) {
 
     return (
         <View style={{
-            flex: 1
+            flex: 1,
+            alignItems: "stretch"
         }}>
             <TopBar />
             <Tabs

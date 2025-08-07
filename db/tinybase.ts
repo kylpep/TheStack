@@ -8,8 +8,8 @@ import { createIndexes, createRelationships, createStore } from 'tinybase/with-s
 //Define Schemas
 const tablesSchema = {
     activeItems: {
-        parentId: { type: "string"},
-        itemType: { type: "number"},
+        parentId: { type: "string" },
+        itemType: { type: "number" },
 
         title: { type: "string" },
         notes: { type: "string" },
@@ -21,7 +21,7 @@ const tablesSchema = {
         includesEndTime: { type: "boolean", default: false },
     },
     draftedItems: {
-        parentId: { type: "string"},
+        parentId: { type: "string" },
 
         title: { type: "string" },
         notes: { type: "string", default: "" },
@@ -70,26 +70,26 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
     "activeItems",
     (getCell) => {
         const value = getCell("parentId");
-        return value??"undefined";
+        return value ?? "undefined";
     }
 ).setIndexDefinition(
-   "tagItemIndex",
-   "tagAssignment",
+    "tagItemIndex",
+    "tagAssignment",
     (getCell) => {
         const value = getCell("tag");
-        return value??"undefined";
+        return value ?? "undefined";
     }
 );
 
 export const boot = async () => {
-  const db = openDatabaseSync('active.db');
-  const persister = createExpoSqlitePersister(tbStore as unknown as Store, db, "tinybase_persister");
+    const db = openDatabaseSync('active.db');
+    const persister = createExpoSqlitePersister(tbStore as unknown as Store, db, "tinybase_persister");
 
-  await persister.load();
-  persister.startAutoSave();
+    await persister.load();
+    persister.startAutoSave();
 };
 export { relationships, tbIndexes, tbStore };
-export const { useLocalRowIds, useTable, useRow, useHasRow, useRowIds, useValue, useCell, Provider, useSliceRowIds} = TinybaseWithSchemas;
+export const { useLocalRowIds, useTable, useRow, useHasRow, useRowIds, useValue, useCell, Provider, useSliceRowIds } = TinybaseWithSchemas;
 
 
 

@@ -6,11 +6,12 @@ import Sortable from "react-native-sortables";
 
 
 type FilesProps = {
-    parentId: string
+    parentId: string | undefined
 }
 
 export default function FilesView({ parentId }: FilesProps) {
     const itemIds = useSliceRowIds("parentIdIndex", parentId ?? "undefined");
+    console.log(itemIds)
 
     const renderItem = useCallback<SortableGridRenderItem<string>>(
         ({ item }) => (
