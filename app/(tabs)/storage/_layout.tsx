@@ -9,7 +9,7 @@ export default function Storage(){
             flex: 1,
             backgroundColor: theme.backgroundColor,
             paddingHorizontal: 5,
-            alignItems: "center"
+            alignItems: "stretch"
         }}>
             <StorageBar />
             <Slot/>

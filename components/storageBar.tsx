@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "center",
+        alignSelf: "center",
         borderRadius: borderRadius,
         padding: 10,
         borderWidth: 0,

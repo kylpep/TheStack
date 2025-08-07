@@ -1,8 +1,8 @@
 import ItemBox from "@/components/item-components/itemBox";
 import { useSliceRowIds } from "@/db/tinybase";
-import { useCallback } from "react";
-import type { SortableGridRenderItem } from "react-native-sortables";
-import Sortable from "react-native-sortables";
+import { FlashList } from "@shopify/flash-list";
+import { View } from "react-native";
+import DraggableItem from "../draggable";
 
 
 type FilesProps = {
@@ -11,23 +11,23 @@ type FilesProps = {
 
 export default function FilesView({ parentId }: FilesProps) {
     const itemIds = useSliceRowIds("parentIdIndex", parentId ?? "undefined");
-    console.log(itemIds)
-
-    const renderItem = useCallback<SortableGridRenderItem<string>>(
-        ({ item }) => (
-            <ItemBox itemId={item} />
-        ),
-        []
-    );
 
     return (
-        <Sortable.Grid
-            columns={1}
-            data={itemIds}
-            renderItem={renderItem}
-            rowGap={10}
-            overDrag="none"
+        <View
+            style={{
+                flex: 1,
+                alignItems: "stretch",
+            }}>
+            <FlashList
 
-        />
+                data={itemIds}
+                renderItem={({ item, index }) => (
+                    <DraggableItem index={index} >
+                        <ItemBox itemId={item} />
+                    </DraggableItem>
+                )}
+                estimatedItemSize={68}
+            />
+        </View>
     )
 }

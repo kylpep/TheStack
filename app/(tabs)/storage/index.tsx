@@ -17,7 +17,6 @@ export default function filesScreen(){
             flex: 1,
             flexDirection: 'column',
             rowGap: 10,
-
         }}>
             <FileRouteHeader folderNamePath={folderNamePath} parentId={parentId} key={"header"}/>
             <FilesView parentId={parentId} key={"body"}/>
