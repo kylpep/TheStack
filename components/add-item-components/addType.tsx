@@ -7,6 +7,8 @@ import { RowButton } from "./button";
 
 const displayedTypeTextArray: string[] = ["Anytime", "Due by", "Do at", "Event", "Flexable Event", "Soft Event", "Focused Event"];
 
+//TODO: Make initial type be Anytime
+
 export default function addTypeView() {
     const itemType = useAddItemStore(store => store.itemType);
     const setFocus = useAddItemStore(store => store.setFocus);
