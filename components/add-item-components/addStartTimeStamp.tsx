@@ -6,11 +6,11 @@ export default function addStartTimeStamp() {
     const focus = useAddItemStore(state => state.focus);
     const setFocus = useAddItemStore(state => state.setFocus);
 
-    const includeTime = useAddItemStore(state => state.includeStartTime);
-    const setIncludeTime = useAddItemStore(state => state.setIncludeStartTime);
+    const includeTime = useAddItemStore(state => state.includeBaseTime);
+    const setIncludeTime = useAddItemStore(state => state.setIncludeBaseTime);
 
-    const timeStamp = useAddItemStore(state => state.start);
-    const setTimeStamp = useAddItemStore(state => state.setStart);
+    const timeStamp = useAddItemStore(state => state.baseTimeStamp);
+    const setTimeStamp = useAddItemStore(state => state.setBaseTimeStamp);
 
     const disabled = useAddItemStore(state => state.itemType != undefined && !ITEMS_WITH_START.includes(state.itemType));
 

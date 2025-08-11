@@ -1,13 +1,13 @@
+import CheckBox from "@/components/item-components/check-box";
+import DateText from "@/components/item-components/full-date";
+import NotesText from "@/components/item-components/notes";
+import TagText from "@/components/item-components/tags";
+import TitleText from "@/components/item-components/title";
 import { tbStore, useCell } from "@/db/tinybase";
 import { theme } from "@/styles/themes";
 import { ItemType } from "@/types/types";
 import { StyleSheet, View } from "react-native";
 import FileFolder from "../files-components/fileFolder";
-import CheckBox from "./check-box";
-import DateText from "./full-date";
-import NotesText from "./notes";
-import TagText from "./tags";
-import TitleText from "./title";
 
 //TODO: Change params to be from external theme/style
 //Add long press gesture
@@ -26,12 +26,14 @@ const params = {
 }
 
 type itemBoxProps = {
-    itemId: string | undefined;
+    dateId: string | undefined;
     showFolders?: boolean
 }
 
 //Flexes out horizontally
-export default function ItemBox({ itemId = "", showFolders=true }: itemBoxProps) {
+export default function ToDoItemBox({ dateId = "", showFolders=true }: itemBoxProps) {
+    const itemId = useCell("dayAssignment",dateId,"itemId")??"";
+
     const isFolder = useCell("activeItems",itemId,"itemType") === ItemType.Folder;
 
     if(!tbStore.hasRow("activeItems", itemId)){

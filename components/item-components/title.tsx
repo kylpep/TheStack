@@ -21,6 +21,7 @@ export default function ListItemTitleText({ itemId }: titleProps) {
 
     const [text, setText] = useState(title);
 
+
     useEffect(()=>{
         setText(title);
     }, [title])

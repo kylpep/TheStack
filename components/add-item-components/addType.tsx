@@ -11,8 +11,8 @@ export default function addTypeView() {
     const itemType = useAddItemStore(store => store.itemType);
     const setFocus = useAddItemStore(store => store.setFocus);
     const setItemType = useAddItemStore(store => store.setItemType);
-    const setStart = useAddItemStore(store => store.setStart);
-    const startIsDefined = useAddItemStore(store => store.start !== undefined);
+    const setStart = useAddItemStore(store => store.setBaseTimeStamp);
+    const startIsDefined = useAddItemStore(store => store.baseTimeStamp !== undefined);
     const endIsDefined = useAddItemStore(store => store.end !== undefined);
     const setEnd = useAddItemStore(store => store.setEnd);
     const isFocused = useAddItemStore(state => state.focus === "itemType"); // updated selector

@@ -26,11 +26,11 @@ interface AddItemState {
     parentId: string | undefined;
     setParentId: (newId: string | undefined) => void;
 
-    includeStartTime: boolean
-    setIncludeStartTime: (includeTime: boolean) => void;
+    includeBaseTime: boolean
+    setIncludeBaseTime: (includeTime: boolean) => void;
 
-    start: Date | undefined
-    setStart: (newTimeStamp: Date | undefined) => void;
+    baseTimeStamp: Date | undefined
+    setBaseTimeStamp: (newTimeStamp: Date | undefined) => void;
 
     includeEndTime: boolean
     setIncludeEndTime: (includeTime: boolean) => void;
@@ -93,12 +93,12 @@ export const useAddItemStore = create<AddItemState>()((set, get) => ({
     parentId: undefined,
     setParentId: (newId) => set({ parentId: newId }),
 
-    includeStartTime: false,
-    setIncludeStartTime: (includeTime) => set({includeStartTime: includeTime}),
+    includeBaseTime: false,
+    setIncludeBaseTime: (includeTime) => set({includeBaseTime: includeTime}),
 
-    start: undefined,
-    setStart: (newTimeStamp) => {
-        set({ start: newTimeStamp })
+    baseTimeStamp: undefined,
+    setBaseTimeStamp: (newTimeStamp) => {
+        set({ baseTimeStamp: newTimeStamp })
     },
 
     includeEndTime: false,
@@ -118,8 +118,8 @@ export const useAddItemStore = create<AddItemState>()((set, get) => ({
             tags: [],
             itemType: undefined,
             parentId: undefined,
-            includeStartTime: true,
-            start: undefined,
+            includeBaseTime: true,
+            baseTimeStamp: undefined,
             includeEndTime: true,
             end: undefined,
             focus: "none",

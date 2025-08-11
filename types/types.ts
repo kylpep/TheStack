@@ -10,6 +10,37 @@ export enum ItemType {
     Folder,
 }
 
+export function itemToDayTypeConverter(itemType: ItemType, includeBaseTime: boolean):DayAssignmentType{
+    switch(itemType){
+        case ItemType.DoAtOn: 
+            if(includeBaseTime)
+                return DayAssignmentType.AssignedDoOn;
+            return(DayAssignmentType.DoAt);
+        case ItemType.DueBy:
+            return DayAssignmentType.DueBy;
+        case ItemType.Anytime:
+            return DayAssignmentType.AssignedDoOn;
+        default:
+            return DayAssignmentType.Event;
+    }
+}
+
+export enum DayAssignmentType {
+    AssignedDoOn,
+    DoAt,
+    Event,
+    DueBy,
+}
+
+export const FOCUSED_KEY = "_Focused";
+
+export const ASSIGNMENT_INDEX_KEYS = [
+    "_AssignedDoOn",
+    "_DoAt",
+    "_Event",
+    "_DueBy",
+]
+
 export const ITEMS_WITH_START = [
     ItemType.DoAtOn,
     ItemType.Event,

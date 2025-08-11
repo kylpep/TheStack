@@ -1,5 +1,5 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
-import { ITEMS_WITH_END, ITEMS_WITH_START, ItemType } from "@/types/types";
+import { DayAssignmentType, ITEMS_WITH_END, ITEMS_WITH_START, itemToDayTypeConverter, ItemType } from "@/types/types";
 import { tbIndexes, tbStore } from "./tinybase";
 
 function getNextIdAndIncrement() {
@@ -18,13 +18,14 @@ export function addItemToActive() {
 
     const rowId = getNextIdAndIncrement();
 
-    const { tags, includeStartTime, includeEndTime, parentId } = addItemStore;
+    const { tags, includeBaseTime, includeEndTime, parentId } = addItemStore;
 
     const orderId = tbIndexes.getSliceRowIds("parentIdIndex", parentId ?? "undefined").length;
 
     let itemType = addItemStore.itemType;
-    if (itemType === undefined)
-        itemType = ItemType.Anytime;
+    if (itemType === undefined) itemType = ItemType.Anytime;
+
+    const assignedType = itemToDayTypeConverter(itemType, includeBaseTime);
 
     const rawTitle = addItemStore.title.trim();
     const title = (rawTitle === "") ? undefined : rawTitle;
@@ -32,8 +33,8 @@ export function addItemToActive() {
     const rawNotes = addItemStore.notes.trim();
     const notes = (rawNotes === "") ? undefined : rawNotes;
 
-    let rawStart = addItemStore.start;
-    const start = ITEMS_WITH_START.includes(itemType) ? rawStart?.getTime() : undefined;
+    let rawStart = addItemStore.baseTimeStamp;
+    const base = ITEMS_WITH_START.includes(itemType) ? rawStart?.getTime() : undefined;
 
     let rawEnd = addItemStore.end;
     const end = ITEMS_WITH_END.includes(itemType) ? rawEnd?.getTime() : undefined;
@@ -42,15 +43,19 @@ export function addItemToActive() {
         title: title,
         notes: notes,
 
-        startTimeStamp: start,
-        endTimeStamp: end,
-
         orderId: orderId,
 
         parentId: parentId,
-        includesStartTime: includeStartTime,
+        includesBaseTime: includeBaseTime,
         includesEndTime: includeEndTime,
-    })
+    });
+
+    tbStore.addRow("dayAssignment", {
+        itemId: rowId,
+        baseTimeStamp: base,
+        endTimeStamp: end,
+        assignementType: assignedType,
+    });
 
     tags.forEach((tag) => {
         if (!tbStore.hasRow("tagStyle", tag)) {
@@ -66,6 +71,13 @@ export function addItemToActive() {
 
 export function getFolderTitle(itemId: string) {
     return tbStore.getCell("activeItems", itemId, "title");
+}
+
+export function getToDoCategory(itemId: string) {
+    const itemType = tbStore.getCell("activeItems", itemId, "itemType");
+
+    if (itemType === ItemType.Anytime) return DayAssignmentType.AssignedDoOn;
+
 }
 
 export function setActiveItemTitle(itemId: string, newTitle: string) {

@@ -1,3 +1,4 @@
+import { ASSIGNMENT_INDEX_KEYS, DayAssignmentType } from '@/types/types';
 import { openDatabaseSync } from 'expo-sqlite';
 import { createExpoSqlitePersister } from 'tinybase/persisters/persister-expo-sqlite';
 import { Store } from 'tinybase/store';
@@ -9,30 +10,40 @@ import { createIndexes, createRelationships, createStore } from 'tinybase/with-s
 const tablesSchema = {
     activeItems: {
         parentId: { type: "string" },
-        itemType: { type: "number" },
+        itemType: { type: "number", default: 0 },
 
         title: { type: "string" },
         notes: { type: "string" },
-        startTimeStamp: { type: "number" },
-        endTimeStamp: { type: "number" },
+
+        includesBaseTime: { type: "boolean", default: false },
+        includesEndTime: { type: "boolean", default: false },
 
         completionTimeStamp: { type: "number" },
-        includesStartTime: { type: "boolean", default: false },
-        includesEndTime: { type: "boolean", default: false },
-        orderId: {type: "number"}
+        dueBy: { type: "number" },
+
+        orderId: { type: "number" }
     },
+
+    //redefine
     draftedItems: {
         parentId: { type: "string" },
 
         title: { type: "string" },
         notes: { type: "string", default: "" },
 
-        startTimeStamp: { type: "number" },
+        startAssignedTimeStamp: { type: "number" },
+        assignedTimeStamp: { type: "number" },
         endTimeStamp: { type: "number" },
     },
     dayAssignment: {
         itemId: { type: "string" },
-        assignedTimeStamp: { type: "number" },
+
+        assignementType: { type: "number" },
+
+        baseTimeStamp: { type: "number" },
+
+        endTimeStamp: { type: "number" },
+
         focused: { type: "boolean" },
     },
     tagAssignment: {
@@ -64,6 +75,11 @@ const relationships = createRelationships(tbStore).setRelationshipDefinition(
     "tagAssignment",
     "tagStyle",
     "tag",
+).setRelationshipDefinition(
+    "DayItems",
+    "dayAssignment",
+    "activeItems",
+    "itemId",
 );
 
 const tbIndexes = createIndexes(tbStore).setIndexDefinition(
@@ -80,7 +96,52 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
         const value = getCell("tag");
         return value ?? "undefined";
     }
+).setIndexDefinition(
+    "dayIndex",
+    "dayAssignment",
+    (getCell) => {
+        //Split into types
+        const types: string[] = [];
+        const focused = getCell("focused") ?? false;
+        const assignedType = getCell("assignementType") ?? DayAssignmentType.AssignedDoOn;
+        if (focused) types.push("_Focused");
+        types.push(ASSIGNMENT_INDEX_KEYS[assignedType]);
+
+        //Split into dates
+        const dates: string[] = [];
+        const base = getCell("baseTimeStamp") ?? 0;
+        const end = getCell("endTimeStamp");
+        if (end) {
+            const endKey = dayIndexKey(end);
+
+            let cur = base;
+            let curKey = dayIndexKey(cur);
+
+            while (curKey != endKey) {
+                dates.push(curKey);
+                cur += 86400000; //day in ms
+                curKey = dayIndexKey(cur);
+            }
+            dates.push(endKey);
+        }
+        else dates.push(dayIndexKey(base));
+
+        //Join
+        const slices: string[] = [];
+        dates.forEach((date) => {
+            types.forEach((type) => {
+                slices.push(date + type);
+            })
+        })
+        return slices;
+    }
 );
+
+// helper to normalize an epoch to yyyy-mm-dd
+const dayIndexKey = (epochMs: number) => {
+    const d = new Date(epochMs);
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
+};
 
 export const boot = async () => {
     const db = openDatabaseSync('active.db');
@@ -90,7 +151,7 @@ export const boot = async () => {
     persister.startAutoSave();
 };
 export { relationships, tbIndexes, tbStore };
-export const { useLocalRowIds, useTable, useRow, useHasRow, useRowIds, useValue, useCell, Provider, useSliceRowIds } = TinybaseWithSchemas;
+export const { useLocalRowIds, useTable, useRemoteRowId, useRow, useHasRow, useRowIds, useValue, useCell, Provider, useSliceRowIds } = TinybaseWithSchemas;
 
 
 

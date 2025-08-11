@@ -15,7 +15,6 @@ export default function FileFolder({ itemId }: folderProps) {
     const folderName = useCell("activeItems", itemId, "title");
     const enterFolder = useStorageScreenState(state => state.traverseIntoFolder);
     const setParentId = useAddItemStore(state => state.setParentId);
-    const parentId = useAddItemStore(state => state.parentId);
     const onPress = () => {
         setParentId(itemId);
         enterFolder(itemId);
