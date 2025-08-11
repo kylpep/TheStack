@@ -38,3 +38,9 @@ export const dayIndexKey = (epochMs: number) => {
     const d = new Date(epochMs);
     return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
 };
+
+//Format: "YYYY-MM-DD"
+export function getDateFromKey(dateKey: string){
+    const dateArgs = dateKey.split("-");
+    return new Date(Number(dateArgs[0]), Number(dateArgs[1]) - 1, Number(dateArgs[2]));
+}

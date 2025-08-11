@@ -1,5 +1,5 @@
 import { useSliceRowIds } from "@/db/tinybase";
-import { useToDoState } from "@/states-zustand/toDoStates";
+import { useToDoState } from "@/states-zustand/dateStates";
 import { basicTextStyles } from "@/styles/textStyles";
 import { Text, View } from "react-native";
 import ToDoItemBox from "./to-do-item-box";

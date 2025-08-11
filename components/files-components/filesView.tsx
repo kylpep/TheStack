@@ -1,4 +1,4 @@
-import ItemBox from "@/components/item-components/itemBox";
+import ItemBox from "@/components/item-components/fileItemBox";
 import { useSliceRowIds } from "@/db/tinybase";
 import { FlashList } from "@shopify/flash-list";
 import { View } from "react-native";

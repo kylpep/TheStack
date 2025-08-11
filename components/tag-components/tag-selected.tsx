@@ -3,7 +3,7 @@ import { getActiveItemFromTagId } from "@/db/tinybaseActions";
 import { useStorageScreenState } from "@/states-zustand/storageScreenStates";
 import { basicTextStyles } from "@/styles/textStyles";
 import { Pressable, Text } from "react-native";
-import ItemBox from "../item-components/itemBox";
+import ItemBox from "../item-components/fileItemBox";
 
 type tagSelectedListProps={
     currentTag: string

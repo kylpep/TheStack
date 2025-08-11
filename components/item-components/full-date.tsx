@@ -1,3 +1,4 @@
+import { useCell, useLocalRowIds } from "@/db/tinybase";
 import { basicTextStyles } from "@/styles/textStyles";
 import { Text } from "react-native";
 
@@ -29,10 +30,13 @@ function formatDate(date: Date) {
 }
 
 export default function ListItemDateText({ itemId }: dateTextProps) {
-    let intro = "";
-    let startTimeStr = "";
-    let middle = "";
-    let endTimeStr = "";
+    const itemType = useCell("activeItems", itemId, "itemType");
+    const dateId = useLocalRowIds("ItemDates", itemId);
+
+    //let intro = "";
+    //let startTimeStr = "";
+    //let middle = "";
+    //let endTimeStr = "";
 
     // const startTimeStamp = useCell("activeItems", itemId, "startTimeStamp");
     // const hasStartTime = useCell("activeItems", itemId, "includesStartTime");

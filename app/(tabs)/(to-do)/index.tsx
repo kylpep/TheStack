@@ -1,15 +1,17 @@
 import ItemsView from "@/components/to-do-components/items-view";
-import { useRowIds } from "@/db/tinybase";
-import { useToDoState } from "@/states-zustand/toDoStates";
+import { useToDoState } from "@/states-zustand/dateStates";
 import { basicTextStyles } from "@/styles/textStyles";
 import { theme } from "@/styles/themes";
 import { ASSIGNMENT_INDEX_KEYS, DayAssignmentType, FOCUSED_KEY } from "@/types/types";
+import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Pressable, ScrollView } from "react-native-gesture-handler";
 
 export default function ToDoDayScreen() {
-    const items = useRowIds("activeItems");
+    const router = useRouter();
     const selectedDateTitle = useToDoState(state => state.selectedDateTitle);
+
+    const handleSelectDayPress = () => router.replace("/(tabs)/(to-do)/multi-day");
 
     return (
         <View style={{
@@ -20,7 +22,11 @@ export default function ToDoDayScreen() {
             gap: 20,
             paddingTop: 5,
         }}>
-
+            <Pressable onPress={handleSelectDayPress}>
+                <Text style={[basicTextStyles.header, { alignSelf: "center" }]}>
+                    Select Day
+                </Text>
+            </Pressable>
             <Text style={[basicTextStyles.header, { alignSelf: "center" }]}>
                 {selectedDateTitle}
             </Text>

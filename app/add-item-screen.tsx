@@ -18,7 +18,6 @@ export default function AddItemScreen() {
                 width: 100,
                 borderRadius: 5,
                 backgroundColor: theme.primaryColor,
-                
             }}/>
             <AddItemView />
         </View>

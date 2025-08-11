@@ -1,3 +1,4 @@
+import { dayIndexKey } from '@/lib/date-strings';
 import { ASSIGNMENT_INDEX_KEYS, DayAssignmentType } from '@/types/types';
 import { openDatabaseSync } from 'expo-sqlite';
 import { createExpoSqlitePersister } from 'tinybase/persisters/persister-expo-sqlite';
@@ -31,8 +32,8 @@ const tablesSchema = {
         title: { type: "string" },
         notes: { type: "string", default: "" },
 
-        startAssignedTimeStamp: { type: "number" },
-        assignedTimeStamp: { type: "number" },
+        baseTimeStamp: { type: "number" },
+
         endTimeStamp: { type: "number" },
     },
     dayAssignment: {
@@ -76,7 +77,7 @@ const relationships = createRelationships(tbStore).setRelationshipDefinition(
     "tagStyle",
     "tag",
 ).setRelationshipDefinition(
-    "DayItems",
+    "ItemDates",
     "dayAssignment",
     "activeItems",
     "itemId",
@@ -132,16 +133,13 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
             types.forEach((type) => {
                 slices.push(date + type);
             })
+            //Also add just the date.
+            slices.push(date);
         })
         return slices;
-    }
+    },
+    
 );
-
-// helper to normalize an epoch to yyyy-mm-dd
-const dayIndexKey = (epochMs: number) => {
-    const d = new Date(epochMs);
-    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
-};
 
 export const boot = async () => {
     const db = openDatabaseSync('active.db');
@@ -151,7 +149,19 @@ export const boot = async () => {
     persister.startAutoSave();
 };
 export { relationships, tbIndexes, tbStore };
-export const { useLocalRowIds, useTable, useRemoteRowId, useRow, useHasRow, useRowIds, useValue, useCell, Provider, useSliceRowIds } = TinybaseWithSchemas;
+
+export const { 
+    useLocalRowIds, 
+    useSliceIds, 
+    useTable, 
+    useRemoteRowId, 
+    useRow, 
+    useHasRow, 
+    useRowIds, 
+    useValue, 
+    useCell, 
+    Provider, 
+    useSliceRowIds } = TinybaseWithSchemas;
 
 
 
