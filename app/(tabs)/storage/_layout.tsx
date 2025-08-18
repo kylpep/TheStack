@@ -1,4 +1,4 @@
-import StorageBar from "@/components/storageBar";
+import StorageBar from "@/components/selector-components/storageBar";
 import { theme } from "@/styles/themes";
 import { Slot } from "expo-router";
 import { View } from "react-native";

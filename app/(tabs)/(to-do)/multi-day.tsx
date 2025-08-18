@@ -12,18 +12,16 @@ export default function ToDoDayScreen() {
         <View style={{
             backgroundColor: theme.backgroundColor,
             alignItems: "stretch",
-            flex:1,
-            borderColor: "red",
-            borderWidth: 1,
+            flex: 1,
         }}>
             <FlashList
                 data={days}
-                renderItem={({item}) => (
-                    <CompactDayView dateKey={item}/>
+                renderItem={({ item }) => (
+                    <CompactDayView dateKey={item} />
                 )}
                 estimatedItemSize={50}
                 ListEmptyComponent={
-                    <Text style={[basicTextStyles.header,{paddingTop: 40}]}>
+                    <Text style={[basicTextStyles.header, { paddingTop: 40 }]}>
                         Add an item with a date to get started
                     </Text>
                 }
