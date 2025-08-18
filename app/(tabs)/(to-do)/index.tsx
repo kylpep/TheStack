@@ -5,7 +5,7 @@ import { theme } from "@/styles/themes";
 import { ASSIGNMENT_INDEX_KEYS, DayAssignmentType, FOCUSED_KEY } from "@/types/types";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import { Pressable, ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function ToDoDayScreen() {
     const router = useRouter();
@@ -22,11 +22,6 @@ export default function ToDoDayScreen() {
             gap: 20,
             paddingTop: 5,
         }}>
-            <Pressable onPress={handleSelectDayPress}>
-                <Text style={[basicTextStyles.header, { alignSelf: "center" }]}>
-                    Select Day
-                </Text>
-            </Pressable>
             <Text style={[basicTextStyles.header, { alignSelf: "center" }]}>
                 {selectedDateTitle}
             </Text>

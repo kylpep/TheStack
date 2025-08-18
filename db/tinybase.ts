@@ -89,7 +89,8 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
     (getCell) => {
         const value = getCell("parentId");
         return value ?? "undefined";
-    }
+    },
+    'orderId',
 ).setIndexDefinition(
     "tagItemIndex",
     "tagAssignment",

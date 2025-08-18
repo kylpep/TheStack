@@ -13,7 +13,7 @@ export const folderStyle = StyleSheet.create({
         paddingHorizontal: styleConsts.horizontalItemPadding,
         paddingVertical: styleConsts.verticalItemPadding,
         flexShrink: 1,
-
+        marginVertical: 4,
         borderColor: theme.itemBackgroundColor,
         borderWidth: 2,
         borderRadius: 9,

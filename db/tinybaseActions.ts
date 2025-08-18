@@ -69,6 +69,12 @@ export function addItemToActive() {
     });
 }
 
+export function setFileOrder(itemOrder: string[]){
+    itemOrder.forEach((itemId, index) => {
+        tbStore.setCell("activeItems", itemId, "orderId", index);
+    })
+}
+
 export function getFolderTitle(itemId: string) {
     return tbStore.getCell("activeItems", itemId, "title");
 }

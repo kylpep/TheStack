@@ -1,16 +1,38 @@
 import ItemBox from "@/components/item-components/fileItemBox";
 import { useSliceRowIds } from "@/db/tinybase";
-import { FlashList } from "@shopify/flash-list";
+import { setFileOrder } from "@/db/tinybaseActions";
 import { View } from "react-native";
-import DraggableItem from "../draggable";
-
+import DraggableFlatList, { ScaleDecorator } from "react-native-draggable-flatlist";
+import { Pressable } from "react-native-gesture-handler";
 
 type FilesProps = {
     parentId: string | undefined
 }
 
+type renderItemParams = {
+    item: string,
+    drag: () => void,
+    isActive: boolean,
+}
+
 export default function FilesView({ parentId }: FilesProps) {
     const itemIds = useSliceRowIds("parentIdIndex", parentId ?? "undefined");
+
+    const renderItem = ({ item, drag, isActive }: renderItemParams) => {
+        return (
+            <ScaleDecorator>
+                <Pressable
+                    onLongPress={drag}
+                    disabled={isActive}
+                >
+                    <ItemBox itemId={item}/>
+
+                </Pressable>
+            </ScaleDecorator>
+        )
+    }
+
+    
 
     return (
         <View
@@ -18,15 +40,11 @@ export default function FilesView({ parentId }: FilesProps) {
                 flex: 1,
                 alignItems: "stretch",
             }}>
-            <FlashList
-
+            <DraggableFlatList
                 data={itemIds}
-                renderItem={({ item, index }) => (
-                    <DraggableItem index={index} >
-                        <ItemBox itemId={item} />
-                    </DraggableItem>
-                )}
-                estimatedItemSize={68}
+                keyExtractor={(item) => item}
+                renderItem={renderItem}
+                onDragEnd={({data})=>{setFileOrder(data)}}
             />
         </View>
     )

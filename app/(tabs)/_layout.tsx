@@ -44,7 +44,7 @@ export default function TabLayout(props: any) {
                 <Tabs.Screen
                     name="storage"
                     options={{
-                        title: 'Files',
+                        title: 'Storage',
                         tabBarIcon: ({ color, size }) => (
                             <Ionicons name="file-tray-full" color={color} size={size} />
                         ),

@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
         borderRadius: 9,
         backgroundColor: theme.gridColor,
         columnGap: 10,
+        marginVertical: 4,
     },
     textContainer: {
         justifyContent: "space-between",
