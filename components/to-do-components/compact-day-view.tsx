@@ -1,4 +1,5 @@
 import { useSliceRowIds } from "@/db/tinybase";
+import { dateTitle, getDateFromKey } from "@/lib/date-strings";
 import { useToDoState } from "@/states-zustand/dateStates";
 import { basicTextStyles } from "@/styles/textStyles";
 import { theme } from "@/styles/themes";
@@ -25,12 +26,12 @@ export default function CompactDayView({ dateKey }: CompactDayViewProps) {
         <View style={{
             backgroundColor: theme.backgroundColor,
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "flex-start",
             flex: 1,
         }}>
             <Pressable onPress={handlePress}>
                 <Text style={basicTextStyles.header}>
-                    {dateKey}
+                    {dateTitle(getDateFromKey(dateKey))}
                 </Text>
             </Pressable>
 

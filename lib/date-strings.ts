@@ -1,21 +1,37 @@
 
 export function weekdayTitle(targetDate: Date, controlDate: Date) {
     let weekday = "";
-    const daysApart = Math.trunc((targetDate.getTime() - controlDate.getTime()) / 86400000);
 
-    switch (daysApart) {
-        case 0: weekday = "Today, "; break;
-        case 1: weekday = "Tomorrow, "; break;
-        case -1: weekday = "Yesterday, "; break;
-        default: weekday = "";
-    }
+    const temp = controlDate;
 
-    if (daysApart >= -1 || daysApart <= -1) {
-        weekday += controlDate.toLocaleDateString('en-US', { weekday: 'short' });
-    }
-    else {
-        weekday += controlDate.toLocaleDateString('en-US', { weekday: 'long' });
-    }
+    const isToday = targetDate?.getDate() === temp.getDate() &&
+        targetDate.getMonth() === temp.getMonth() &&
+        targetDate.getFullYear() === temp.getFullYear();
+
+    temp.setDate(temp.getDate() + 1);
+
+    const isTomorrow = targetDate?.getDate() === temp.getDate() &&
+        targetDate.getMonth() === temp.getMonth() &&
+        targetDate.getFullYear() === temp.getFullYear();
+
+    temp.setDate(temp.getDate() - 2);
+
+    const isYesterday = targetDate?.getDate() === temp.getDate() &&
+        targetDate.getMonth() === temp.getMonth() &&
+        targetDate.getFullYear() === temp.getFullYear();
+
+    if (isToday) weekday = "Today, "
+    else if (isYesterday) weekday = "Yesterday, "
+    else if (isTomorrow) weekday = "Tomorrow, "
+    else weekday = "";
+
+    // if (isToday || isTomorrow || isYesterday) {
+    //     weekday += targetDate.toLocaleDateString('en-US', { weekday: 'short' });
+    // }
+    // else {
+    //     weekday += targetDate.toLocaleDateString('en-US', { weekday: 'long' });
+    // }
+    weekday += targetDate.toLocaleDateString('en-US', { weekday: 'short' });
 
     return weekday;
 }
@@ -110,3 +126,17 @@ function formatDate(date: Date) {
         })
     );
 }
+
+
+
+export function generateDates() {
+    let date = new Date()
+    date.setDate(date.getDate() - 100);
+    let dates: string[] = [];
+    for (let i = 1; i < 200; i++) {
+        dates.push(dayIndexKey(date.getTime()));
+        date.setDate(date.getDate() + 1);
+    }
+    return dates;
+}
+export const tempDateList = generateDates();
