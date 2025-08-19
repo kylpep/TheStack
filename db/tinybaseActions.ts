@@ -44,12 +44,14 @@ export function addItemToActive() {
         notes: notes,
 
         orderId: orderId,
+        itemType: itemType,
 
         parentId: parentId,
         includesBaseTime: includeBaseTime,
         includesEndTime: includeEndTime,
     });
 
+    if(itemType != ItemType.Anytime)
     tbStore.addRow("dayAssignment", {
         itemId: rowId,
         baseTimeStamp: base,
@@ -69,7 +71,7 @@ export function addItemToActive() {
     });
 }
 
-export function setFileOrder(itemOrder: string[]){
+export function setFileOrder(itemOrder: string[]) {
     itemOrder.forEach((itemId, index) => {
         tbStore.setCell("activeItems", itemId, "orderId", index);
     })

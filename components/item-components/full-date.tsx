@@ -1,9 +1,10 @@
 import { useCell, useLocalRowIds } from "@/db/tinybase";
+import { filesDateStringBuilder } from "@/lib/date-strings";
 import { basicTextStyles } from "@/styles/textStyles";
-import { Text } from "react-native";
+import { itemTypeToStartStr } from "@/types/types";
+import { Text, View } from "react-native";
 
-//TODO Rewrite date string construction by item type/ clean up current logic
-// Add Tommorrow & Yesterday
+//TODO 
 // Add "This Fri"
 // Add "Next Fri"
 // Add year if year is not current year
@@ -13,118 +14,68 @@ import { Text } from "react-native";
 type dateTextProps = {
     itemId: string
 }
-function formatTime(date: Date) {
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-}
-
-function formatDate(date: Date) {
-    return (
-        date.toLocaleDateString([], {
-            weekday: "short"
-        }) + " " +
-        date.toLocaleDateString([], {
-            month: "numeric",
-            day: "numeric",
-        })
-    );
-}
 
 export default function ListItemDateText({ itemId }: dateTextProps) {
     const itemType = useCell("activeItems", itemId, "itemType");
     const dateId = useLocalRowIds("ItemDates", itemId);
 
-    //let intro = "";
-    //let startTimeStr = "";
-    //let middle = "";
-    //let endTimeStr = "";
+    const baseTimeStamp = useCell("dayAssignment", dateId[0], "baseTimeStamp");
+    const hasBaseTime = useCell("activeItems", itemId, "includesBaseTime");
 
-    // const startTimeStamp = useCell("activeItems", itemId, "startTimeStamp");
-    // const hasStartTime = useCell("activeItems", itemId, "includesStartTime");
-
-    // const endTimeStamp = useCell("activeItems", itemId, "endTimeStamp");
-    // const hasEndTime = useCell("activeItems", itemId, "includesEndTime");
+    const endTimeStamp = useCell("dayAssignment", dateId[0], "endTimeStamp");
+    const hasEndTime = useCell("activeItems", itemId, "includesEndTime");
 
 
-    // // Prepare date objects and strings
-    // const startTimeStampObj = startTimeStamp ? new Date(startTimeStamp) : undefined;
-    // const endTimeStampObj = endTimeStamp ? new Date(endTimeStamp) : undefined;
-    // const todayStr = formatDate(new Date());
-    // const startStr = startTimeStampObj ? formatDate(startTimeStampObj) : "";
-    // const endStr = endTimeStampObj ? formatDate(endTimeStampObj) : "";
-    // const sameDay = startTimeStampObj && endTimeStampObj && startStr === endStr;
-    // const isStartThisYear = startTimeStampObj?.getFullYear() === new Date().getFullYear();
-    // const isEndThisYear = endTimeStampObj?.getFullYear() === new Date().getFullYear();
-    // const isTodayStart = startTimeStampObj && startStr === todayStr;
-    // const isTodayEnd = endTimeStampObj && endStr === todayStr;
 
-    // // Intro section
-    // if (startTimeStamp && !endTimeStamp) {
-    //     intro = hasStartTime ? "Do at " : "Do ";
-    // } else if (endTimeStamp && !startTimeStamp) {
-    //     intro = "Due by ";
-    // } else if (startTimeStamp && endTimeStamp && !hasStartTime && hasEndTime && sameDay) {
-    //     intro = "SoD";
-    // }
+    const baseStrings = filesDateStringBuilder(baseTimeStamp, hasBaseTime);
+    const endStrings = filesDateStringBuilder(endTimeStamp, hasEndTime);
 
-    // // Start time section
-    // if (startTimeStampObj) {
-    //     if (endTimeStamp && sameDay) {
-    //         startTimeStr = hasStartTime ? formatTime(startTimeStampObj) : "";
-    //     } else {
-    //         startTimeStr = hasStartTime ? formatTime(startTimeStampObj) : "";
-    //     }
-    // } else if (endTimeStamp && hasEndTime) {
-    //     startTimeStr = formatTime(endTimeStampObj!);
-    // }
+    const intro = itemTypeToStartStr(itemType, hasBaseTime, baseStrings.isRelative);
 
-    // // Middle section
-    // if (startTimeStamp && endTimeStamp) {
-    //     if (hasStartTime && hasEndTime) {
-    //         middle = sameDay ? " to " : ` ${isTodayStart ? "Today" : startStr} to `;
-    //     } else if (hasStartTime && !hasEndTime) {
-    //         middle = sameDay ? " to EoD " : ` ${isTodayStart ? "Today" : startStr} to `;
-    //     } else if (!hasStartTime && hasEndTime) {
-    //         middle = " to ";
-    //     } else {
-    //         middle = sameDay ? "" : " to ";
-    //     }
-    // } else if ((startTimeStamp && !endTimeStamp && hasStartTime) || (endTimeStamp && !startTimeStamp && hasEndTime)) {
-    //     middle = " ";
-    // }
-
-    // // End time section
-    // if (startTimeStamp &&
-    //     endTimeStamp) {
-    //     if (hasStartTime && hasEndTime) {
-    //         endTimeStr = sameDay
-    //             ? `${isTodayStart ? "Today" : endStr}`
-    //             : `${formatTime(endTimeStampObj!)} ${endStr}`;
-    //     } else if (hasStartTime && !hasEndTime) {
-    //         endTimeStr = sameDay
-    //             ? (isTodayStart ? "Today" : startStr)
-    //             : endStr;
-    //     } else if (!hasStartTime && hasEndTime) {
-    //         endTimeStr = `${formatTime(endTimeStampObj!)} ${isTodayEnd ? "Today" : endStr}`;
-    //     } else {
-    //         endTimeStr = sameDay ? "" : endStr;
-    //     }
-    // } else if (startTimeStamp && !endTimeStamp) {
-    //     endTimeStr = hasStartTime
-    //         ? (isTodayStart ? "Today" : startStr)
-    //         : (isTodayStart ? "Today" : ("on " + startStr));
-    // } else if (endTimeStamp && !startTimeStamp) {
-    //     endTimeStr = hasEndTime
-    //         ? (isTodayEnd ? "Today" : endStr)
-    //         : (isTodayEnd ? "EoD Today" : endStr);
-    // }
-
-    // const dateString = `${intro}${startTimeStr}${middle}${endTimeStr}`.trim();
+    const sameDay = baseStrings.dateStr === endStrings.dateStr;
 
     return (
-        //(startTimeStamp || endTimeStamp) &&
-        <Text style={basicTextStyles.body}>
-            placeholder date
-        </Text>
+        <View style={{
+            flexDirection: "row",
+            gap: 3,
+        }}>
+            {intro &&
+                <Text style={basicTextStyles.body}>
+                    {intro}
+                </Text>
+            }
+
+            {baseStrings.timeStr &&
+                <Text style={basicTextStyles.body}>
+                    {baseStrings.timeStr}
+                </Text>
+            }
+
+            {baseStrings.dateStr && !sameDay &&
+                <Text style={basicTextStyles.body}>
+                    {baseStrings.dateStr}
+                </Text>
+            }
+
+            {baseTimeStamp && endTimeStamp && (hasBaseTime || hasEndTime || !sameDay) && 
+                <Text style={basicTextStyles.body}>
+                    {"-"}
+                </Text>
+
+            }
+
+            {endStrings.timeStr &&
+                <Text style={basicTextStyles.body}>
+                    {endStrings.timeStr}
+                </Text>
+            }
+
+            {endStrings.dateStr &&
+                <Text style={basicTextStyles.body}>
+                    {endStrings.dateStr}
+                </Text>
+            }
+        </View>
     );
 }
 

@@ -17,7 +17,7 @@ export default function ItemsView({assignmentKey, title}:ItemsViewProps) {
 
     return (
         <View style={{
-            gap: 5
+            
         }}>
             {itemIds.length > 0 &&
                 <Text style={basicTextStyles.subHeader}>

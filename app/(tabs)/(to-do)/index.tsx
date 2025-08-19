@@ -11,8 +11,6 @@ export default function ToDoDayScreen() {
     const router = useRouter();
     const selectedDateTitle = useToDoState(state => state.selectedDateTitle);
 
-    const handleSelectDayPress = () => router.replace("/(tabs)/(to-do)/multi-day");
-
     return (
         <View style={{
             backgroundColor: theme.backgroundColor,

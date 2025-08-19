@@ -10,12 +10,24 @@ export enum ItemType {
     Folder,
 }
 
-export function itemToDayTypeConverter(itemType: ItemType, includeBaseTime: boolean):DayAssignmentType{
-    switch(itemType){
-        case ItemType.DoAtOn: 
-            if(includeBaseTime)
+export function itemTypeToStartStr(itemType: ItemType | undefined, 
+    includesTime: boolean = false,
+    isRelative: boolean = false) {
+    if (itemType === ItemType.DueBy) return "by";
+    if (itemType === ItemType.DoAtOn) {
+        if (includesTime) return "at";
+        if (!isRelative) return "on";
+        return "do";
+    }
+    return "";
+}
+
+export function itemToDayTypeConverter(itemType: ItemType, includeBaseTime: boolean): DayAssignmentType {
+    switch (itemType) {
+        case ItemType.DoAtOn:
+            if (includeBaseTime)
                 return DayAssignmentType.AssignedDoOn;
-            return(DayAssignmentType.DoAt);
+            return (DayAssignmentType.DoAt);
         case ItemType.DueBy:
             return DayAssignmentType.DueBy;
         case ItemType.Anytime:
@@ -57,15 +69,15 @@ export const ITEMS_WITH_END = [
     ItemType.FocusedEvent
 ]
 
-export type AddItemFocus = "title" 
-| "notes"
-| "tags"
-| "itemType"
-| "startDate" 
-| "startTime" 
-| "endDate" 
-| "endTime" 
-| "none";
+export type AddItemFocus = "title"
+    | "notes"
+    | "tags"
+    | "itemType"
+    | "startDate"
+    | "startTime"
+    | "endDate"
+    | "endTime"
+    | "none";
 
 export type activeItemDisplayData = {
     parentId: number | undefined;

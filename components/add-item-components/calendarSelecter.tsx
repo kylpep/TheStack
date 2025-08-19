@@ -74,7 +74,11 @@ export default function CalendarSelecter({
 
     function focusTime() {
         debounced.current = false;
-        debouncing.current = false;
+        debouncing.current = true;
+        setTimeout(() => {
+                    debounced.current = true;
+                    debouncing.current = false;
+                }, 100);
         setFocus(isTimeFocused ? noFocus : timeFocus);
     }
 

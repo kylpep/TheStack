@@ -112,6 +112,7 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
         //Split into dates
         const dates: string[] = [];
         const base = getCell("baseTimeStamp") ?? 0;
+        
         const end = getCell("endTimeStamp");
         if (end) {
             const endKey = dayIndexKey(end);
@@ -119,7 +120,7 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
             let cur = base;
             let curKey = dayIndexKey(cur);
 
-            while (curKey != endKey) {
+            while (curKey <= endKey) {
                 dates.push(curKey);
                 cur += 86400000; //day in ms
                 curKey = dayIndexKey(cur);
