@@ -1,6 +1,7 @@
 import { dayIndexKey } from '@/lib/date-strings';
 import { ASSIGNMENT_INDEX_KEYS, DayAssignmentType } from '@/types/types';
 import { openDatabaseSync } from 'expo-sqlite';
+import { configureReanimatedLogger } from 'react-native-reanimated';
 import { createExpoSqlitePersister } from 'tinybase/persisters/persister-expo-sqlite';
 import { Store } from 'tinybase/store';
 import type { WithSchemas } from 'tinybase/ui-react/with-schemas';
@@ -102,12 +103,16 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
     "dayIndex",
     "dayAssignment",
     (getCell) => {
+        const slices: string[] = [];
         //Split into types
         const types: string[] = [];
         const focused = getCell("focused") ?? false;
         const assignedType = getCell("assignementType") ?? DayAssignmentType.AssignedDoOn;
         if (focused) types.push("_Focused");
         types.push(ASSIGNMENT_INDEX_KEYS[assignedType]);
+        slices.push(ASSIGNMENT_INDEX_KEYS[assignedType]);
+
+        
 
         //Split into dates
         const dates: string[] = [];
@@ -130,7 +135,7 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
         else dates.push(dayIndexKey(base));
 
         //Join
-        const slices: string[] = [];
+        
         dates.forEach((date) => {
             types.forEach((type) => {
                 slices.push(date + type);
@@ -140,12 +145,16 @@ const tbIndexes = createIndexes(tbStore).setIndexDefinition(
         })
         return slices;
     },
-    
+    "baseTimeStamp"
 );
 
 export const boot = async () => {
     const db = openDatabaseSync('active.db');
     const persister = createExpoSqlitePersister(tbStore as unknown as Store, db, "tinybase_persister");
+    
+    configureReanimatedLogger({
+        strict: false
+    });
 
     await persister.load();
     persister.startAutoSave();

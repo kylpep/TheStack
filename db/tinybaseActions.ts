@@ -1,5 +1,6 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
 import { DayAssignmentType, ITEMS_WITH_END, ITEMS_WITH_START, itemToDayTypeConverter, ItemType } from "@/types/types";
+import { EventItem } from "@howljs/calendar-kit";
 import { tbIndexes, tbStore } from "./tinybase";
 
 function getNextIdAndIncrement() {
@@ -59,6 +60,8 @@ export function addItemToActive() {
         assignementType: assignedType,
     });
 
+    console.log("Assigned Type: " + assignedType)
+
     tags.forEach((tag) => {
         if (!tbStore.hasRow("tagStyle", tag)) {
             tbStore.setRow("tagStyle", tag, { tagColor: "normal" });
@@ -75,6 +78,18 @@ export function setFileOrder(itemOrder: string[]) {
     itemOrder.forEach((itemId, index) => {
         tbStore.setCell("activeItems", itemId, "orderId", index);
     })
+}
+
+export function getScheduleEvent(dateId: string){
+    const eventRow = tbStore.getRow("dayAssignment",dateId);
+    const title = tbStore.getCell("activeItems",eventRow.itemId??"","title");
+    const event: EventItem = {
+        id: dateId,
+        title: title??"Untitled",
+        start: {dateTime: new Date(eventRow.baseTimeStamp??0).toISOString()},
+        end: {dateTime: new Date(eventRow.endTimeStamp??0).toISOString()}
+    }
+    return event;
 }
 
 export function getFolderTitle(itemId: string) {
