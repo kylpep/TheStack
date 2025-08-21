@@ -1,8 +1,6 @@
-import { tbStore, useCell } from "@/db/tinybase";
+import { styleConsts } from "@/styles/styleConsts";
 import { theme } from "@/styles/themes";
-import { ItemType } from "@/types/types";
 import { StyleSheet, View } from "react-native";
-import FileFolder from "../files-components/fileFolder";
 import CheckBox from "./check-box";
 import DateText from "./full-date";
 import NotesText from "./notes";
@@ -19,34 +17,11 @@ import TitleText from "./title";
 //Rename Component?
 
 
-
-const params = {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-}
-
 type itemBoxProps = {
     itemId: string | undefined;
-    showFolders?: boolean
 }
 
-//Flexes out horizontally
-export default function ItemBox({ itemId = "", showFolders = true }: itemBoxProps) {
-    const isFolder = useCell("activeItems", itemId, "itemType") === ItemType.Folder;
-
-
-    if (!tbStore.hasRow("activeItems", itemId)) {
-        return null;
-    }
-
-    if (isFolder && !showFolders) return null;
-
-    if (isFolder) {
-        return (
-            <FileFolder itemId={itemId} />
-        )
-    }
-
+export default function ItemBox({ itemId = ""}: itemBoxProps) {
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -67,12 +42,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: params.paddingHorizontal,
-        paddingVertical: params.paddingVertical,
-        borderRadius: 9,
+        paddingHorizontal: styleConsts.itemBoxPaddingHorizontal,
+        paddingVertical: styleConsts.itemBoxPaddingVertical,
+        borderRadius: styleConsts.itemBorderRadius,
         backgroundColor: theme.gridColor,
-        columnGap: 10,
-        marginVertical: 4,
+        columnGap: styleConsts.itemColumnGap,
+        marginVertical: styleConsts.itemMarginVertical,
     },
     textContainer: {
         justifyContent: "space-between",
@@ -80,7 +55,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexWrap: 'wrap',
         flexShrink: 1,
-        gap: 5,
+        gap: styleConsts.itemTextGap,
         flex: 1,
     },
 });
