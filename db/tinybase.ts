@@ -46,7 +46,7 @@ const tablesSchema = {
 
         endTimeStamp: { type: "number" },
 
-        focused: { type: "boolean" },
+        focused: { type: "boolean", default:false },
     },
     tagAssignment: {
         itemId: { type: "string" },

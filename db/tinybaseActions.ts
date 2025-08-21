@@ -1,7 +1,8 @@
 import { useAddItemStore } from "@/states-zustand/addItemStates";
+import { useToDoState } from "@/states-zustand/dateStates";
 import { DayAssignmentType, ITEMS_WITH_END, ITEMS_WITH_START, itemToDayTypeConverter, ItemType } from "@/types/types";
 import { EventItem } from "@howljs/calendar-kit";
-import { tbIndexes, tbStore } from "./tinybase";
+import { relationships, tbIndexes, tbStore } from "./tinybase";
 
 function getNextIdAndIncrement() {
     const rowId = tbStore.getValue("nextId");
@@ -52,15 +53,13 @@ export function addItemToActive() {
         includesEndTime: includeEndTime,
     });
 
-    if(itemType != ItemType.Anytime)
-    tbStore.addRow("dayAssignment", {
-        itemId: rowId,
-        baseTimeStamp: base,
-        endTimeStamp: end,
-        assignementType: assignedType,
-    });
-
-    console.log("Assigned Type: " + assignedType)
+    if (itemType != ItemType.Anytime)
+        tbStore.addRow("dayAssignment", {
+            itemId: rowId,
+            baseTimeStamp: base,
+            endTimeStamp: end,
+            assignementType: assignedType,
+        });
 
     tags.forEach((tag) => {
         if (!tbStore.hasRow("tagStyle", tag)) {
@@ -80,14 +79,42 @@ export function setFileOrder(itemOrder: string[]) {
     })
 }
 
-export function getScheduleEvent(dateId: string){
-    const eventRow = tbStore.getRow("dayAssignment",dateId);
-    const title = tbStore.getCell("activeItems",eventRow.itemId??"","title");
+export function assignItemToDay(itemId: string) {
+    const dateState = useToDoState.getState();
+    const itemType = tbStore.getCell("activeItems", itemId, "itemType");
+
+    if (itemType === ItemType.Anytime || itemType === ItemType.DueBy) {
+        tbStore.addRow("dayAssignment", {
+            assignementType: DayAssignmentType.AssignedDoOn,
+            baseTimeStamp: dateState.selectedDate.getTime(),
+            itemId: itemId
+        })
+    }
+}
+
+export function deleteItem(itemId: string) {
+    const assignments = relationships.getLocalRowIds("ItemDates", itemId);
+    const tags = relationships.getLinkedRowIds("itemTags", itemId);
+
+    tags.forEach((value) => {
+        tbStore.delRow("tagAssignment", value);
+    })
+
+    assignments.forEach((value) => {
+        tbStore.delRow("dayAssignment", value);
+    });
+
+    tbStore.delRow("activeItems", itemId);
+}
+
+export function getScheduleEvent(dateId: string) {
+    const eventRow = tbStore.getRow("dayAssignment", dateId);
+    const title = tbStore.getCell("activeItems", eventRow.itemId ?? "", "title");
     const event: EventItem = {
         id: dateId,
-        title: title??"Untitled",
-        start: {dateTime: new Date(eventRow.baseTimeStamp??0).toISOString()},
-        end: {dateTime: new Date(eventRow.endTimeStamp??0).toISOString()}
+        title: title ?? "Untitled",
+        start: { dateTime: new Date(eventRow.baseTimeStamp ?? 0).toISOString() },
+        end: { dateTime: new Date(eventRow.endTimeStamp ?? 0).toISOString() }
     }
     return event;
 }
@@ -101,6 +128,10 @@ export function getToDoCategory(itemId: string) {
 
     if (itemType === ItemType.Anytime) return DayAssignmentType.AssignedDoOn;
 
+}
+
+export function getItemType(itemId: string) {
+    return tbStore.getCell("activeItems", itemId, "itemType");
 }
 
 export function setActiveItemTitle(itemId: string, newTitle: string) {

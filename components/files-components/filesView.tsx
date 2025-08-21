@@ -1,7 +1,8 @@
 import { useSliceRowIds } from "@/db/tinybase";
-import { setFileOrder } from "@/db/tinybaseActions";
+import { assignItemToDay, deleteItem, getItemType, setFileOrder } from "@/db/tinybaseActions";
 import { basicTextStyles } from "@/styles/textStyles";
 import { theme } from "@/styles/themes";
+import { ItemType } from "@/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { useRef } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -20,22 +21,27 @@ type renderItemParams = {
     isActive: boolean,
 }
 
-const UnderlayLeft = () => {
+type underlayProps = {
+    item: string;
+}
+
+const UnderlayLeft = ({ item }: underlayProps) => {
     const { close } = useSwipeableItemParams<renderItemParams>();
+
+    const handlePress = () => {
+        close();
+        deleteItem(item);
+    }
     return (
         <View style={styles.underlayLeft}>
-            <Pressable onPress={() => close()}>
+            <Pressable onPress={() => handlePress()}>
                 <Ionicons name="trash" size={20} color={theme.primaryColor} style={{ paddingRight: 10 }} />
             </Pressable>
         </View>
     )
 }
 
-const UnderlayRight = () => {
-    const { close, openDirection } = useSwipeableItemParams<renderItemParams>();
-    if (openDirection === OpenDirection.RIGHT) {
-        close();
-    }
+const UnderlayRight = ({ item }: underlayProps) => {
     return (
         <View style={styles.underlayRight}>
             <Text style={basicTextStyles.body}>
@@ -57,14 +63,19 @@ export default function FilesView({ parentId }: FilesProps) {
                 <SwipeableItem
                     ref={swipeRef}
                     item={item}
+                    swipeEnabled={getItemType(item) !== ItemType.Folder}
                     activationThreshold={10}
                     snapPointsLeft={[40]}
                     snapPointsRight={[100]}
-                    renderUnderlayLeft={() => <UnderlayLeft />}
-                    renderUnderlayRight={() => <UnderlayRight />}
+                    renderUnderlayLeft={({ item }) => <UnderlayLeft item={item} />}
+                    renderUnderlayRight={({ item }) => <UnderlayRight item={item} />}
                     onChange={({ openDirection }) => {
                         if (openDirection !== OpenDirection.NONE) {
                             currentSwipeRef.current = swipeRef.current;
+                        }
+                        if (openDirection === OpenDirection.RIGHT) {
+                            assignItemToDay(item);
+                            swipeRef.current?.close();
                         }
                     }}
                 >

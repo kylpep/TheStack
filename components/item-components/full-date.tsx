@@ -1,7 +1,7 @@
 import { useCell, useLocalRowIds } from "@/db/tinybase";
 import { filesDateStringBuilder } from "@/lib/date-strings";
 import { basicTextStyles } from "@/styles/textStyles";
-import { itemTypeToStartStr } from "@/types/types";
+import { ItemType, itemTypeToStartStr } from "@/types/types";
 import { Text, View } from "react-native";
 
 //TODO 
@@ -25,6 +25,9 @@ export default function ListItemDateText({ itemId }: dateTextProps) {
     const endTimeStamp = useCell("dayAssignment", dateId[0], "endTimeStamp");
     const hasEndTime = useCell("activeItems", itemId, "includesEndTime");
 
+    if(itemType === ItemType.Anytime){
+        return null;
+    }
 
 
     const baseStrings = filesDateStringBuilder(baseTimeStamp, hasBaseTime);
